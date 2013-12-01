@@ -1,5 +1,4 @@
 require "logger"
-module Collector
   # Singleton config used throughout
   class MyConfig
     class << self
@@ -10,6 +9,10 @@ module Collector
         :mysql_passwd,
         :mysql_dbname,
         :logger,
+        :tmp_dir,
+        :svn_path,
+        :svn_user,
+        :svn_passwd
       ]
 
       OPTIONS.each { |option| attr_accessor option }
@@ -25,7 +28,15 @@ module Collector
         @mysql_passwd=config['mysql_passwd']
         @mysql_dbname=config['mysql_dbname']
         @logger=Logger.new(config['logpath'])
+        @logger.datetime_format = "%Y-%m-%d %H:%M:%S"
+        @logger.formatter = proc do |severity, datetime, progname, msg|
+            "[#{datetime}] #{severity} : #{msg}"
+        end
+        @tmp_dir=config['tmp_dir']
+        @svn_path=config['svn_path']
+        @svn_user=config['svn_user']
+        @svn_passwd=config['svn_passwd']
       end
     end
   end
-end
+MyConfig.configure

@@ -15,6 +15,11 @@ module Acme
         def format(s)
             s.to_s.gsub(/^"/,"").gsub(/"$/,"").gsub(/^'/,"").gsub(/'$/,"")
         end
+        def monitor_take_effect
+            Noah3.checkout_config(MyConfig.tmp_dir,MyConfig.svn_path,MyConfig.svn_user,MyConfig.svn_passwd)
+            Noah3.gen_log_config(MyConfig.tmp_dir)
+            Noah3.commit_config(MyConfig.tmp_dir,"update monitor for jpaas",MyConfig.svn_user,MyConfig.svn_passwd)
+        end
     end
     desc "add log monitor raw"
     get '/add_log_monitor_raw' do
@@ -25,33 +30,67 @@ module Acme
 	        raw['method']='noah'
 	        raw['target']='logmon'
 	        raw['log_filepath']="${DEPLOY_DIR}/"+format(params['log_filepath']).gsub(/^\//,"")
-	        raw['raw_key']=Digest::MD5.hexdigest("#{raw['app_key']}#{raw['name']}#{raw['log_filepath']}")
+	        raw['raw_key']=Digest::MD5.hexdigest("#{raw['app_key']}#{raw['name']}")
 	        raw['limit_rate']='10'
             log_name="#{raw['app_key']}_#{raw['name']}.conf"
             raw['params']="${ATTACHMENT_DIR}/#{log_name}"
             if LogMonitorRaw.where(:raw_key=>raw['raw_key']).empty?
                     LogMonitorRaw.create(raw)
-                    raw['raw_key']
+                    return {:rescode=>0,:raw_key=>raw['raw_key']}.to_json
             else
-                  #  MyConfig.logger.warn("You have added the same log raw")
-                    "Error: You have added the same log raw"
+                    MyConfig.logger.warn("You have added the same log raw")
+                    return {:rescode=>-1,:msg=>"Error: You have added the same log raw"}.to_json
             end
     end
+    
+    get '/del_log_monitor_raw' do
+        raw_key=format(params['raw_key'])
+        if LogMonitorRaw.where(:raw_key=>raw_key).empty?
+            return {:rescode=>-1,:msg=>"Error: raw:#{raw_key} doesn't exist"}.to_json
+        else
+            if LogMonitorItem.where(:raw_key=>raw_key).empty? 
+                LogMonitorRaw.where(:raw_key=>raw_key).destroy_all   
+                MonitorAlert.where(:raw_key=>raw_key).destroy_all   
+                return {:rescode=>0,:msg=>"ok"}.to_json
+            else
+                return {:rescode=>-1,:msg=>"Error: please delete items related to this raw first"}.to_json
+            end
+        end
+    end
+
     get '/add_log_monitor_item' do
             item={}
 	        item['raw_key']=format(params['raw_key'])
 	        item['item_name_prefix']=format(params['name'])
 	        item['cycle']=format(params['cycle'])
 	        item['match_str']=format(params['match_str'])
-	        item['item_key']=Digest::MD5.hexdigest("#{item['raw_key']}#{item['item_name_prefix']}#{item['match_str']}")
+	        item['item_key']=Digest::MD5.hexdigest("#{item['raw_key']}#{item['item_name_prefix']}")
             if LogMonitorItem.where(:item_key=>item['item_key']).empty?
                     LogMonitorItem.create(item)
-                    item['item_key']
+                    return {:rescode=>0,:item_key=>item['item_key']}.to_json
             else
-                  #  MyConfig.logger.warn("You have added the same log item")
-                    "Error: You have added the same log item"
+                    MyConfig.logger.warn("You have added the same log item")
+                    return {:rescode=>-1,:msg=>"Error: You have added the same log item"}.to_json
             end
     end
+
+    
+    get '/del_log_monitor_item' do
+        item_key=format(params['item_key'])
+        if LogMonitorItem.where(:item_key=>item_key).empty?
+            return {:rescode=>-1,:msg=>"Error: item:#{item_key} doesn't exist"}.to_json
+        else
+            if LogMonitorRule.where(:item_key=>item_key).empty? 
+                LogMonitorItem.where(:item_key=>item_key).destroy_all   
+                return {:rescode=>0,:msg=>"ok"}.to_json
+            else
+                return {:rescode=>-1,:msg=>"Error: please delete rules related to this item first"}.to_json
+            end
+        end
+    end
+
+
+
     get '/add_log_monitor_rule' do
             rule={}
 	        rule['item_key']=format(params['item_key'])
@@ -63,12 +102,23 @@ module Acme
 	        rule['rule_key']=Digest::MD5.hexdigest("#{rule['item_key']}#{rule['name']}")
             if LogMonitorRule.where(:rule_key=>rule['rule_key']).empty?
                     LogMonitorRule.create(rule)
-                    rule['rule_key']
+                    return {:rescode=>0,:rule_key=>rule['rule_key']}.to_json
             else
-                  #  MyConfig.logger.warn("You have added the same log rule ")
-                    "Error: You have added the same log rule"
+                    MyConfig.logger.warn("You have added the same log rule ")
+                    return {:rescode=>-1,:msg=>"Error: You have added the same log rule"}.to_json
             end
     end
+
+    get '/del_log_monitor_rule' do
+        rule_key=format(params['rule_key'])
+        if LogMonitorRule.where(:rule_key=>rule_key).empty?
+            return {:rescode=>-1,:msg=>"Error: rule:#{rule_key} doesn't exist"}.to_json
+        else
+                LogMonitorRule.where(:rule_key=>rule_key).destroy_all   
+                return {:rescode=>0,:msg=>"ok"}.to_json
+        end
+    end
+
     get '/add_monitor_alert' do
             alert={}
 	        alert['raw_key']=format(params['raw_key'])
@@ -79,15 +129,31 @@ module Acme
 	        alert['sms']=format(params['sms'])
             if MonitorAlert.where(:raw_key=>alert['raw_key']).empty?
                     MonitorAlert.create(alert)
+                    return {:rescode=>0,:raw_key=>alert['raw_key']}.to_json
             else
-               #     MyConfig.logger.warn("You have added the alarm")
-                    "Error: You have added the alarm"
+                    MyConfig.logger.warn("You have added the alarm")
+                    return {:rescode=>-1,:msg=>"Error: You have added the alarm"}.to_json
             end
     end
-    get '/monitor_take_effect' do
-            Noah3.checkout_config("/home/work/dashboard/jpaas_monitor_api/lib/noah3.0/tmp","http://svn.noah.baidu.com/svn/conf/online/JPaaS/service","wangxiangyu","wangxiangyu")
-            Noah3.gen_log_config("/home/work/dashboard/jpaas_monitor_api/lib/noah3.0/tmp")
-            Noah3.commit_config("/home/work/dashboard/jpaas_monitor_api/lib/noah3.0/tmp","update monitor for jpaas","wangxiangyu","wangxiangyu")
+
+    get '/del_monitor_alert' do
+        raw_key=format(params['raw_key'])
+        if MonitorAlert.where(:raw_key=>raw_key).empty?
+            return {:rescode=>-1,:msg=>"Error: alert related to raw:#{raw_key} doesn't exist"}.to_json
+        else
+            MonitorAlert.where(:raw_key=>raw_key).destroy_all
+            return {:rescode=>0,:msg=>"ok"}.to_json
+        end
+    end
+
+    get '/save_all' do
+        raw_key=format(params['raw_key'])
+        check_result=Noah3.log_raw_completed?(raw_key)
+        if check_result[:rescode]==0
+            monitor_take_effect
+        else
+            return check_result.to_json
+        end
     end
   end
 end

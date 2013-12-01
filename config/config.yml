@@ -2,4 +2,9 @@ mysql_host: "10.36.63.68"
 mysql_user: "jpaas"
 mysql_passwd: "mhxzkhl"
 mysql_dbname: "jpaas"
-logpath: /home/work/dashboard/jpaas_monitor_api/log/monitor_api.log
+logpath: "/home/work/dashboard/jpaas_monitor_api/log/monitor_api.log"
+tmp_dir: "/home/work/dashboard/jpaas_monitor_api/lib/noah3.0/tmp"
+svn_path: "http://svn.noah.baidu.com/svn/conf/online/JPaaS/service"
+svn_user: "wangxiangyu"
+svn_passwd: "wangxiangyu"
+

@@ -17,7 +17,7 @@ require "database"
             
             def log_raw_completed?(raw_key) 
                 if LogMonitorRaw.where(:raw_key=>raw_key).empty?
-                     return {:rescode=>-1,:msg=>"#{raw_key} doesn't exist"}
+                     return {:rescode=>-1,:msg=>"raw: #{raw_key} doesn't exist"}
                 else raw=LogMonitorRaw.where(:raw_key=>raw_key).first
                      if MonitorAlert.where(:raw_key=>raw_key).empty?
                         return {:rescode=>-1,:msg=>"raw:#{raw.name} doesn't have any alert settings"}
