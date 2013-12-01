@@ -85,8 +85,9 @@ module Acme
             end
     end
     get '/monitor_take_effect' do
-            Noah3.checkout_config("/home/work/dashboard/collector/lib/collector/noah3.0/tmp","http://svn.noah.baidu.com/svn/conf/online/JPaaS/service","wangxiangyu","wangxiangyu")
-            Noah3.gen_log_config("/home/work/dashboard/collector/lib/collector/noah3.0/tmp")
+            Noah3.checkout_config("/home/work/dashboard/jpaas_monitor_api/lib/noah3.0/tmp","http://svn.noah.baidu.com/svn/conf/online/JPaaS/service","wangxiangyu","wangxiangyu")
+            Noah3.gen_log_config("/home/work/dashboard/jpaas_monitor_api/lib/noah3.0/tmp")
+            Noah3.commit_config("/home/work/dashboard/jpaas_monitor_api/lib/noah3.0/tmp","update monitor for jpaas","wangxiangyu","wangxiangyu")
     end
   end
 end

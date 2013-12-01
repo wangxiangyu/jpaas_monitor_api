@@ -5,14 +5,34 @@ require "database"
     class Noah3
         class << self
             def checkout_config(work_path,svn_path,username,password)
-                `mkdir -p #{work_path} && cd #{work_path} && rm -rf *`
+                `rm -rf #{work_path} && mkdir -p #{work_path} && cd #{work_path}`
                  Svn.checkout(svn_path,work_path,username,password)
                  Svn.del_all(work_path)
             end
             
             def commit_config(work_path,message,username,password)
-                Svn.add_all(working_path)
+                Svn.add_all(work_path)
                 Svn.commit(work_path,message,username,password)
+            end
+            
+            def log_raw_completed?(raw_key) 
+                if LogMonitorRaw.where(:raw_key=>raw_key).empty?
+                     return {:rescode=>-1,:msg=>"#{raw_key} doesn't exist"}
+                else raw=LogMonitorRaw.where(:raw_key=>raw_key).first
+                     if MonitorAlert.where(:raw_key=>raw_key).empty?
+                        return {:rescode=>-1,:msg=>"raw:#{raw.name} doesn't have any alert settings"}
+                     end
+                     if LogMonitorItem.where(:raw_key=>raw_key).empty?
+                        return {:rescode=>-1,:msg=>"raw:#{raw.name} doesn't have any item settings"}
+                     else 
+                        LogMonitorItem.where(:raw_key=>raw_key).find_each do |item|
+                           if LogMonitorRule.where(:item_key=>item.item_key).empty?
+                                return {:rescode=>-1,:msg=>"item:#{item.item_name_prefix} doesn't have any rule settings"}
+                           end
+                        end
+                     end  
+                end
+                return {:rescode=>0,:msg=>"ok"}
             end
             
             def gen_log_config(config_path)
@@ -24,6 +44,7 @@ require "database"
                     path="#{config_path}/#{app.name}"
                     `mkdir -p #{path}`
                     LogMonitorRaw.where(:app_key=>app.app_key).find_each do |raw|
+                        next if log_raw_completed?(raw.raw_key)[:rescode] !=0
                         raw_each={}
                         raw_each['name']=raw.name
                         raw_each['cycle']=raw.cycle
@@ -34,9 +55,11 @@ require "database"
                         config=gen_log_item(raw,config,path)
                         config=gen_alart(raw,config)
                     end
-                    fconfig = File.open("#{path}/instance","w")
-                    fconfig.write(JSON.pretty_generate(config))
-                    fconfig.close
+                    unless config['raw'].empty?
+                        fconfig = File.open("#{path}/instance","w")
+                        fconfig.write(JSON.pretty_generate(config))
+                        fconfig.close
+                    end
                 end
             end
             def gen_log_item(raw,config,path)

@@ -2,7 +2,7 @@
         class << self
             def commit(working_path, message,username,password)
                 svn = `which svn`.strip
-                 `cd #{working_path} && #{svn} commit -m "#{message}" --username #{username} --password #{password} --no-auth-cache`
+                `cd #{working_path} && #{svn} commit -m "#{message}" --username #{username} --password #{password} --no-auth-cache`
                  $?.success?
             end
  
