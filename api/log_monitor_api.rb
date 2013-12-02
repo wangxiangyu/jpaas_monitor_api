@@ -172,5 +172,64 @@ module Acme
             return check_result.to_json
         end
     end
+
+    get '/get_raw_by_app_key'  do 
+        app_key=format(params['app_key'])
+        if LogMonitorRaw.where(:app_key=>app_key).empty?
+            return {:rescode=>-1,:msg=>"app_key: #{app_key} doesn't exist"}.to_json
+        else
+            raws=[]
+            LogMonitorRaw.where(:app_key=>app_key).find_each do |raw|
+                raw_hash=raw.serializable_hash
+                raw_hash.delete('id')
+                raw_hash.delete('cycle')
+                raw_hash.delete('method')
+                raw_hash.delete('target')
+                raw_hash.delete('params')
+                raw_hash.delete('limit_rate')
+                raw_hash.delete('updated_at')
+                raw_hash.delete('created_at')
+                unless MonitorAlert.where(:raw_key=>raw_hash['raw_key']).empty?
+                    alert_info=MonitorAlert.where(:raw_key=>raw_hash['raw_key']).first.serializable_hash
+                    alert_info.delete('id')
+                    alert_info.delete('raw_key')
+                    alert_info.delete('name')
+                    alert_info.delete('created_at')
+                    alert_info.delete('updated_at')
+                    raw_hash.merge(alert_info)
+                end
+                raws.push(raw_hash)
+            end
+            return {:rescode=>0,:raw=>raws}.to_json
+        end
+    end
+    get '/get_item_by_raw_key' do
+        raw_key=format(params['raw_key'])
+        items=[]
+        LogMonitorItem.where(:raw_key=>raw_key).find_each do |item|
+            item_hash=item.serializable_hash
+            item_hash.delete('id')
+            item_hash.delete('threshold')
+            item_hash.delete('created_at')
+            item_hash.delete('updated_at')
+            items.push(item_hash)
+        end
+        return {:rescode=>0,:items=>items}.to_json
+    end
+
+    get '/get_rules_by_item_key' do
+        item_key=format(params['item_key'])
+        rules=[]
+        LogMonitorRule.where(:item_key=>item_key).find_each do |rule|       
+            rule_hash=rule.serializable_hash
+            rule_hash.delete('id')
+            rule_hash.delete('created_at')
+            rule_hash.delete('updated_at')
+            rule_hash.delete('filter')
+            rule_hash.delete('alert')
+            rules.push(rule_hash)
+        end
+        return {:rescode=>0,:rules=>rules}.to_json
+    end
   end
 end
