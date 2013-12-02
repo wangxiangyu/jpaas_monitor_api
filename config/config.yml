@@ -7,4 +7,8 @@ tmp_dir: "/home/work/dashboard/jpaas_monitor_api/lib/noah3.0/tmp"
 svn_path: "http://svn.noah.baidu.com/svn/conf/online/JPaaS/service"
 svn_user: "wangxiangyu"
 svn_passwd: "wangxiangyu"
+ccdb_host: "10.209.86.53"
+ccdb_user: "work_cc"
+ccdb_passwd: "password"
+ccdb_name: "cc_ng"
 

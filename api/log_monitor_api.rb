@@ -25,6 +25,9 @@ module Acme
     get '/add_log_monitor_raw' do
             raw={}
 	        raw['app_key']=format(params['app_key'])
+            if AppBns.where(:app_key=>raw['app_key']).empty?
+                return {:rescode=>-1,:msg=>"Error: app_key:#{raw['app_key']} doesn't exist"}.to_json
+            end
 	        raw['name']=format(params['name'])
 	        raw['cycle']='60'
 	        raw['method']='noah'
@@ -61,6 +64,9 @@ module Acme
     get '/add_log_monitor_item' do
             item={}
 	        item['raw_key']=format(params['raw_key'])
+            if LogMonitorRaw.where(:raw_key=>item['raw_key']).empty?
+                return {:rescode=>-1,:msg=>"Error: raw_key:#{item['raw_key']} doesn't exist"}.to_json
+            end
 	        item['item_name_prefix']=format(params['name'])
 	        item['cycle']=format(params['cycle'])
 	        item['match_str']=format(params['match_str'])
@@ -94,6 +100,9 @@ module Acme
     get '/add_log_monitor_rule' do
             rule={}
 	        rule['item_key']=format(params['item_key'])
+            if LogMonitorItem.where(:item_key=>rule['item_key']).empty?
+                return {:rescode=>-1,:msg=>"Error: item_key:#{rule['item_key']} doesn't exist"}.to_json
+            end
 	        rule['name']=format(params['name'])
 	        rule['formula']=format(params['formula'])
 	        rule['filter']=format(params['filter'])
@@ -122,6 +131,9 @@ module Acme
     get '/add_monitor_alert' do
             alert={}
 	        alert['raw_key']=format(params['raw_key'])
+            if LogMonitorRaw.where(:raw_key=>alert['raw_key']).empty?
+                return {:rescode=>-1,:msg=>"Error: raw_key:#{alert['raw_key']} doesn't exist"}.to_json
+            end
 	        alert['name']="alert_"+format(params['raw_key'])
 	        alert['max_alert_times']=format(params['max_alert_times'])
 	        alert['remind_interval_second']=format(params['remind_interval_second'])
@@ -150,7 +162,12 @@ module Acme
         raw_key=format(params['raw_key'])
         check_result=Noah3.log_raw_completed?(raw_key)
         if check_result[:rescode]==0
-            monitor_take_effect
+            result=monitor_take_effect
+            if result==true
+                return {:rescode=>0,:msg=>"ok"}.to_json
+            else
+                return {:rescode=>-1,:msg=>"hoho,,,,failed,please contact op: detail #{result}"}.to_json
+            end
         else
             return check_result.to_json
         end

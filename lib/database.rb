@@ -3,14 +3,10 @@ require "config"
 require "active_record"
 ActiveRecord::Base.establish_connection(
 	:adapter => "mysql",
-#	:host =>Config.mysql_host,
-#	:database =>Config.mysql_db_name,
-#	:username =>Config.mysql_username,
-#	:password =>Config.mysql_password
-	:host =>"10.36.63.68",
-	:database =>"jpaas",
-	:username =>"jpaas",
-	:password =>"mhxzkhl"
+	:host =>MyConfig.mysql_host,
+	:database =>MyConfig.mysql_dbname,
+	:username =>MyConfig.mysql_user,
+	:password =>MyConfig.mysql_passwd
 )
 class InstanceStatus < ActiveRecord::Base
 	self.table_name="instance_status"

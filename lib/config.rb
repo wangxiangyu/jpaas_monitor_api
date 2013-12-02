@@ -12,7 +12,11 @@ require "logger"
         :tmp_dir,
         :svn_path,
         :svn_user,
-        :svn_passwd
+        :svn_passwd,
+        :ccdb_host,
+        :ccdb_user,
+        :ccdb_passwd,
+        :ccdb_name
       ]
 
       OPTIONS.each { |option| attr_accessor option }
@@ -36,6 +40,10 @@ require "logger"
         @svn_path=config['svn_path']
         @svn_user=config['svn_user']
         @svn_passwd=config['svn_passwd']
+        @ccdb_host=config['ccdb_host']
+        @ccdb_user=config['ccdb_user']
+        @ccdb_passwd=config['ccdb_passwd']
+        @ccdb_name=config['ccdb_name']
       end
     end
   end
