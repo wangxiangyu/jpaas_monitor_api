@@ -5,6 +5,15 @@ require "database"
 module Acme
   class App < Grape::API
     format :txt
+    helpers do
+      def remove_version(all)
+          if all=~ /([^_]*)_(.*)/
+               return /([^_]*)_(.*)/.match(all)[1]
+          else
+               return all
+          end
+      end
+    end
     desc "get app list by space"
     get '/xplat_get_apps_by_space' do
 	    space=params[:space].to_s.gsub("\"",'').gsub("'",'')
@@ -16,7 +25,10 @@ module Acme
         cc_db.close
         apps=[]
         while app=apps_info.fetch_hash
-                apps.push(app['name'])
+                app_info={}
+                app_info['name']=app['name']
+                app_info['app_key']=AppBns.where(:organization=>org,:space=>space,:app_name=>remove_version(app_info['name'])).first.app_key
+                apps.push(app_info)
         end
         apps.to_json
     end
