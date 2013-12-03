@@ -200,7 +200,7 @@ module Acme
                 end
                 raws.push(raw_hash)
             end
-            return {:rescode=>0,:raw=>raws}.to_json
+            return {:rescode=>0,:raws=>raws}.to_json
         end
     end
     get '/get_item_by_raw_key' do
