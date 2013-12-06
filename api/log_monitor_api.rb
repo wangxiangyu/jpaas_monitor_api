@@ -203,6 +203,22 @@ module Acme
             return {:rescode=>0,:raws=>raws}.to_json
         end
     end
+
+    get '/get_alert_by_raw_key' do
+        raw_key=format(params['raw_key'])
+        unless MonitorAlert.where(:raw_key=>raw_key).empty?
+                alert_info=MonitorAlert.where(:raw_key=>raw_key).first.serializable_hash
+                alert_info.delete('id')
+                alert_info.delete('raw_key')
+                alert_info.delete('name')
+                alert_info.delete('created_at')
+                alert_info.delete('updated_at')
+            return {:rescode=>0,:alert=>alert_info}.to_json
+        else
+            return {:rescode=>-1,:msg=>"alert related to raw_key #{raw_key} doesn't exist"}.to_json
+        end
+    end
+
     get '/get_item_by_raw_key' do
         raw_key=format(params['raw_key'])
         items=[]
