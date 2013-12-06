@@ -196,7 +196,7 @@ module Acme
                     alert_info.delete('name')
                     alert_info.delete('created_at')
                     alert_info.delete('updated_at')
-                    raw_hash.merge(alert_info)
+                    raw_hash.merge!(alert_info)
                 end
                 raws.push(raw_hash)
             end
