@@ -27,7 +27,11 @@ module Acme
         while app=apps_info.fetch_hash
                 app_info={}
                 app_info['name']=app['name']
-                app_info['app_key']=AppBns.where(:organization=>org,:space=>space,:app_name=>remove_version(app_info['name'])).first.app_key
+                if  app_info['app_key']=AppBns.where(:organization=>org,:space=>space,:app_name=>remove_version(app_info['name'])).empty?
+                    app_info['app_key']=''
+                else
+                    app_info['app_key']=AppBns.where(:organization=>org,:space=>space,:app_name=>remove_version(app_info['name'])).first.app_key
+                end
                 apps.push(app_info)
         end
         apps.to_json
