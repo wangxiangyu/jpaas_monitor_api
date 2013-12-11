@@ -20,13 +20,22 @@ module Acme
             Noah3.gen_log_config(MyConfig.tmp_dir)
             Noah3.commit_config(MyConfig.tmp_dir,"update monitor for jpaas",MyConfig.svn_user,MyConfig.svn_passwd)
         end
+        def gen_response(params={},result={})
+            callback=format(params['callback'])
+            if callback.empty?
+                    result.to_json
+            else
+                    callback.to_s+"("+result.to_json+")"
+            end
+        end
     end
     desc "add log monitor raw"
     get '/add_log_monitor_raw' do
             raw={}
 	        raw['app_key']=format(params['app_key'])
             if AppBns.where(:app_key=>raw['app_key']).empty?
-                return {:rescode=>-1,:msg=>"Error: app_key:#{raw['app_key']} doesn't exist"}.to_json
+                result={:rescode=>-1,:msg=>"Error: app_key:#{raw['app_key']} doesn't exist"}
+                gen_response(params,result)
             end
 	        raw['name']=format(params['name'])
 	        raw['cycle']='60'
@@ -39,24 +48,29 @@ module Acme
             raw['params']="${ATTACHMENT_DIR}/#{log_name}"
             if LogMonitorRaw.where(:raw_key=>raw['raw_key']).empty?
                     LogMonitorRaw.create(raw)
-                    return {:rescode=>0,:raw_key=>raw['raw_key']}.to_json
+                    result={:rescode=>0,:raw_key=>raw['raw_key']}
+                    gen_response(params,result)
             else
                     MyConfig.logger.warn("You have added the same log raw")
-                    return {:rescode=>-1,:msg=>"Error: You have added the same log raw"}.to_json
+                    result={:rescode=>-1,:msg=>"Error: You have added the same log raw"}
+                    gen_response(params,result)
             end
     end
     
     get '/del_log_monitor_raw' do
         raw_key=format(params['raw_key'])
         if LogMonitorRaw.where(:raw_key=>raw_key).empty?
-            return {:rescode=>-1,:msg=>"Error: raw:#{raw_key} doesn't exist"}.to_json
+            result={:rescode=>-1,:msg=>"Error: raw:#{raw_key} doesn't exist"}
+            gen_response(params,result)
         else
             if LogMonitorItem.where(:raw_key=>raw_key).empty? 
                 LogMonitorRaw.where(:raw_key=>raw_key).destroy_all   
                 MonitorAlert.where(:raw_key=>raw_key).destroy_all   
-                return {:rescode=>0,:msg=>"ok"}.to_json
+                result={:rescode=>0,:msg=>"ok"}
+                gen_response(params,result)
             else
-                return {:rescode=>-1,:msg=>"Error: please delete items related to this raw first"}.to_json
+                result={:rescode=>-1,:msg=>"Error: please delete items related to this raw first"}
+                gen_response(params,result)
             end
         end
     end
@@ -65,7 +79,8 @@ module Acme
             item={}
 	        item['raw_key']=format(params['raw_key'])
             if LogMonitorRaw.where(:raw_key=>item['raw_key']).empty?
-                return {:rescode=>-1,:msg=>"Error: raw_key:#{item['raw_key']} doesn't exist"}.to_json
+                result={:rescode=>-1,:msg=>"Error: raw_key:#{item['raw_key']} doesn't exist"}
+                gen_response(params,result)
             end
 	        item['item_name_prefix']=format(params['name'])
 	        item['cycle']=format(params['cycle'])
@@ -73,10 +88,12 @@ module Acme
 	        item['item_key']=Digest::MD5.hexdigest("#{item['raw_key']}#{item['item_name_prefix']}")
             if LogMonitorItem.where(:item_key=>item['item_key']).empty?
                     LogMonitorItem.create(item)
-                    return {:rescode=>0,:item_key=>item['item_key']}.to_json
+                    result={:rescode=>0,:item_key=>item['item_key']}
+                    gen_response(params,result)
             else
                     MyConfig.logger.warn("You have added the same log item")
-                    return {:rescode=>-1,:msg=>"Error: You have added the same log item"}.to_json
+                    result={:rescode=>-1,:msg=>"Error: You have added the same log item"}
+                    gen_response(params,result)
             end
     end
 
@@ -84,13 +101,16 @@ module Acme
     get '/del_log_monitor_item' do
         item_key=format(params['item_key'])
         if LogMonitorItem.where(:item_key=>item_key).empty?
-            return {:rescode=>-1,:msg=>"Error: item:#{item_key} doesn't exist"}.to_json
+            result={:rescode=>-1,:msg=>"Error: item:#{item_key} doesn't exist"}
+            gen_response(params,result)
         else
             if LogMonitorRule.where(:item_key=>item_key).empty? 
                 LogMonitorItem.where(:item_key=>item_key).destroy_all   
-                return {:rescode=>0,:msg=>"ok"}.to_json
+                result={:rescode=>0,:msg=>"ok"}
+                gen_response(params,result)
             else
-                return {:rescode=>-1,:msg=>"Error: please delete rules related to this item first"}.to_json
+                result={:rescode=>-1,:msg=>"Error: please delete rules related to this item first"}
+                gen_response(params,result)
             end
         end
     end
@@ -101,7 +121,8 @@ module Acme
             rule={}
 	        rule['item_key']=format(params['item_key'])
             if LogMonitorItem.where(:item_key=>rule['item_key']).empty?
-                return {:rescode=>-1,:msg=>"Error: item_key:#{rule['item_key']} doesn't exist"}.to_json
+                result={:rescode=>-1,:msg=>"Error: item_key:#{rule['item_key']} doesn't exist"}
+                gen_response(params,result)
             end
 	        rule['name']=format(params['name'])
 	        rule['formula']=format(params['formula'])
@@ -111,20 +132,24 @@ module Acme
 	        rule['rule_key']=Digest::MD5.hexdigest("#{rule['item_key']}#{rule['name']}")
             if LogMonitorRule.where(:rule_key=>rule['rule_key']).empty?
                     LogMonitorRule.create(rule)
-                    return {:rescode=>0,:rule_key=>rule['rule_key']}.to_json
+                    result={:rescode=>0,:rule_key=>rule['rule_key']}
+                    gen_response(params,result)
             else
                     MyConfig.logger.warn("You have added the same log rule ")
-                    return {:rescode=>-1,:msg=>"Error: You have added the same log rule"}.to_json
+                    result={:rescode=>-1,:msg=>"Error: You have added the same log rule"}
+                    gen_response(params,result)
             end
     end
 
     get '/del_log_monitor_rule' do
         rule_key=format(params['rule_key'])
         if LogMonitorRule.where(:rule_key=>rule_key).empty?
-            return {:rescode=>-1,:msg=>"Error: rule:#{rule_key} doesn't exist"}.to_json
+            result={:rescode=>-1,:msg=>"Error: rule:#{rule_key} doesn't exist"}
+            gen_response(params,result)
         else
-                LogMonitorRule.where(:rule_key=>rule_key).destroy_all   
-                return {:rescode=>0,:msg=>"ok"}.to_json
+            LogMonitorRule.where(:rule_key=>rule_key).destroy_all   
+            result={:rescode=>0,:msg=>"ok"}
+            gen_response(params,result)
         end
     end
 
@@ -132,7 +157,8 @@ module Acme
             alert={}
 	        alert['raw_key']=format(params['raw_key'])
             if LogMonitorRaw.where(:raw_key=>alert['raw_key']).empty?
-                return {:rescode=>-1,:msg=>"Error: raw_key:#{alert['raw_key']} doesn't exist"}.to_json
+                result={:rescode=>-1,:msg=>"Error: raw_key:#{alert['raw_key']} doesn't exist"}
+                gen_response(params,result)
             end
 	        alert['name']="alert_"+format(params['raw_key'])
 	        alert['max_alert_times']=format(params['max_alert_times'])
@@ -141,20 +167,24 @@ module Acme
 	        alert['sms']=format(params['sms'])
             if MonitorAlert.where(:raw_key=>alert['raw_key']).empty?
                     MonitorAlert.create(alert)
-                    return {:rescode=>0,:raw_key=>alert['raw_key']}.to_json
+                    result={:rescode=>0,:raw_key=>alert['raw_key']}
+                    gen_response(params,result)
             else
                     MyConfig.logger.warn("You have added the alarm")
-                    return {:rescode=>-1,:msg=>"Error: You have added the alarm"}.to_json
+                    result={:rescode=>-1,:msg=>"Error: You have added the alarm"}
+                    gen_response(params,result)
             end
     end
 
     get '/del_monitor_alert' do
         raw_key=format(params['raw_key'])
         if MonitorAlert.where(:raw_key=>raw_key).empty?
-            return {:rescode=>-1,:msg=>"Error: alert related to raw:#{raw_key} doesn't exist"}.to_json
+            result={:rescode=>-1,:msg=>"Error: alert related to raw:#{raw_key} doesn't exist"}
+            gen_response(params,result)
         else
             MonitorAlert.where(:raw_key=>raw_key).destroy_all
-            return {:rescode=>0,:msg=>"ok"}.to_json
+            result={:rescode=>0,:msg=>"ok"}
+            gen_response(params,result)
         end
     end
 
@@ -162,21 +192,24 @@ module Acme
         raw_key=format(params['raw_key'])
         check_result=Noah3.log_raw_completed?(raw_key)
         if check_result[:rescode]==0
-            result=monitor_take_effect
-            if result==true
-                return {:rescode=>0,:msg=>"ok"}.to_json
+            out=monitor_take_effect
+            if out==true
+                result={:rescode=>0,:msg=>"ok"}
+                gen_response(params,result)
             else
-                return {:rescode=>-1,:msg=>"hoho,,,,failed,please contact op: detail #{result}"}.to_json
+                result={:rescode=>-1,:msg=>"hoho,,,,failed,please contact op: detail #{out}"}
+                gen_response(params,result)
             end
         else
-            return check_result.to_json
+            gen_response(params,check_result)
         end
     end
 
     get '/get_raw_by_app_key'  do 
         app_key=format(params['app_key'])
         if LogMonitorRaw.where(:app_key=>app_key).empty?
-            return {:rescode=>-1,:msg=>"app_key: #{app_key} doesn't exist"}.to_json
+            result={:rescode=>-1,:msg=>"app_key: #{app_key} doesn't exist"}
+            gen_response(params,result)
         else
             raws=[]
             LogMonitorRaw.where(:app_key=>app_key).find_each do |raw|
@@ -200,22 +233,25 @@ module Acme
                 end
                 raws.push(raw_hash)
             end
-            return {:rescode=>0,:raws=>raws}.to_json
+            result={:rescode=>0,:raws=>raws}
+            gen_response(params,result)
         end
     end
 
     get '/get_alert_by_raw_key' do
         raw_key=format(params['raw_key'])
         unless MonitorAlert.where(:raw_key=>raw_key).empty?
-                alert_info=MonitorAlert.where(:raw_key=>raw_key).first.serializable_hash
-                alert_info.delete('id')
-                alert_info.delete('raw_key')
-                alert_info.delete('name')
-                alert_info.delete('created_at')
-                alert_info.delete('updated_at')
-            return {:rescode=>0,:alert=>alert_info}.to_json
+            alert_info=MonitorAlert.where(:raw_key=>raw_key).first.serializable_hash
+            alert_info.delete('id')
+            alert_info.delete('raw_key')
+            alert_info.delete('name')
+            alert_info.delete('created_at')
+            alert_info.delete('updated_at')
+            result={:rescode=>0,:alert=>alert_info}
+            gen_response(params,result)
         else
-            return {:rescode=>-1,:msg=>"alert related to raw_key #{raw_key} doesn't exist"}.to_json
+            result={:rescode=>-1,:msg=>"alert related to raw_key #{raw_key} doesn't exist"}
+            gen_response(params,result)
         end
     end
 
@@ -230,7 +266,8 @@ module Acme
             item_hash.delete('updated_at')
             items.push(item_hash)
         end
-        return {:rescode=>0,:items=>items}.to_json
+        result={:rescode=>0,:items=>items}
+        gen_response(params,result)
     end
 
     get '/get_rules_by_item_key' do
@@ -245,7 +282,8 @@ module Acme
             rule_hash.delete('alert')
             rules.push(rule_hash)
         end
-        return {:rescode=>0,:rules=>rules}.to_json
+        result={:rescode=>0,:rules=>rules}
+        gen_response(params,result)
     end
   end
 end
