@@ -16,7 +16,10 @@ require "logger"
         :ccdb_host,
         :ccdb_user,
         :ccdb_passwd,
-        :ccdb_name
+        :ccdb_name,
+        :bns_passwd,
+        :routerlist1,
+        :routerlist2
       ]
 
       OPTIONS.each { |option| attr_accessor option }
@@ -44,6 +47,9 @@ require "logger"
         @ccdb_user=config['ccdb_user']
         @ccdb_passwd=config['ccdb_passwd']
         @ccdb_name=config['ccdb_name']
+        @bns_passwd=config['bns_passwd']
+        @routerlist1=config['routerlist1']
+        @routerlist2=config['routerlist2']
       end
     end
   end

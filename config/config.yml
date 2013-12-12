@@ -11,4 +11,22 @@ ccdb_host: "10.209.86.53"
 ccdb_user: "work_cc"
 ccdb_passwd: "password"
 ccdb_name: "cc_ng"
-
+bns_passwd: "16934ef14ae83d010259e7fad2656eae"
+routerlist1:
+    m1-sdc-paas00.m1: 0
+    m1-sdc-paas01.m1: 0
+    cq01-sdc-paas00.cq01: 0
+    cq01-sdc-paas01.cq01: 0
+    st01-sdc-paas01.st01: 1
+    st01-sdc-paas02.st01: 1
+    st01-sdc-paas03.st01: 1
+    st01-sdc-paas04.st01: 1
+routerlist2:
+    m1-sdc-paas00.m1: 1
+    m1-sdc-paas01.m1: 1
+    cq01-sdc-paas00.cq01: 1
+    cq01-sdc-paas01.cq01: 1
+    st01-sdc-paas01.st01: 0
+    st01-sdc-paas02.st01: 0
+    st01-sdc-paas03.st01: 0
+    st01-sdc-paas04.st01: 0
