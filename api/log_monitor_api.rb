@@ -35,13 +35,13 @@ module Acme
 	        raw['app_key']=format(params['app_key'])
             if AppBns.where(:app_key=>raw['app_key']).empty?
                 result={:rescode=>-1,:msg=>"Error: app_key:#{raw['app_key']} doesn't exist"}
-                gen_response(params,result)
+                return gen_response(params,result)
             end
 	        raw['name']=format(params['name'])
 	        raw['cycle']='60'
 	        raw['method']='noah'
 	        raw['target']='logmon'
-	        raw['log_filepath']="${DEPLOY_DIR}/"+format(params['log_filepath']).gsub(/^\//,"")
+	        raw['log_filepath']=format(params['log_filepath'])
 	        raw['raw_key']=Digest::MD5.hexdigest("#{raw['app_key']}#{raw['name']}")
 	        raw['limit_rate']='10'
             log_name="#{raw['app_key']}_#{raw['name']}.conf"
@@ -49,11 +49,11 @@ module Acme
             if LogMonitorRaw.where(:raw_key=>raw['raw_key']).empty?
                     LogMonitorRaw.create(raw)
                     result={:rescode=>0,:raw_key=>raw['raw_key']}
-                    gen_response(params,result)
+                    return gen_response(params,result)
             else
                     MyConfig.logger.warn("You have added the same log raw")
                     result={:rescode=>-1,:msg=>"Error: You have added the same log raw"}
-                    gen_response(params,result)
+                    return gen_response(params,result)
             end
     end
     
@@ -61,16 +61,16 @@ module Acme
         raw_key=format(params['raw_key'])
         if LogMonitorRaw.where(:raw_key=>raw_key).empty?
             result={:rescode=>-1,:msg=>"Error: raw:#{raw_key} doesn't exist"}
-            gen_response(params,result)
+            return gen_response(params,result)
         else
             if LogMonitorItem.where(:raw_key=>raw_key).empty? 
                 LogMonitorRaw.where(:raw_key=>raw_key).destroy_all   
                 MonitorAlert.where(:raw_key=>raw_key).destroy_all   
                 result={:rescode=>0,:msg=>"ok"}
-                gen_response(params,result)
+                return gen_response(params,result)
             else
                 result={:rescode=>-1,:msg=>"Error: please delete items related to this raw first"}
-                gen_response(params,result)
+                return gen_response(params,result)
             end
         end
     end
@@ -80,7 +80,7 @@ module Acme
 	        item['raw_key']=format(params['raw_key'])
             if LogMonitorRaw.where(:raw_key=>item['raw_key']).empty?
                 result={:rescode=>-1,:msg=>"Error: raw_key:#{item['raw_key']} doesn't exist"}
-                gen_response(params,result)
+                return gen_response(params,result)
             end
 	        item['item_name_prefix']=format(params['name'])
 	        item['cycle']=format(params['cycle'])
@@ -89,11 +89,11 @@ module Acme
             if LogMonitorItem.where(:item_key=>item['item_key']).empty?
                     LogMonitorItem.create(item)
                     result={:rescode=>0,:item_key=>item['item_key']}
-                    gen_response(params,result)
+                    return gen_response(params,result)
             else
                     MyConfig.logger.warn("You have added the same log item")
                     result={:rescode=>-1,:msg=>"Error: You have added the same log item"}
-                    gen_response(params,result)
+                    return gen_response(params,result)
             end
     end
 
@@ -102,15 +102,15 @@ module Acme
         item_key=format(params['item_key'])
         if LogMonitorItem.where(:item_key=>item_key).empty?
             result={:rescode=>-1,:msg=>"Error: item:#{item_key} doesn't exist"}
-            gen_response(params,result)
+            return gen_response(params,result)
         else
             if LogMonitorRule.where(:item_key=>item_key).empty? 
                 LogMonitorItem.where(:item_key=>item_key).destroy_all   
                 result={:rescode=>0,:msg=>"ok"}
-                gen_response(params,result)
+                return gen_response(params,result)
             else
                 result={:rescode=>-1,:msg=>"Error: please delete rules related to this item first"}
-                gen_response(params,result)
+                return gen_response(params,result)
             end
         end
     end
@@ -122,10 +122,11 @@ module Acme
 	        rule['item_key']=format(params['item_key'])
             if LogMonitorItem.where(:item_key=>rule['item_key']).empty?
                 result={:rescode=>-1,:msg=>"Error: item_key:#{rule['item_key']} doesn't exist"}
-                gen_response(params,result)
+                return gen_response(params,result)
             end
 	        rule['name']=format(params['name'])
-	        rule['formula']=format(params['formula'])
+	        rule['compare']=format(params['compare'])
+	        rule['threshold']=format(params['threshold'])
 	        rule['filter']=format(params['filter'])
 	        rule['alert']="alert_"+get_raw_key_by_rule_key(rule['item_key'])
 	        rule['disable_time']=format(params['disable_time'])
@@ -133,11 +134,11 @@ module Acme
             if LogMonitorRule.where(:rule_key=>rule['rule_key']).empty?
                     LogMonitorRule.create(rule)
                     result={:rescode=>0,:rule_key=>rule['rule_key']}
-                    gen_response(params,result)
+                    return gen_response(params,result)
             else
                     MyConfig.logger.warn("You have added the same log rule ")
                     result={:rescode=>-1,:msg=>"Error: You have added the same log rule"}
-                    gen_response(params,result)
+                    return gen_response(params,result)
             end
     end
 
@@ -145,11 +146,11 @@ module Acme
         rule_key=format(params['rule_key'])
         if LogMonitorRule.where(:rule_key=>rule_key).empty?
             result={:rescode=>-1,:msg=>"Error: rule:#{rule_key} doesn't exist"}
-            gen_response(params,result)
+            return gen_response(params,result)
         else
             LogMonitorRule.where(:rule_key=>rule_key).destroy_all   
             result={:rescode=>0,:msg=>"ok"}
-            gen_response(params,result)
+            return gen_response(params,result)
         end
     end
 
@@ -158,7 +159,7 @@ module Acme
 	        alert['raw_key']=format(params['raw_key'])
             if LogMonitorRaw.where(:raw_key=>alert['raw_key']).empty?
                 result={:rescode=>-1,:msg=>"Error: raw_key:#{alert['raw_key']} doesn't exist"}
-                gen_response(params,result)
+                return gen_response(params,result)
             end
 	        alert['name']="alert_"+format(params['raw_key'])
 	        alert['max_alert_times']=format(params['max_alert_times'])
@@ -168,11 +169,11 @@ module Acme
             if MonitorAlert.where(:raw_key=>alert['raw_key']).empty?
                     MonitorAlert.create(alert)
                     result={:rescode=>0,:raw_key=>alert['raw_key']}
-                    gen_response(params,result)
+                    return gen_response(params,result)
             else
                     MyConfig.logger.warn("You have added the alarm")
                     result={:rescode=>-1,:msg=>"Error: You have added the alarm"}
-                    gen_response(params,result)
+                    return gen_response(params,result)
             end
     end
 
@@ -180,11 +181,11 @@ module Acme
         raw_key=format(params['raw_key'])
         if MonitorAlert.where(:raw_key=>raw_key).empty?
             result={:rescode=>-1,:msg=>"Error: alert related to raw:#{raw_key} doesn't exist"}
-            gen_response(params,result)
+            return gen_response(params,result)
         else
             MonitorAlert.where(:raw_key=>raw_key).destroy_all
             result={:rescode=>0,:msg=>"ok"}
-            gen_response(params,result)
+            return gen_response(params,result)
         end
     end
 
@@ -195,13 +196,13 @@ module Acme
             out=monitor_take_effect
             if out==true
                 result={:rescode=>0,:msg=>"ok"}
-                gen_response(params,result)
+                return gen_response(params,result)
             else
                 result={:rescode=>-1,:msg=>"hoho,,,,failed,please contact op: detail #{out}"}
-                gen_response(params,result)
+                return gen_response(params,result)
             end
         else
-            gen_response(params,check_result)
+            return gen_response(params,check_result)
         end
     end
 
@@ -209,7 +210,7 @@ module Acme
         app_key=format(params['app_key'])
         if LogMonitorRaw.where(:app_key=>app_key).empty?
             result={:rescode=>-1,:msg=>"app_key: #{app_key} doesn't exist"}
-            gen_response(params,result)
+            return gen_response(params,result)
         else
             raws=[]
             LogMonitorRaw.where(:app_key=>app_key).find_each do |raw|
@@ -234,7 +235,7 @@ module Acme
                 raws.push(raw_hash)
             end
             result={:rescode=>0,:raws=>raws}
-            gen_response(params,result)
+            return gen_response(params,result)
         end
     end
 
@@ -248,10 +249,10 @@ module Acme
             alert_info.delete('created_at')
             alert_info.delete('updated_at')
             result={:rescode=>0,:alert=>alert_info}
-            gen_response(params,result)
+            return gen_response(params,result)
         else
             result={:rescode=>-1,:msg=>"alert related to raw_key #{raw_key} doesn't exist"}
-            gen_response(params,result)
+            return gen_response(params,result)
         end
     end
 
@@ -267,7 +268,7 @@ module Acme
             items.push(item_hash)
         end
         result={:rescode=>0,:items=>items}
-        gen_response(params,result)
+        return gen_response(params,result)
     end
 
     get '/get_rules_by_item_key' do
@@ -278,12 +279,59 @@ module Acme
             rule_hash.delete('id')
             rule_hash.delete('created_at')
             rule_hash.delete('updated_at')
-            rule_hash.delete('filter')
             rule_hash.delete('alert')
             rules.push(rule_hash)
         end
         result={:rescode=>0,:rules=>rules}
-        gen_response(params,result)
+        return gen_response(params,result)
+    end
+    get '/get_log_monitor_by_raw_key' do
+        raw_key=format(params['raw_key'])
+        if MonitorAlert.where(:raw_key=>raw_key).empty?
+            result={:rescode=>-1,:msg=>"raw_key: #{raw_key} doesn't exist"}
+            return gen_response(params,result)
+        else
+            raw_hash=LogMonitorRaw.where(:raw_key=>raw_key).first.serializable_hash
+            raw_hash.delete('id')
+            raw_hash.delete('cycle')
+            raw_hash.delete('method')
+            raw_hash.delete('target')
+            raw_hash.delete('params')
+            raw_hash.delete('limit_rate')
+            raw_hash.delete('updated_at')
+            raw_hash.delete('created_at')
+            raw_hash['items']=[]
+            raw_hash['alert']={}
+            MonitorAlert.where(:raw_key=>raw_key).find_each do |alert|
+                alert_info=alert.serializable_hash
+                alert_info.delete('id')
+                alert_info.delete('raw_key')
+                alert_info.delete('name')
+                alert_info.delete('created_at')
+                alert_info.delete('updated_at')
+                raw_hash['alert']=alert_info
+            end
+            LogMonitorItem.where(:raw_key=>raw_key).find_each do |item|
+                item_hash=item.serializable_hash
+                item_hash.delete('id')
+                item_hash.delete('threshold')
+                item_hash.delete('created_at')
+                item_hash.delete('updated_at')
+                item_hash.delete('filter_str')
+                item_hash['rules']=[]
+                LogMonitorRule.where(:item_key=>item.item_key).find_each do |rule|
+                    rule_hash=rule.serializable_hash
+                    rule_hash.delete('id')
+                    rule_hash.delete('created_at')
+                    rule_hash.delete('updated_at')
+                    rule_hash.delete('alert')
+                    item_hash['rules'].push(rule_hash)
+                end
+               raw_hash['items'].push(item_hash)
+            end
+            result={:rescode=>0,:raw=>raw_hash}
+            return gen_response(params,result)
+        end
     end
   end
 end

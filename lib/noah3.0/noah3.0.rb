@@ -64,7 +64,7 @@ require "database"
             end
             def gen_log_item(raw,config,path)
                 log_item={}
-                log_item['log_filepath']=raw.log_filepath
+                log_item['log_filepath']="${DEPLOY_DIR}"+raw.log_filepath
                 log_item['limit_rate']=raw.limit_rate
                 log_item['item']=[]
                 LogMonitorItem.where("raw_key='#{raw.raw_key}'").find_each do |item|
@@ -87,7 +87,7 @@ require "database"
                 LogMonitorRule.where("item_key='#{item.item_key}'").find_each do |rule|
                     rule_each={}
                     rule_each['name']=rule.name
-                    rule_each['formula']=rule.formula
+                    rule_each['formula']=item.item_name_prefix+"_cnt"+rule.compare+rule.threshold
                     rule_each['filter']=rule.filter
                     rule_each['alert']=rule.alert
                     config['rule'].push(rule_each)
