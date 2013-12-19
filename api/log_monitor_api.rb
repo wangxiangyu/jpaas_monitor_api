@@ -287,7 +287,7 @@ module Acme
     end
     get '/get_log_monitor_by_raw_key' do
         raw_key=format(params['raw_key'])
-        if LogMonitorAlert.where(:raw_key=>raw_key).empty?
+        if LogMonitorRaw.where(:raw_key=>raw_key).empty?
             result={:rescode=>-1,:msg=>"raw_key: #{raw_key} doesn't exist"}
             return gen_response(params,result)
         else
