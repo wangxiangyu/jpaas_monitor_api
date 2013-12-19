@@ -33,7 +33,7 @@ module Acme
 	    org=params[:org].to_s.gsub("\"",'').gsub("'",'')
 	    app=params[:app].to_s.gsub("\"",'').gsub("'",'')
         instances=[]
-        InstanceStatus.where(:app_name=>app,:organization=>org,:space=>space).find_each do |instance|
+        InstanceStatus.where("app_name like ? and organization = ?  and space = ?","#{app}_%",org,space).find_each do |instance|
                 instance_hash=instance.serializable_hash
                 instance_hash.delete("id")
                 instance_hash.delete("created_at")

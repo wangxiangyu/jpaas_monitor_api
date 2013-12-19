@@ -1,4 +1,4 @@
-mysql_host: "10.50.33.24"
+mysql_host: "10.50.33.25"
 mysql_user: "jpaas"
 mysql_passwd: "mhxzkhl"
 mysql_dbname: "jpaas"

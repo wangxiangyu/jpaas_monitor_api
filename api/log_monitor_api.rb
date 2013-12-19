@@ -208,7 +208,7 @@ module Acme
 
     get '/get_raw_by_app_key'  do 
         app_key=format(params['app_key'])
-        if LogMonitorRaw.where(:app_key=>app_key).empty?
+        if AppBns.where(:app_key=>app_key).empty?
             result={:rescode=>-1,:msg=>"app_key: #{app_key} doesn't exist"}
             return gen_response(params,result)
         else
