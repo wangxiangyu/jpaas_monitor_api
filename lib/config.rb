@@ -8,15 +8,12 @@ require "logger"
         :mysql_user,
         :mysql_passwd,
         :mysql_dbname,
+        :mysql_port,
         :logger,
         :tmp_dir,
         :svn_path,
         :svn_user,
         :svn_passwd,
-        :ccdb_host,
-        :ccdb_user,
-        :ccdb_passwd,
-        :ccdb_name,
         :bns_passwd,
         :routerlist1,
         :routerlist2
@@ -34,6 +31,7 @@ require "logger"
         @mysql_user=config['mysql_user']
         @mysql_passwd=config['mysql_passwd']
         @mysql_dbname=config['mysql_dbname']
+        @mysql_port=config['mysql_port'] || 3306
         @logger=Logger.new(config['logpath'])
         @logger.datetime_format = "%Y-%m-%d %H:%M:%S"
         @logger.formatter = proc do |severity, datetime, progname, msg|
@@ -43,10 +41,6 @@ require "logger"
         @svn_path=config['svn_path']
         @svn_user=config['svn_user']
         @svn_passwd=config['svn_passwd']
-        @ccdb_host=config['ccdb_host']
-        @ccdb_user=config['ccdb_user']
-        @ccdb_passwd=config['ccdb_passwd']
-        @ccdb_name=config['ccdb_name']
         @bns_passwd=config['bns_passwd']
         @routerlist1=config['routerlist1']
         @routerlist2=config['routerlist2']

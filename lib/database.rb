@@ -24,8 +24,8 @@ class LogMonitorRule < ActiveRecord::Base
 	self.table_name="log_monitor_rule"
 end
 
-class MonitorAlert < ActiveRecord::Base
-	self.table_name="monitor_alarm"
+class LogMonitorAlert < ActiveRecord::Base
+	self.table_name="log_monitor_alarm"
 end
 
 class AppBns < ActiveRecord::Base
