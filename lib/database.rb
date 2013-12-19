@@ -6,7 +6,8 @@ ActiveRecord::Base.establish_connection(
 	:host =>MyConfig.mysql_host,
 	:database =>MyConfig.mysql_dbname,
 	:username =>MyConfig.mysql_user,
-	:password =>MyConfig.mysql_passwd
+	:password =>MyConfig.mysql_passwd,
+    :port => MyConfig.mysql_port
 )
 class InstanceStatus < ActiveRecord::Base
 	self.table_name="instance_status"

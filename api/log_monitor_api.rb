@@ -65,7 +65,7 @@ module Acme
         else
             if LogMonitorItem.where(:raw_key=>raw_key).empty? 
                 LogMonitorRaw.where(:raw_key=>raw_key).destroy_all   
-                MonitorAlert.where(:raw_key=>raw_key).destroy_all   
+                LogMonitorAlert.where(:raw_key=>raw_key).destroy_all   
                 result={:rescode=>0,:msg=>"ok"}
                 return gen_response(params,result)
             else
@@ -154,7 +154,7 @@ module Acme
         end
     end
 
-    get '/add_monitor_alert' do
+    get '/add_log_monitor_alert' do
             alert={}
 	        alert['raw_key']=format(params['raw_key'])
             if LogMonitorRaw.where(:raw_key=>alert['raw_key']).empty?
@@ -166,8 +166,8 @@ module Acme
 	        alert['remind_interval_second']=format(params['remind_interval_second'])
 	        alert['mail']=format(params['mail'])
 	        alert['sms']=format(params['sms'])
-            if MonitorAlert.where(:raw_key=>alert['raw_key']).empty?
-                    MonitorAlert.create(alert)
+            if LogMonitorAlert.where(:raw_key=>alert['raw_key']).empty?
+                    LogMonitorAlert.create(alert)
                     result={:rescode=>0,:raw_key=>alert['raw_key']}
                     return gen_response(params,result)
             else
@@ -177,13 +177,13 @@ module Acme
             end
     end
 
-    get '/del_monitor_alert' do
+    get '/del_log_monitor_alert' do
         raw_key=format(params['raw_key'])
-        if MonitorAlert.where(:raw_key=>raw_key).empty?
+        if LogMonitorAlert.where(:raw_key=>raw_key).empty?
             result={:rescode=>-1,:msg=>"Error: alert related to raw:#{raw_key} doesn't exist"}
             return gen_response(params,result)
         else
-            MonitorAlert.where(:raw_key=>raw_key).destroy_all
+            LogMonitorAlert.where(:raw_key=>raw_key).destroy_all
             result={:rescode=>0,:msg=>"ok"}
             return gen_response(params,result)
         end
@@ -223,8 +223,8 @@ module Acme
                 raw_hash.delete('limit_rate')
                 raw_hash.delete('updated_at')
                 raw_hash.delete('created_at')
-                unless MonitorAlert.where(:raw_key=>raw_hash['raw_key']).empty?
-                    alert_info=MonitorAlert.where(:raw_key=>raw_hash['raw_key']).first.serializable_hash
+                unless LogMonitorAlert.where(:raw_key=>raw_hash['raw_key']).empty?
+                    alert_info=LogMonitorAlert.where(:raw_key=>raw_hash['raw_key']).first.serializable_hash
                     alert_info.delete('id')
                     alert_info.delete('raw_key')
                     alert_info.delete('name')
@@ -241,8 +241,8 @@ module Acme
 
     get '/get_alert_by_raw_key' do
         raw_key=format(params['raw_key'])
-        unless MonitorAlert.where(:raw_key=>raw_key).empty?
-            alert_info=MonitorAlert.where(:raw_key=>raw_key).first.serializable_hash
+        unless LogMonitorAlert.where(:raw_key=>raw_key).empty?
+            alert_info=LogMonitorAlert.where(:raw_key=>raw_key).first.serializable_hash
             alert_info.delete('id')
             alert_info.delete('raw_key')
             alert_info.delete('name')
@@ -287,7 +287,7 @@ module Acme
     end
     get '/get_log_monitor_by_raw_key' do
         raw_key=format(params['raw_key'])
-        if MonitorAlert.where(:raw_key=>raw_key).empty?
+        if LogMonitorAlert.where(:raw_key=>raw_key).empty?
             result={:rescode=>-1,:msg=>"raw_key: #{raw_key} doesn't exist"}
             return gen_response(params,result)
         else
@@ -302,7 +302,7 @@ module Acme
             raw_hash.delete('created_at')
             raw_hash['items']=[]
             raw_hash['alert']={}
-            MonitorAlert.where(:raw_key=>raw_key).find_each do |alert|
+            LogMonitorAlert.where(:raw_key=>raw_key).find_each do |alert|
                 alert_info=alert.serializable_hash
                 alert_info.delete('id')
                 alert_info.delete('raw_key')

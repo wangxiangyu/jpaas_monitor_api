@@ -19,7 +19,7 @@ require "database"
                 if LogMonitorRaw.where(:raw_key=>raw_key).empty?
                      return {:rescode=>-1,:msg=>"raw: #{raw_key} doesn't exist"}
                 else raw=LogMonitorRaw.where(:raw_key=>raw_key).first
-                     if MonitorAlert.where(:raw_key=>raw_key).empty?
+                     if LogMonitorAlert.where(:raw_key=>raw_key).empty?
                         return {:rescode=>-1,:msg=>"raw:#{raw.name} doesn't have any alert settings"}
                      end
                      if LogMonitorItem.where(:raw_key=>raw_key).empty?
@@ -95,7 +95,7 @@ require "database"
                 config
             end
             def gen_alart(raw,config)
-                MonitorAlert.where("raw_key='#{raw.raw_key}'").find_each do |alart|
+                LogMonitorAlert.where("raw_key='#{raw.raw_key}'").find_each do |alart|
                     alart_each={}
                     alart_each['name']=alart.name
                     alart_each['max_alert_times']=alart.max_alert_times
