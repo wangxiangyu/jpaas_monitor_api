@@ -21,11 +21,7 @@ module Acme
             result=BNS.add_instance_bns({:serviceName=>service_unit,
                                 :authKey=>MyConfig.bns_passwd,
                                 :hostName=>host,
-<<<<<<< HEAD
-                                :port=>'',
-=======
                                 :port=>{"main"=>80}.to_json,
->>>>>>> 512bfbbf3c79711d2e1de6a240b6ad0a45c605b0
                                 :tag=>'interface:clientip,keepalive:0,weight:10',
                                 :disable=>disable,
                                 :status=>0,
