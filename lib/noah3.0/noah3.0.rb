@@ -8,6 +8,7 @@ require "database"
                 `rm -rf #{work_path} && mkdir -p #{work_path} && cd #{work_path}`
                  Svn.checkout(svn_path,work_path,username,password)
                  Svn.del_all(work_path)
+                 Svn.commit(work_path,"delete",username,password)
             end
             
             def commit_config(work_path,message,username,password)
@@ -64,7 +65,7 @@ require "database"
             end
             def gen_log_item(raw,config,path)
                 log_item={}
-                log_item['log_filepath']="${DEPLOY_DIR}"+raw.log_filepath
+                log_item['log_filepath']="${DEPLOY_DIR}"+"/tmp/rootfs"+raw.log_filepath
                 log_item['limit_rate']=raw.limit_rate
                 log_item['item']=[]
                 LogMonitorItem.where("raw_key='#{raw.raw_key}'").find_each do |item|

@@ -14,7 +14,7 @@
 
             def del_all(working_path)
                 svn = `which svn`.strip
-                `cd #{working_path} && touch "xxxxxxx" &&#{svn} rm --force * && rm -rf *`
+                `cd #{working_path} && touch "xxxxxxx" &&#{svn} rm --force *&& rm -rf *`
                 $?.success?
             end
  
