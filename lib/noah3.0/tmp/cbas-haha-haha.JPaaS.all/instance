@@ -1,0 +1,60 @@
+{
+  "started_mode": "jpaas",
+  "raw": [
+    {
+      "name": "test",
+      "cycle": "60",
+      "method": "noah",
+      "target": "logmon",
+      "params": "${ATTACHMENT_DIR}/3a724bad57394c51b7863fb45512c17e_test.conf"
+    },
+    {
+        "name" : "resource_mon2",
+        "method"  :  "noah",
+        "cycle"   :  "60",
+        "target"  :  "procmon",
+        "params"  :  "/home/vcap/app/bin"
+    },
+    {
+      "name":"test_noah_user_specific",
+      "cycle":"10",
+      "method":"exec",
+      "target":"/home/vcap/noah_exec.sh",
+    },
+    {
+      "name":"test_http",
+      "cycle":"10",
+      "method":"http", 
+      "target":"4567/", 
+    }
+  ],
+  "rule": [
+    {
+      "name":"http_monitor",
+      "formula":"http_monitor >1000",  
+      "filter":"1/1",
+      "alert":"alert_6282062c3c977676391a1ac5085c3f1e",
+    },
+    {
+      "name": "warn",
+      "formula": "warn_cnt>1",
+      "filter": "2/4",
+      "alert": "alert_6282062c3c977676391a1ac5085c3f1e"
+    },
+    {
+      "name":"noah_specific_gt_110",
+      "formula":"HAHA>110",
+      "filter":"1/1",
+      "alert":"alert_6282062c3c977676391a1ac5085c3f1e",
+    },
+  ],
+  "alert": [
+    {
+      "name": "alert_6282062c3c977676391a1ac5085c3f1e",
+      "max_alert_times": "2",
+      "remind_interval_second": "900",
+      "mail": "wangxiangyu",
+      "sms": "wangxiangyu"
+    }
+  ]
+}

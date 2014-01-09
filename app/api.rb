@@ -6,6 +6,7 @@ module Acme
     mount ::Acme::Space
     mount ::Acme::App
     mount ::Acme::RegisterRouterBns
+    mount ::Acme::FlowTransfer
   end
 end
 
