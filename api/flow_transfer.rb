@@ -19,11 +19,11 @@ module Acme
 	    end
 
        	def enable_service_instance(service_unit, machines, enable)
-		result=BNS.enable_instance({:serviceName=>service_unit,
+		    result=BNS.enable_instance({:serviceName=>service_unit,
                                 :authKey=>MyConfig.bns_passwd,
 				:machines=>machines                                
                                 }, enable)
-	end
+        end
     end
 
     desc "register bns of router for new app"
@@ -82,10 +82,15 @@ module Acme
              end
           end
       end
-      enable_service_instance(service_unit1, to_be_enable1, "enable")
-      enable_service_instance(service_unit1, to_be_disable1, "disable")
-      enable_service_instance(service_unit2, to_be_enable2, "enable")
-      enable_service_instance(service_unit2, to_be_disable2, "disable")
+      result1 = enable_service_instance(service_unit1, to_be_enable1, "enable")
+      result2 = enable_service_instance(service_unit1, to_be_disable1, "disable")
+      result3 = enable_service_instance(service_unit2, to_be_enable2, "enable")
+      result4 = enable_service_instance(service_unit2, to_be_disable2, "disable")
+      if result1["retCode"] == 0 && result2["retCode"] == 0 && result3["retCode"] == 0 && result4["retCode"] == 0
+          return {:rescode=>0,:msg=>"Successfully update service unit. "}.to_json
+      else
+          return {:rescode=>-1,:msg=>"Error: failed to update service unit."}.to_json
+      end
     end
 
   end

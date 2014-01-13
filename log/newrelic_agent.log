@@ -53,3 +53,23 @@
 [01/09/14 11:44:27 +0800 st01-sdc-cf17.vm.baidu.com (29614)] WARN : Agent configured not to send data in this environment.
 [01/09/14 11:44:27 +0800 st01-sdc-cf17.vm.baidu.com (29614)] INFO : New Relic Ruby Agent 3.5.4.34 Initialized: pid = 29614
 [01/09/14 11:44:27 +0800 st01-sdc-cf17.vm.baidu.com (29614)] INFO : Agent Log at /home/work/dashboard/jpaas_monitor_api/log/newrelic_agent.log
+[01/09/14 11:51:07 +0800 st01-sdc-cf17.vm.baidu.com (1815)] INFO : No dispatcher detected.
+[01/09/14 11:51:07 +0800 st01-sdc-cf17.vm.baidu.com (1815)] INFO : Application: Demo
+[01/09/14 11:51:07 +0800 st01-sdc-cf17.vm.baidu.com (1815)] WARN : Agent configured not to send data in this environment.
+[01/09/14 11:51:07 +0800 st01-sdc-cf17.vm.baidu.com (1815)] INFO : New Relic Ruby Agent 3.5.4.34 Initialized: pid = 1815
+[01/09/14 11:51:07 +0800 st01-sdc-cf17.vm.baidu.com (1815)] INFO : Agent Log at /home/work/dashboard/jpaas_monitor_api/log/newrelic_agent.log
+[01/10/14 11:17:59 +0800 st01-sdc-cf17.vm.baidu.com (24529)] INFO : No dispatcher detected.
+[01/10/14 11:17:59 +0800 st01-sdc-cf17.vm.baidu.com (24529)] INFO : Application: Demo
+[01/10/14 11:17:59 +0800 st01-sdc-cf17.vm.baidu.com (24529)] WARN : Agent configured not to send data in this environment.
+[01/10/14 11:17:59 +0800 st01-sdc-cf17.vm.baidu.com (24529)] INFO : New Relic Ruby Agent 3.5.4.34 Initialized: pid = 24529
+[01/10/14 11:17:59 +0800 st01-sdc-cf17.vm.baidu.com (24529)] INFO : Agent Log at /home/work/dashboard/jpaas_monitor_api/log/newrelic_agent.log
+[01/10/14 11:23:21 +0800 st01-sdc-cf17.vm.baidu.com (28174)] INFO : No dispatcher detected.
+[01/10/14 11:23:21 +0800 st01-sdc-cf17.vm.baidu.com (28174)] INFO : Application: Demo
+[01/10/14 11:23:21 +0800 st01-sdc-cf17.vm.baidu.com (28174)] WARN : Agent configured not to send data in this environment.
+[01/10/14 11:23:21 +0800 st01-sdc-cf17.vm.baidu.com (28174)] INFO : New Relic Ruby Agent 3.5.4.34 Initialized: pid = 28174
+[01/10/14 11:23:21 +0800 st01-sdc-cf17.vm.baidu.com (28174)] INFO : Agent Log at /home/work/dashboard/jpaas_monitor_api/log/newrelic_agent.log
+[01/10/14 14:45:28 +0800 st01-sdc-cf17.vm.baidu.com (8753)] INFO : No dispatcher detected.
+[01/10/14 14:45:28 +0800 st01-sdc-cf17.vm.baidu.com (8753)] INFO : Application: Demo
+[01/10/14 14:45:28 +0800 st01-sdc-cf17.vm.baidu.com (8753)] WARN : Agent configured not to send data in this environment.
+[01/10/14 14:45:28 +0800 st01-sdc-cf17.vm.baidu.com (8753)] INFO : New Relic Ruby Agent 3.5.4.34 Initialized: pid = 8753
+[01/10/14 14:45:28 +0800 st01-sdc-cf17.vm.baidu.com (8753)] INFO : Agent Log at /home/work/dashboard/jpaas_monitor_api/log/newrelic_agent.log
