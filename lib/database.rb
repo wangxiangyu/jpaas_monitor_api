@@ -32,3 +32,13 @@ end
 class AppBns < ActiveRecord::Base
 	self.table_name="app_bns"
 end
+
+class UserDefinedMonitorRaw < ActiveRecord::Base
+	self.table_name="user_defined_monitor_raw"
+end
+class UserDefinedMonitorRule < ActiveRecord::Base
+	self.table_name="user_defined_monitor_rule"
+end
+class UserDefinedMonitorAlert < ActiveRecord::Base
+	self.table_name="user_defined_monitor_alarm"
+end

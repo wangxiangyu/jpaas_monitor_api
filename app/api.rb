@@ -7,6 +7,7 @@ module Acme
     mount ::Acme::App
     mount ::Acme::RegisterRouterBns
     mount ::Acme::FlowTransfer
+    mount ::Acme::UserDefinedMonitor
   end
 end
 
