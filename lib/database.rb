@@ -42,3 +42,13 @@ end
 class UserDefinedMonitorAlert < ActiveRecord::Base
 	self.table_name="user_defined_monitor_alarm"
 end
+
+class ProcMonitorRaw < ActiveRecord::Base
+	self.table_name="proc_monitor_raw"
+end
+class ProcMonitorRule < ActiveRecord::Base
+	self.table_name="proc_monitor_rule"
+end
+class ProcMonitorAlert < ActiveRecord::Base
+	self.table_name="proc_monitor_alarm"
+end

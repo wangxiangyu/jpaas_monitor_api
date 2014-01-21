@@ -1,3 +1,4 @@
+require "yaml"
 require "logger"
   # Singleton config used throughout
   class MyConfig

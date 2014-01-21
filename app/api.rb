@@ -8,6 +8,8 @@ module Acme
     mount ::Acme::RegisterRouterBns
     mount ::Acme::FlowTransfer
     mount ::Acme::UserDefinedMonitor
+    mount ::Acme::MonitorCenter
+    mount ::Acme::ProcMonitor
   end
 end
 

@@ -2,26 +2,30 @@
         class << self
             def commit(working_path, message,username,password)
                 svn = `which svn`.strip
-                `cd #{working_path} && #{svn} commit -m "#{message}" --username #{username} --password #{password} --no-auth-cache`
-                 $?.success?
+                out=`cd #{working_path} 2>&1 && #{svn} commit -m "#{message}" --username #{username} --password #{password} --no-auth-cache 2>&1`
+                status= $?.success? ? 0 : -1
+                {:rescode=>status,:msg=>out}
             end
  
             def add_all(working_path)
                 svn = `which svn`.strip
-                `cd #{working_path} && #{svn} add *`
-                $?.success?
+                out=`cd #{working_path} 2>&1 && #{svn} add * 2>&1`
+                status= $?.success? ? 0 : -1
+                {:rescode=>status,:msg=>out}
             end
 
             def del_all(working_path)
                 svn = `which svn`.strip
-                `cd #{working_path} && touch "xxxxxxx" &&#{svn} rm --force *&& rm -rf *`
-                $?.success?
+                out=`cd #{working_path} 2>&1 && touch "xxxxxxx" 2>&1 &&#{svn} rm --force *&& rm -rf * 2>&1`
+                status= $?.success? ? 0 : -1
+                {:rescode=>status,:msg=>out}
             end
  
             def checkout(svn_path,working_path,username,password)
                 svn = `which svn`.strip
-                `#{svn} co #{svn_path} #{working_path} --username #{username} --password #{password} --no-auth-cache`
-                $?.success?
+                out=`#{svn} co #{svn_path} #{working_path} --username #{username} --password #{password} --no-auth-cache 2>&1`
+                status= $?.success? ? 0 : -1
+                {:rescode=>status,:msg=>out}
             end
         end
     end

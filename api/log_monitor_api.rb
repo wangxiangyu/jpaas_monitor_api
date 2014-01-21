@@ -28,6 +28,11 @@ module Acme
                     callback.to_s+"("+result.to_json+")"
             end
         end
+        def check_raw_duplicate?(app_key,raw)
+            return false unless LogMonitorRaw.where(:app_key=>app_key,:name=>raw).empty?
+            return false unless UserDefinedMonitorRaw.where(:app_key=>app_key,:name=>raw).empty?
+            return true
+        end
     end
     desc "add log monitor raw"
     get '/add_log_monitor_raw' do
@@ -42,7 +47,7 @@ module Acme
 	        raw['method']='noah'
 	        raw['target']='logmon'
 	        raw['log_filepath']=format(params['log_filepath'])
-	        raw['raw_key']=Digest::MD5.hexdigest("#{raw['app_key']}#{raw['name']}")
+	        raw['raw_key']=Digest::MD5.hexdigest("#{raw['app_key']}#{raw['name']}log_monitor")
 	        raw['limit_rate']='10'
             log_name="#{raw['app_key']}_#{raw['name']}.conf"
             raw['params']="${ATTACHMENT_DIR}/#{log_name}"
@@ -189,7 +194,7 @@ module Acme
         end
     end
 
-    get '/save_all' do
+    get '/save_all_log' do
         raw_key=format(params['raw_key'])
         check_result=Noah3.log_raw_completed?(raw_key)
         if check_result[:rescode]==0
