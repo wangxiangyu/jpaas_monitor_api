@@ -33,7 +33,23 @@ module Acme
 	    org=params[:org].to_s.gsub("\"",'').gsub("'",'')
 	    app=params[:app].to_s.gsub("\"",'').gsub("'",'')
         instances=[]
-        InstanceStatus.where("app_name like ? and organization = ?  and space = ?","#{app}_%",org,space).find_each do |instance|
+        InstanceStatus.where("app_name like ? and organization = ?  and space = ?","#{app}\\_%",org,space).find_each do |instance|
+                instance_hash=instance.serializable_hash
+                instance_hash.delete("id")
+                instance_hash.delete("created_at")
+                instance_hash.delete("updated_at")
+                port_info_json=JSON.parse(instance_hash['port_info'])
+                instance_hash["port_info"]=port_info_json
+                instances.push(instance_hash)
+        end
+        instances.to_json
+    end
+    desc "get instance list by org and space"
+    get '/xplat_get_instances_by_org_space' do
+	    space=params[:space].to_s.gsub("\"",'').gsub("'",'')
+	    org=params[:org].to_s.gsub("\"",'').gsub("'",'')
+        instances=[]
+        InstanceStatus.where("organization = ?  and space = ?",org,space).find_each do |instance|
                 instance_hash=instance.serializable_hash
                 instance_hash.delete("id")
                 instance_hash.delete("created_at")

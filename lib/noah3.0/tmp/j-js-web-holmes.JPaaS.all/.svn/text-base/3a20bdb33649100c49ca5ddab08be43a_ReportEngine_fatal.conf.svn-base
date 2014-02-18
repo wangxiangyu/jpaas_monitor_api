@@ -1,0 +1,13 @@
+{
+  "log_filepath": "/home/work/mkt-web/logs/`%Y%m%d`/ReportEngine.fatal.log",
+  "limit_rate": "10",
+  "item": [
+    {
+      "item_name_prefix": "ReportEngine_fatal",
+      "cycle": "60",
+      "match_str": "FATAL",
+      "threshold": null,
+      "filter_str": null
+    }
+  ]
+}

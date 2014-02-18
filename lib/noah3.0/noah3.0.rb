@@ -10,7 +10,8 @@ class Noah3
         end
 
         def init_config(app_bns,work_path,username,password)
-		 `mkdir -p #{work_path}/#{app_bns}`
+		    `mkdir -p #{work_path}/#{app_bns}`
+             Svn.add_all("#{work_path}")
              Svn.del_all("#{work_path}/#{app_bns}")
              Svn.commit(work_path,"delete",username,password)
         end

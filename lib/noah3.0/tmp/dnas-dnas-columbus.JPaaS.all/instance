@@ -1,0 +1,49 @@
+{
+  "started_mode": "jpaas",
+  "raw": [
+    {
+      "name": "dn_as_log",
+      "cycle": "60",
+      "method": "noah",
+      "target": "logmon",
+      "params": "${ATTACHMENT_DIR}/41dbc78cca941f34440158983274e78b_dn_as_log.conf"
+    },
+    {
+      "name": "dn_as_proc",
+      "cycle": "60",
+      "method": "noah",
+      "target": "procmon",
+      "params": "/home/work/bin/"
+    }
+  ],
+  "rule": [
+    {
+      "name": "dnas_fatal",
+      "formula": "dnas_fatal_cnt>0",
+      "filter": "1/1",
+      "alert": "alert_05ef506121e37f98b7d99188f7c509a9"
+    },
+    {
+      "name": "dn_as_proc",
+      "formula": "dn-as_thread_num!=35",
+      "filter": "1/1",
+      "alert": "alert_44d0df979c453540f77ac5e2af9902a3"
+    }
+  ],
+  "alert": [
+    {
+      "name": "alert_05ef506121e37f98b7d99188f7c509a9",
+      "max_alert_times": "5",
+      "remind_interval_second": "900",
+      "mail": "columbus-op@baidu.com",
+      "sms": "g_ecom_dan_op"
+    },
+    {
+      "name": "alert_44d0df979c453540f77ac5e2af9902a3",
+      "max_alert_times": "2",
+      "remind_interval_second": "900",
+      "mail": "columbus-op@baidu.com",
+      "sms": "g_ecom_dan_op"
+    }
+  ]
+}

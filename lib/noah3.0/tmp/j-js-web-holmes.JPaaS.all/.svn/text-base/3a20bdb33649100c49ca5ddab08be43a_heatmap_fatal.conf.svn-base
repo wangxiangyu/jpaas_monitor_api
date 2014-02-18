@@ -1,0 +1,13 @@
+{
+  "log_filepath": "/home/work/mkt-web/logs/`%Y%m%d`/heatmap.fatal.log",
+  "limit_rate": "10",
+  "item": [
+    {
+      "item_name_prefix": "heatmap_fatal",
+      "cycle": "600",
+      "match_str": "FATAL",
+      "threshold": null,
+      "filter_str": null
+    }
+  ]
+}

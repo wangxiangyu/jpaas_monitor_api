@@ -1,0 +1,86 @@
+{
+  "started_mode": "jpaas",
+  "raw": [
+    {
+      "name": "dnbs_log",
+      "cycle": "60",
+      "method": "noah",
+      "target": "logmon",
+      "params": "${ATTACHMENT_DIR}/294ee92ef8f77decfff5271f29a3a2ce_dnbs_log.conf"
+    },
+    {
+      "name": "recv_delay_monitor",
+      "cycle": "60",
+      "method": "exec",
+      "target": "/home/work/opbin/noah/recv_delay_monitor.sh"
+    },
+    {
+      "name": "dnbs_proc",
+      "cycle": "60",
+      "method": "noah",
+      "target": "procmon",
+      "params": "/home/work/bin"
+    }
+  ],
+  "rule": [
+    {
+      "name": "dnbs_fatal",
+      "formula": "dnbs_fatal_cnt>0",
+      "filter": "1/1",
+      "alert": "alert_94a7a3b4f00a94d6d0a9eb530519dc7a"
+    },
+    {
+      "name": "recv_delay_monitor_adm_das",
+      "formula": "adm_das>600",
+      "filter": "1/1",
+      "alert": "alert_02c6dd9702d1d21baf0bd75c14566be2"
+    },
+    {
+      "name": "recv_delay_monitor_union_das",
+      "formula": "union_das<0",
+      "filter": "1/1",
+      "alert": "alert_02c6dd9702d1d21baf0bd75c14566be2"
+    },
+    {
+      "name": "recv_delay_monitor_aka_das",
+      "formula": "aka_das>600",
+      "filter": "1/1",
+      "alert": "alert_02c6dd9702d1d21baf0bd75c14566be2"
+    },
+    {
+      "name": "recv_delay_monitor_recv_das",
+      "formula": "recv_das>600",
+      "filter": "3/3",
+      "alert": "alert_02c6dd9702d1d21baf0bd75c14566be2"
+    },
+    {
+      "name": "dnbs_proc",
+      "formula": "bs_thread_num!=83",
+      "filter": "1/1",
+      "alert": "alert_c5cbf4e78322eff057cffef3ea8618af"
+    }
+  ],
+  "alert": [
+    {
+      "name": "alert_94a7a3b4f00a94d6d0a9eb530519dc7a",
+      "max_alert_times": "5",
+      "remind_interval_second": "900",
+      "mail": "columbus-op@baidu.com",
+      "sms": "g_ecom_dan_op"
+    },
+    {
+      "name": "alert_02c6dd9702d1d21baf0bd75c14566be2",
+      "max_alert_times": "5",
+      "remind_interval_second": "900",
+      "mail": "columbus-op@baidu.com",
+      "sms": "g_ecom_dan_op"
+    },
+    {
+      "name": "alert_c5cbf4e78322eff057cffef3ea8618af",
+      "max_alert_times": "2",
+      "remind_interval_second": "900",
+      "mail": "columbus-op@baidu.com",
+      "sms": "g_ecom_dan_op"
+    }
+  ]
+}

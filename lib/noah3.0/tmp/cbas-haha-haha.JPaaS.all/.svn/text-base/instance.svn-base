@@ -1,0 +1,68 @@
+{
+  "started_mode": "jpaas",
+  "raw": [
+    {
+      "name": "log_monitor_test",
+      "cycle": "60",
+      "method": "noah",
+      "target": "logmon",
+      "params": "${ATTACHMENT_DIR}/3a724bad57394c51b7863fb45512c17e_log_monitor_test.conf"
+    },
+    {
+      "name": "user_defined_monitor",
+      "cycle": "60",
+      "method": "exec",
+      "target": "/home/work/haha.sh"
+    },
+    {
+      "name": "proc_test",
+      "cycle": "60",
+      "method": "noah",
+      "target": "procmon",
+      "params": "/home/vcap/app/bin"
+    }
+  ],
+  "rule": [
+    {
+      "name": "log_warn",
+      "formula": "log_warn_cnt>0",
+      "filter": "2/4",
+      "alert": "alert_7918903c31b81e7c9d9b4ae26697d775"
+    },
+    {
+      "name": "user_defined_haha",
+      "formula": "haha>0",
+      "filter": "2/4",
+      "alert": "alert_7a51948c5867994c90724e5e7aff8730"
+    },
+    {
+      "name": "proc_test",
+      "formula": "cb-as_thread_num>0",
+      "filter": "2/4",
+      "alert": "alert_de7669ef804e7d0fca366f9b2afb5380"
+    }
+  ],
+  "alert": [
+    {
+      "name": "alert_7918903c31b81e7c9d9b4ae26697d775",
+      "max_alert_times": "2",
+      "remind_interval_second": "900",
+      "mail": "wangxiangyu",
+      "sms": "wangxiangyu"
+    },
+    {
+      "name": "alert_7a51948c5867994c90724e5e7aff8730",
+      "max_alert_times": "2",
+      "remind_interval_second": "900",
+      "mail": "wangxiangyu",
+      "sms": "wangxiangyu"
+    },
+    {
+      "name": "alert_de7669ef804e7d0fca366f9b2afb5380",
+      "max_alert_times": "2",
+      "remind_interval_second": "900",
+      "mail": "wangxiangyu",
+      "sms": "wangxiangyu"
+    }
+  ]
+}

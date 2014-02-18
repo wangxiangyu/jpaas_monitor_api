@@ -1,14 +1,20 @@
-/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/yaml.rb:56:in `<top (required)>':
-It seems your ruby installation is missing psych (for YAML output).
-To eliminate this warning, please install libyaml and reinstall your ruby.
-[2014-01-20 15:33:38] INFO  WEBrick 1.3.1
-[2014-01-20 15:33:38] INFO  ruby 1.9.3 (2013-02-22) [x86_64-linux]
-[2014-01-20 15:33:38] INFO  WEBrick::HTTPServer#start: pid=16430 port=8002
-10.46.139.38 - - [20/Jan/2014 15:33:40] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22j%22 HTTP/1.1" 200 2735 0.5029
-172.17.229.40 - - [20/Jan/2014 15:37:16] "GET /get_raw_by_app_key?app_key=c65ce1bd57f8207a660367f7d3376448&callback=jQuery20306072801423724741_1390202724345&_=1390202724346 HTTP/1.1" 200 65 0.0414
-10.50.34.43 - - [20/Jan/2014 17:51:48] "GET /xplat_get_apps_by_space?org=%22video%22&space=%22wise%22 HTTP/1.1" 200 903 0.0199
-10.50.34.43 - - [20/Jan/2014 17:51:48] "GET /xplat_get_instances_by_app?org=%22video%22&app=%22wise-channel%22&space=%22wise%22 HTTP/1.1" 200 7094 0.0155
-10.50.34.43 - - [20/Jan/2014 17:58:00] "GET /xplat_get_instances_by_app?org=%22video%22&app=%22wise-channel%22&space=%22wise%22 HTTP/1.1" 200 7094 0.0448
+[2014-02-11 16:07:34] INFO  WEBrick 1.3.1
+[2014-02-11 16:07:34] INFO  ruby 1.9.3 (2013-02-22) [x86_64-linux]
+[2014-02-11 16:07:34] INFO  WEBrick::HTTPServer#start: pid=22289 port=8002
+172.17.229.166 - - [11/Feb/2014 16:12:08] "GET /xplat_get_instances_by_app?org=szop&space=servicedesk=&app=backend HTTP/1.1" 200 2 0.5251
+172.17.229.166 - - [11/Feb/2014 16:12:15] "GET /xplat_get_instances_by_app?org=szop&space=servicedesk=&app=backend_ HTTP/1.1" 200 2 0.0050
+172.17.229.166 - - [11/Feb/2014 16:13:02] "GET /xplat_get_instances_by_org_space?org=szop&space=serviced HTTP/1.1" 200 2 0.0077
+172.17.229.166 - - [11/Feb/2014 16:13:59] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 1995 0.0312
+10.50.88.42 - - [11/Feb/2014 16:19:58] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 0.0112
+[2014-02-11 16:19:58] ERROR Errno::ECONNRESET: Connection reset by peer
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `eof?'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `run'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+10.50.88.42 - - [11/Feb/2014 16:20:05] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 0.0128
+[2014-02-11 16:20:05] ERROR Errno::ECONNRESET: Connection reset by peer
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `eof?'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `run'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
 DEPRECATION WARNING: Database connections will not be closed automatically, please close your
 database connection at the end of the thread by calling `close` on your
 connection.  For example: ActiveRecord::Base.connection.close
@@ -29,11 +35,31 @@ DEPRECATION WARNING: Database connections will not be closed automatically, plea
 database connection at the end of the thread by calling `close` on your
 connection.  For example: ActiveRecord::Base.connection.close
 . (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
-172.17.230.98 - - [20/Jan/2014 18:15:04] "GET /xplat_get_apps_by_space?org=%22video%22&space=%22wise%22 HTTP/1.1" 200 903 5.0098
-172.17.230.98 - - [20/Jan/2014 18:15:04] "GET /xplat_get_instances_by_app?org=%22video%22&app=%22wise-channel%22&space=%22wise%22 HTTP/1.1" 200 7094 0.0152
-172.17.230.98 - - [20/Jan/2014 18:15:10] "GET /get_raw_by_app_key?app_key=14ecd4c51d8c2949a3287fef217d2d3c&callback=jQuery20302179039770271629_1390212905055&_=1390212905056 HTTP/1.1" 200 65 0.0092
-172.17.230.98 - - [20/Jan/2014 18:18:18] "GET /get_raw_by_app_key?app_key=14ecd4c51d8c2949a3287fef217d2d3c&callback=jQuery203017602362181060016_1390213097963&_=1390213097964 HTTP/1.1" 200 66 0.0096
-172.17.230.98 - - [20/Jan/2014 18:21:02] "GET /xplat_get_apps_by_space?org=%22columbus%22&space=%22cbas%22 HTTP/1.1" 200 128 0.0064
+10.50.88.42 - - [11/Feb/2014 16:27:21] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 5.0105
+[2014-02-11 16:27:22] ERROR Errno::ECONNRESET: Connection reset by peer
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `eof?'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `run'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+10.50.88.42 - - [11/Feb/2014 16:27:25] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 0.0079
+[2014-02-11 16:27:25] ERROR Errno::ECONNRESET: Connection reset by peer
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `eof?'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `run'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+10.50.88.42 - - [11/Feb/2014 16:27:26] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 0.0081
+[2014-02-11 16:27:26] ERROR Errno::ECONNRESET: Connection reset by peer
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `eof?'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `run'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+10.50.88.42 - - [11/Feb/2014 16:28:02] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 0.0081
+[2014-02-11 16:28:02] ERROR Errno::ECONNRESET: Connection reset by peer
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `eof?'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `run'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+10.50.88.42 - - [11/Feb/2014 16:28:25] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 0.0081
+[2014-02-11 16:28:25] ERROR Errno::ECONNRESET: Connection reset by peer
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `eof?'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `run'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
 DEPRECATION WARNING: Database connections will not be closed automatically, please close your
 database connection at the end of the thread by calling `close` on your
 connection.  For example: ActiveRecord::Base.connection.close
@@ -54,11 +80,31 @@ DEPRECATION WARNING: Database connections will not be closed automatically, plea
 database connection at the end of the thread by calling `close` on your
 connection.  For example: ActiveRecord::Base.connection.close
 . (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
-172.17.230.98 - - [20/Jan/2014 18:21:08] "GET /xplat_get_instances_by_app?org=%22columbus%22&app=%22cbas%22&space=%22cbas%22 HTTP/1.1" 200 2 5.0139
-172.17.230.98 - - [20/Jan/2014 18:22:19] "GET /xplat_get_instances_by_app?org=%22columbus%22&app=%22cbas%22&space=%22cbas%22 HTTP/1.1" 200 2 0.0048
-10.50.34.43 - - [20/Jan/2014 18:23:19] "GET /xplat_get_apps_by_space?org=%22columbus%22&space=%22cbas%22 HTTP/1.1" 200 128 0.0056
-10.50.34.43 - - [20/Jan/2014 18:23:19] "GET /xplat_get_instances_by_app?org=%22columbus%22&app=%22cbas%22&space=%22cbas%22 HTTP/1.1" 200 2 0.0036
-172.17.230.98 - - [20/Jan/2014 19:06:00] "GET /xplat_get_instances_by_app?org=%22columbus%22&app=%22cbas%22&space=%22cbas%22 HTTP/1.1" 200 744 0.0055
+10.50.88.42 - - [11/Feb/2014 16:34:10] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 5.0320
+[2014-02-11 16:34:10] ERROR Errno::ECONNRESET: Connection reset by peer
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `eof?'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `run'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+10.50.88.42 - - [11/Feb/2014 16:34:42] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 0.0099
+[2014-02-11 16:34:42] ERROR Errno::ECONNRESET: Connection reset by peer
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `eof?'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `run'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+10.50.88.42 - - [11/Feb/2014 16:34:52] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 0.0094
+[2014-02-11 16:34:52] ERROR Errno::ECONNRESET: Connection reset by peer
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `eof?'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `run'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+10.50.88.42 - - [11/Feb/2014 16:39:20] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 0.0083
+[2014-02-11 16:39:20] ERROR Errno::ECONNRESET: Connection reset by peer
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `eof?'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `run'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+10.50.88.42 - - [11/Feb/2014 16:40:56] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 0.0091
+[2014-02-11 16:40:56] ERROR Errno::ECONNRESET: Connection reset by peer
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `eof?'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `run'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
 DEPRECATION WARNING: Database connections will not be closed automatically, please close your
 database connection at the end of the thread by calling `close` on your
 connection.  For example: ActiveRecord::Base.connection.close
@@ -79,11 +125,27 @@ DEPRECATION WARNING: Database connections will not be closed automatically, plea
 database connection at the end of the thread by calling `close` on your
 connection.  For example: ActiveRecord::Base.connection.close
 . (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
-172.17.230.98 - - [20/Jan/2014 19:13:23] "GET /xplat_get_instances_by_app?org=%22columbus%22&app=%22cbas%22&space=%22cbas%22 HTTP/1.1" 200 744 5.0091
-172.17.230.98 - - [20/Jan/2014 19:24:11] "GET /xplat_get_instances_by_app?org=%22columbus%22&app=%22cbas%22&space=%22cbas%22 HTTP/1.1" 200 8167 0.0171
-172.17.230.98 - - [20/Jan/2014 19:24:25] "GET /get_raw_by_app_key?app_key=13a293446265f6113c3c22ea83ab76b0&callback=jQuery20307888998677954078_1390217052107&_=1390217052108 HTTP/1.1" 200 65 0.0050
-172.17.230.98 - - [20/Jan/2014 19:25:35] "GET /xplat_get_instances_by_app?org=%22video%22&app=%22wise-channel%22&space=%22wise%22 HTTP/1.1" 200 7094 0.0452
-172.17.230.98 - - [20/Jan/2014 19:25:41] "GET /xplat_get_instances_by_app?org=%22video%22&app=%22wise-channel%22&space=%22wise%22 HTTP/1.1" 200 7094 0.0158
+172.17.229.166 - - [11/Feb/2014 16:41:18] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 5.0100
+10.50.88.42 - - [11/Feb/2014 16:42:29] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 0.0087
+[2014-02-11 16:42:29] ERROR Errno::ECONNRESET: Connection reset by peer
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `eof?'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `run'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+10.50.88.42 - - [11/Feb/2014 16:43:12] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 0.0093
+[2014-02-11 16:43:12] ERROR Errno::ECONNRESET: Connection reset by peer
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `eof?'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `run'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+10.50.88.42 - - [11/Feb/2014 16:43:50] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 0.0099
+[2014-02-11 16:43:50] ERROR Errno::ECONNRESET: Connection reset by peer
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `eof?'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `run'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+10.50.88.42 - - [11/Feb/2014 16:46:15] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 0.0083
+[2014-02-11 16:46:15] ERROR Errno::ECONNRESET: Connection reset by peer
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `eof?'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `run'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
 DEPRECATION WARNING: Database connections will not be closed automatically, please close your
 database connection at the end of the thread by calling `close` on your
 connection.  For example: ActiveRecord::Base.connection.close
@@ -104,11 +166,15 @@ DEPRECATION WARNING: Database connections will not be closed automatically, plea
 database connection at the end of the thread by calling `close` on your
 connection.  For example: ActiveRecord::Base.connection.close
 . (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
-172.17.230.98 - - [20/Jan/2014 19:29:06] "GET /xplat_get_instances_by_app?org=%22columbus%22&app=%22cbas%22&space=%22cbas%22 HTTP/1.1" 200 8167 5.0188
-10.36.63.68 - - [20/Jan/2014 19:57:06] "GET /xplat_get_apps_by_space?org=%22video%22&space=%22wise%22 HTTP/1.1" 200 903 0.0054
-10.36.63.68 - - [20/Jan/2014 19:57:06] "GET /xplat_get_instances_by_app?org=%22video%22&app=%22wise-channel%22&space=%22wise%22 HTTP/1.1" 200 7094 0.0146
-172.17.230.98 - - [20/Jan/2014 21:09:41] "GET /xplat_get_apps_by_space?org=%22columbus%22&space=%22cbas%22 HTTP/1.1" 200 128 0.0044
-172.17.230.98 - - [20/Jan/2014 21:09:42] "GET /xplat_get_instances_by_app?org=%22columbus%22&app=%22cbas%22&space=%22cbas%22 HTTP/1.1" 200 11095 0.0202
+10.50.88.42 - - [11/Feb/2014 16:50:18] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 5.0105
+[2014-02-11 16:50:18] ERROR Errno::ECONNRESET: Connection reset by peer
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `eof?'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `run'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+10.36.156.29 - - [11/Feb/2014 16:53:16] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 1995 0.0074
+10.36.156.29 - - [11/Feb/2014 16:53:22] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 1995 0.0082
+10.36.156.29 - - [11/Feb/2014 16:55:04] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 1995 0.0072
+10.36.156.29 - - [11/Feb/2014 16:55:12] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 1995 0.0323
 DEPRECATION WARNING: Database connections will not be closed automatically, please close your
 database connection at the end of the thread by calling `close` on your
 connection.  For example: ActiveRecord::Base.connection.close
@@ -129,11 +195,11 @@ DEPRECATION WARNING: Database connections will not be closed automatically, plea
 database connection at the end of the thread by calling `close` on your
 connection.  For example: ActiveRecord::Base.connection.close
 . (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
-10.50.34.43 - - [20/Jan/2014 21:40:42] "GET /xplat_get_apps_by_space?org=%22video%22&space=%22wise%22 HTTP/1.1" 200 903 5.0092
-10.50.34.43 - - [20/Jan/2014 21:40:42] "GET /xplat_get_apps_by_space?org=%22video%22&space=%22wise%22 HTTP/1.1" 200 903 0.7285
-10.50.34.43 - - [20/Jan/2014 21:40:42] "GET /xplat_get_instances_by_app?org=%22video%22&app=%22wise-channel%22&space=%22wise%22 HTTP/1.1" 200 7094 0.0151
-10.50.34.43 - - [20/Jan/2014 21:40:42] "GET /xplat_get_instances_by_app?org=%22video%22&app=%22wise-channel%22&space=%22wise%22 HTTP/1.1" 200 7094 0.0131
-10.36.63.68 - - [20/Jan/2014 22:36:07] "GET /xplat_get_apps_by_space?org=%22columbus%22&space=%22cbas%22 HTTP/1.1" 200 128 0.0053
+10.36.156.29 - - [11/Feb/2014 16:55:59] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 1995 5.0095
+10.36.156.29 - - [11/Feb/2014 17:12:27] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 1995 0.0087
+10.36.156.29 - - [11/Feb/2014 17:12:34] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 1995 0.0403
+10.36.156.29 - - [11/Feb/2014 17:17:36] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 1995 0.0078
+10.48.57.23 - - [11/Feb/2014 17:18:16] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22j%22 HTTP/1.1" 200 2801 0.0097
 DEPRECATION WARNING: Database connections will not be closed automatically, please close your
 database connection at the end of the thread by calling `close` on your
 connection.  For example: ActiveRecord::Base.connection.close
@@ -154,11 +220,11 @@ DEPRECATION WARNING: Database connections will not be closed automatically, plea
 database connection at the end of the thread by calling `close` on your
 connection.  For example: ActiveRecord::Base.connection.close
 . (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
-10.36.63.68 - - [20/Jan/2014 22:36:12] "GET /xplat_get_apps_by_space?org=%22columbus%22&space=%22cbbs%22 HTTP/1.1" 200 62 5.0068
-10.36.63.68 - - [20/Jan/2014 22:36:13] "GET /xplat_get_apps_by_space?org=%22holmes%22&space=%22js-web%22 HTTP/1.1" 200 59 0.0052
-10.36.63.68 - - [20/Jan/2014 22:36:14] "GET /xplat_get_apps_by_space?org=%22map%22&space=%22as%22 HTTP/1.1" 200 129 0.0050
-10.36.63.68 - - [20/Jan/2014 22:36:16] "GET /xplat_get_apps_by_space?org=%22video%22&space=%22wise%22 HTTP/1.1" 200 903 0.0066
-172.17.230.98 - - [21/Jan/2014 11:50:31] "GET /xplat_get_apps_by_space?org=%22columbus%22&space=%22cbas%22 HTTP/1.1" 200 128 0.0057
+10.36.156.29 - - [11/Feb/2014 17:18:31] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 5.0110
+10.36.156.29 - - [11/Feb/2014 17:20:34] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 0.0106
+10.48.57.23 - - [11/Feb/2014 17:54:13] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22j%22 HTTP/1.1" 200 2801 0.0085
+10.36.63.68 - - [11/Feb/2014 17:57:21] "GET /xplat_get_apps_by_space?org=%22holmes%22&space=%22js-web%22 HTTP/1.1" 200 59 0.0459
+10.36.63.68 - - [11/Feb/2014 17:57:21] "GET /xplat_get_instances_by_app?org=%22holmes%22&app=%22j%22&space=%22js-web%22 HTTP/1.1" 200 2801 0.0076
 DEPRECATION WARNING: Database connections will not be closed automatically, please close your
 database connection at the end of the thread by calling `close` on your
 connection.  For example: ActiveRecord::Base.connection.close
@@ -179,11 +245,11 @@ DEPRECATION WARNING: Database connections will not be closed automatically, plea
 database connection at the end of the thread by calling `close` on your
 connection.  For example: ActiveRecord::Base.connection.close
 . (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
-172.17.230.98 - - [21/Jan/2014 11:50:37] "GET /xplat_get_instances_by_app?org=%22columbus%22&app=%22cbas%22&space=%22cbas%22 HTTP/1.1" 200 2 5.0149
-10.48.57.23 - - [21/Jan/2014 11:58:40] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22j%22 HTTP/1.1" 200 2735 0.0087
-10.36.63.68 - - [21/Jan/2014 12:10:18] "GET /xplat_get_apps_by_space?org=%22holmes%22&space=%22js-web%22 HTTP/1.1" 200 59 0.0055
-10.36.63.68 - - [21/Jan/2014 12:10:19] "GET /xplat_get_instances_by_app?org=%22holmes%22&app=%22j%22&space=%22js-web%22 HTTP/1.1" 200 2735 0.0080
-10.46.139.38 - - [21/Jan/2014 12:24:15] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22j%22 HTTP/1.1" 200 2735 0.0083
+10.48.57.23 - - [11/Feb/2014 17:57:44] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22j%22 HTTP/1.1" 200 2801 5.0405
+10.36.63.68 - - [11/Feb/2014 17:58:25] "GET /xplat_get_apps_by_space?org=%22columbus%22&space=%22cbas%22 HTTP/1.1" 200 128 0.0099
+10.36.63.68 - - [11/Feb/2014 17:58:25] "GET /xplat_get_apps_by_space?org=%22columbus%22&space=%22cbbs%22 HTTP/1.1" 200 62 0.0059
+10.36.63.68 - - [11/Feb/2014 17:58:26] "GET /xplat_get_apps_by_space?org=%22map%22&space=%22as%22 HTTP/1.1" 200 129 0.0046
+10.36.63.68 - - [11/Feb/2014 17:58:30] "GET /xplat_get_apps_by_space?org=%22video%22&space=%22wise%22 HTTP/1.1" 200 1029 0.0085
 DEPRECATION WARNING: Database connections will not be closed automatically, please close your
 database connection at the end of the thread by calling `close` on your
 connection.  For example: ActiveRecord::Base.connection.close
@@ -204,7 +270,1113 @@ DEPRECATION WARNING: Database connections will not be closed automatically, plea
 database connection at the end of the thread by calling `close` on your
 connection.  For example: ActiveRecord::Base.connection.close
 . (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
-10.50.35.55 - - [21/Jan/2014 12:25:23] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22j%22 HTTP/1.1" 200 2735 5.0112
-10.48.57.23 - - [21/Jan/2014 12:48:56] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22j%22 HTTP/1.1" 200 2735 0.0089
-10.48.57.23 - - [21/Jan/2014 12:50:44] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22j%22 HTTP/1.1" 200 2735 0.0082
-10.46.139.38 - - [21/Jan/2014 13:36:43] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22j%22 HTTP/1.1" 200 2735 0.0081
+10.48.57.23 - - [11/Feb/2014 18:06:46] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22j%22 HTTP/1.1" 200 2801 5.0126
+10.50.35.55 - - [11/Feb/2014 18:24:34] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 0.0096
+10.50.35.55 - - [11/Feb/2014 18:24:45] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 0.0083
+10.50.35.55 - - [11/Feb/2014 18:25:05] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 0.0081
+10.50.35.55 - - [11/Feb/2014 18:25:59] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 0.0091
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.50.35.55 - - [11/Feb/2014 18:26:28] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 5.0104
+10.50.35.55 - - [11/Feb/2014 18:26:34] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 0.0089
+10.50.35.55 - - [11/Feb/2014 18:36:18] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 0.0090
+10.50.35.55 - - [11/Feb/2014 20:55:26] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 0.0095
+10.50.35.55 - - [11/Feb/2014 20:55:37] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 0.0099
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.50.35.55 - - [11/Feb/2014 20:55:54] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 5.0106
+10.50.35.55 - - [11/Feb/2014 20:56:01] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 0.0092
+10.50.35.55 - - [11/Feb/2014 20:56:17] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 0.0091
+10.50.35.55 - - [11/Feb/2014 20:56:26] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 0.0084
+10.36.63.68 - - [12/Feb/2014 10:48:39] "GET /xplat_get_apps_by_space?org=%22columbus%22&space=%22cbas%22 HTTP/1.1" 200 128 0.0057
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.36.63.68 - - [12/Feb/2014 10:48:44] "GET /xplat_get_apps_by_space?org=%22columbus%22&space=%22cbbs%22 HTTP/1.1" 200 62 5.0081
+10.36.63.68 - - [12/Feb/2014 10:48:45] "GET /xplat_get_apps_by_space?org=%22holmes%22&space=%22js-web%22 HTTP/1.1" 200 59 0.0052
+10.36.63.68 - - [12/Feb/2014 10:48:46] "GET /xplat_get_apps_by_space?org=%22map%22&space=%22as%22 HTTP/1.1" 200 129 0.0063
+10.36.63.68 - - [12/Feb/2014 10:48:48] "GET /xplat_get_apps_by_space?org=%22video%22&space=%22wise%22 HTTP/1.1" 200 1098 0.0063
+10.46.139.38 - - [12/Feb/2014 10:54:54] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22j%22 HTTP/1.1" 200 2801 0.0084
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.23.38.64 - - [12/Feb/2014 13:27:34] "GET /xplat_get_instances_by_org_space?org=lbs&space=test HTTP/1.1" 200 2 5.0073
+10.48.57.23 - - [12/Feb/2014 14:15:20] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22j%22 HTTP/1.1" 200 2801 0.0098
+10.48.57.23 - - [12/Feb/2014 14:27:08] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22j%22 HTTP/1.1" 200 2801 0.0095
+10.23.38.64 - - [12/Feb/2014 15:08:35] "GET /xplat_get_instances_by_org_space?org=lbs&space=test HTTP/1.1" 200 2 0.0244
+10.50.88.42 - - [12/Feb/2014 15:58:07] "GET /xplat_get_instances_by_org_space?org=video&space=wise HTTP/1.1" 200 4757 0.0138
+[2014-02-12 15:58:07] ERROR Errno::ECONNRESET: Connection reset by peer
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `eof?'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `run'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.50.88.42 - - [12/Feb/2014 15:58:23] "GET /xplat_get_instances_by_org_space?org=video&space=wise HTTP/1.1" 200 4757 5.0138
+[2014-02-12 15:58:23] ERROR Errno::ECONNRESET: Connection reset by peer
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `eof?'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `run'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+10.50.88.42 - - [12/Feb/2014 16:00:06] "GET /xplat_get_instances_by_org_space?org=video&space=wise HTTP/1.1" 200 4757 0.0138
+[2014-02-12 16:00:06] ERROR Errno::ECONNRESET: Connection reset by peer
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `eof?'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `run'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+10.50.88.42 - - [12/Feb/2014 16:00:07] "GET /xplat_get_instances_by_org_space?org=video&space=wise HTTP/1.1" 200 4757 0.0120
+[2014-02-12 16:00:07] ERROR Errno::ECONNRESET: Connection reset by peer
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `eof?'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/httpserver.rb:80:in `run'
+	/home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+10.36.156.29 - - [12/Feb/2014 16:05:40] "GET /xplat_get_instances_by_org_space?org=video&space=wise HTTP/1.1" 200 4757 0.0118
+10.36.156.29 - - [12/Feb/2014 16:39:52] "GET /xplat_get_instances_by_org_space?org=video&space=wise HTTP/1.1" 200 5401 0.0115
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.36.156.29 - - [12/Feb/2014 17:27:16] "GET /xplat_get_instances_by_org_space?org=video&space=wise HTTP/1.1" 200 5401 5.0386
+10.36.156.29 - - [12/Feb/2014 17:46:52] "GET /xplat_get_instances_by_org_space?org=video&space=wise HTTP/1.1" 200 5401 0.0140
+10.36.156.29 - - [12/Feb/2014 18:12:30] "GET /xplat_get_instances_by_org_space?org=video&space=wise HTTP/1.1" 200 5400 0.0123
+10.36.156.29 - - [12/Feb/2014 18:15:17] "GET /xplat_get_instances_by_org_space?org=video&space=wise HTTP/1.1" 200 5401 0.0128
+10.36.156.29 - - [12/Feb/2014 18:18:19] "GET /xplat_get_instances_by_org_space?org=video&space=wise HTTP/1.1" 200 5401 0.0128
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.36.156.29 - - [12/Feb/2014 18:18:32] "GET /xplat_get_instances_by_org_space?org=video&space=wise HTTP/1.1" 200 5401 5.0146
+10.36.156.29 - - [12/Feb/2014 18:19:54] "GET /xplat_get_instances_by_org_space?org=video&space=wise HTTP/1.1" 200 5401 0.0128
+10.36.156.29 - - [12/Feb/2014 18:20:05] "GET /xplat_get_instances_by_org_space?org=video&space=wise HTTP/1.1" 200 5401 0.0282
+10.36.156.29 - - [12/Feb/2014 18:20:49] "GET /xplat_get_instances_by_org_space?org=video&space=wise HTTP/1.1" 200 6045 0.0134
+10.50.35.55 - - [12/Feb/2014 18:27:28] "GET /xplat_get_instances_by_org_space?org=jpaas&space=platform HTTP/1.1" 200 3370 0.0104
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.50.35.55 - - [12/Feb/2014 18:27:44] "GET /xplat_get_instances_by_org_space?org=jpaas&space=platform HTTP/1.1" 200 3370 5.0121
+10.50.35.55 - - [12/Feb/2014 18:28:23] "GET /xplat_get_instances_by_org_space?org=jpaas&space=platform HTTP/1.1" 200 3370 0.0345
+10.50.35.55 - - [12/Feb/2014 18:28:27] "GET /xplat_get_instances_by_org_space?org=jpaas&space=platform HTTP/1.1" 200 3370 0.0108
+10.50.35.55 - - [12/Feb/2014 18:28:40] "GET /xplat_get_instances_by_org_space?org=jpaas&space=platform HTTP/1.1" 200 3370 0.0093
+10.50.35.55 - - [12/Feb/2014 18:34:02] "GET /xplat_get_instances_by_org_space?org=jpaas&space=platform HTTP/1.1" 200 2 0.0050
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.50.35.55 - - [12/Feb/2014 18:36:32] "GET /xplat_get_instances_by_org_space?org=jpaas&space=platform HTTP/1.1" 200 663 5.0080
+10.36.156.29 - - [13/Feb/2014 12:03:55] "GET /xplat_get_instances_by_org_space?org=video&space=wise HTTP/1.1" 200 6045 0.0139
+10.36.156.29 - - [13/Feb/2014 12:05:12] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 0.0096
+10.36.156.29 - - [13/Feb/2014 12:05:21] "GET /xplat_get_instances_by_org_space?org=holmes&space=js-web HTTP/1.1" 200 2801 0.0090
+10.50.35.55 - - [13/Feb/2014 14:08:56] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22j%22 HTTP/1.1" 200 2801 0.0099
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.50.35.55 - - [13/Feb/2014 14:09:13] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22j%22 HTTP/1.1" 200 2801 5.0140
+10.50.35.55 - - [13/Feb/2014 14:09:17] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22j%22 HTTP/1.1" 200 2801 0.0092
+10.50.35.55 - - [13/Feb/2014 14:09:26] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22j%22 HTTP/1.1" 200 2801 0.0091
+10.50.35.55 - - [13/Feb/2014 14:15:11] "GET /xplat_get_instances_by_org_space?org=%22holmes%22&space=%22js-web%22 HTTP/1.1" 200 2801 0.0082
+172.17.236.124 - - [13/Feb/2014 14:16:11] "GET /xplat_get_instances_by_org_space?org=%22holmes%22&space=%22js-web%22 HTTP/1.1" 200 2801 0.0086
+172.17.236.124 - - [13/Feb/2014 14:16:12] "GET /favicon.ico HTTP/1.1" 200 232 0.0019
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.50.35.55 - - [13/Feb/2014 14:17:05] "GET /xplat_get_instances_by_org_space?org=%22holmes%22&space=%22js-web%22 HTTP/1.1" 200 2801 5.0125
+10.50.35.55 - - [13/Feb/2014 14:17:47] "GET /xplat_get_instances_by_org_space?org=%22holmes%22&space=%22js-web%22 HTTP/1.1" 200 2801 0.0093
+10.50.35.55 - - [13/Feb/2014 14:18:12] "GET /xplat_get_instances_by_org_space?org=%22jpaas%22&space=%22platform%22 HTTP/1.1" 200 663 0.0054
+10.50.35.55 - - [13/Feb/2014 14:18:26] "GET /xplat_get_instances_by_org_space?org=%22jpaas%22&space=%22platform%22 HTTP/1.1" 200 663 0.0063
+10.50.35.55 - - [13/Feb/2014 14:18:29] "GET /xplat_get_instances_by_org_space?org=%22jpaas%22&space=%22platform%22 HTTP/1.1" 200 663 0.0064
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.50.35.55 - - [13/Feb/2014 14:22:41] "GET /xplat_get_instances_by_org_space?org=%22jpaas%22&space=%22szop%22 HTTP/1.1" 200 2 5.0065
+10.50.35.55 - - [13/Feb/2014 14:28:55] "GET /xplat_get_instances_by_org_space?org=%22jpaas%22&space=%22test%22 HTTP/1.1" 200 2 0.0063
+10.50.35.55 - - [13/Feb/2014 14:33:11] "GET /xplat_get_instances_by_org_space?org=%22jpaas%22&space=%22ls%22 HTTP/1.1" 200 2 0.0049
+10.46.139.38 - - [13/Feb/2014 17:30:29] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22tianlu_admin%22 HTTP/1.1" 200 2 0.0049
+10.46.139.38 - - [13/Feb/2014 17:30:39] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22hello_world%22 HTTP/1.1" 200 2 0.0054
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.46.139.38 - - [13/Feb/2014 17:30:47] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22hello_world%22 HTTP/1.1" 200 2 5.0086
+10.46.139.38 - - [13/Feb/2014 17:30:53] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22helloworld_admin%22 HTTP/1.1" 200 2 0.0046
+10.46.139.38 - - [13/Feb/2014 17:30:56] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22helloworld_admin1%22 HTTP/1.1" 200 2 0.0047
+10.46.139.38 - - [13/Feb/2014 17:30:59] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22helloworld_admin1%22 HTTP/1.1" 200 2 0.0047
+10.46.139.38 - - [13/Feb/2014 17:31:09] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22helloworld_admin1%22 HTTP/1.1" 200 2 0.0044
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.46.139.38 - - [13/Feb/2014 17:31:15] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22helloworld_admin%22 HTTP/1.1" 200 2 5.0077
+10.46.139.38 - - [13/Feb/2014 17:31:26] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22helloworld_admin%22 HTTP/1.1" 200 2 0.0051
+10.46.139.38 - - [13/Feb/2014 17:31:49] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22helloworld_admin%22 HTTP/1.1" 200 2 0.0054
+10.57.128.36 - - [13/Feb/2014 17:50:34] "GET /xplat_get_instances_by_org_space?org=the-system_domain-org-name&space=test HTTP/1.1" 200 2 0.0043
+10.36.156.29 - - [13/Feb/2014 18:16:30] "GET /xplat_get_instances_by_org_space?org=video&space=wise HTTP/1.1" 200 6045 0.0137
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.57.128.36 - - [13/Feb/2014 18:52:57] "GET /xplat_get_instances_by_org_space?org=the-system_domain-org-name&space=test HTTP/1.1" 200 2 5.0136
+10.57.128.36 - - [13/Feb/2014 19:03:04] "GET /xplat_get_instances_by_org_space?org=the-system_domain-org-name&space=test HTTP/1.1" 200 2 0.0049
+10.57.128.36 - - [13/Feb/2014 19:37:47] "GET /xplat_get_instances_by_org_space?org=the-system_domain-org-name&space=test HTTP/1.1" 200 2 0.0048
+10.57.128.36 - - [13/Feb/2014 19:49:40] "GET /xplat_get_instances_by_org_space?org=the-system_domain-org-name&space=test HTTP/1.1" 200 2 0.0067
+10.57.128.36 - - [13/Feb/2014 20:11:09] "GET /xplat_get_instances_by_org_space?org=the-system_domain-org-name&space=test HTTP/1.1" 200 2 0.0045
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.36.156.29 - - [14/Feb/2014 00:00:50] "GET /xplat_get_instances_by_org_space?org=video&space=wise HTTP/1.1" 200 7363 5.0269
+10.36.63.68 - - [14/Feb/2014 11:36:30] "GET /xplat_get_apps_by_space?org=%22columbus%22&space=%22cbas%22 HTTP/1.1" 200 128 0.0059
+10.36.63.68 - - [14/Feb/2014 11:36:30] "GET /xplat_get_apps_by_space?org=%22columbus%22&space=%22cbbs%22 HTTP/1.1" 200 62 0.0042
+10.36.63.68 - - [14/Feb/2014 11:36:31] "GET /xplat_get_apps_by_space?org=%22holmes%22&space=%22js-web%22 HTTP/1.1" 200 59 0.0060
+10.36.63.68 - - [14/Feb/2014 11:36:32] "GET /xplat_get_apps_by_space?org=%22map%22&space=%22as%22 HTTP/1.1" 200 129 0.0060
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.36.63.68 - - [14/Feb/2014 11:36:45] "GET /xplat_get_apps_by_space?org=%22video%22&space=%22wise%22 HTTP/1.1" 200 1218 5.0096
+10.36.63.68 - - [14/Feb/2014 14:08:27] "GET /xplat_get_apps_by_space?org=%22columbus%22&space=%22cbas%22 HTTP/1.1" 200 128 0.0054
+10.36.63.68 - - [14/Feb/2014 14:08:27] "GET /xplat_get_instances_by_app?org=%22columbus%22&app=%22cbas%22&space=%22cbas%22 HTTP/1.1" 200 7683 0.0164
+172.17.229.61 - - [14/Feb/2014 14:17:54] "GET /add_log_monitor_raw?app_key='13a293446265f6113c3c22ea83ab76b0'&name='cbas_flow'&log_filepath='/home/work/log/cb-as.log' HTTP/1.1" 200 58 0.1416
+172.17.229.61 - - [14/Feb/2014 14:17:54] "GET /favicon.ico HTTP/1.1" 200 232 0.0011
+172.17.229.61 - - [14/Feb/2014 14:19:08] "GET /add_log_monitor_item?raw_key='736e3f6a98bb519d37ccf1914b069803'&name='cbas_flow'&cycle='60'&match_str='/n' HTTP/1.1" 200 59 0.0504
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+172.17.229.61 - - [14/Feb/2014 14:20:27] "GET /add_log_monitor_rule?item_key='28ea25ca1211c09cf230a31f738b882d'&name='cbas_flow'&compare='%3C'&threshold='0'&filter='1/1'&disable_time='00:00:00-00:00:00' HTTP/1.1" 200 59 5.0424
+172.17.229.61 - - [14/Feb/2014 14:22:06] "GET /add_log_monitor_alert?raw_key='736e3f6a98bb519d37ccf1914b069803'&max_alert_times='5'&remind_interval_second='900'&mail='columbus-op@baidu.com'&sms='g_ecom_dan_op' HTTP/1.1" 200 58 0.0422
+172.17.229.61 - - [14/Feb/2014 14:23:00] "GET /save_all?app_key='13a293446265f6113c3c22ea83ab76b0' HTTP/1.1" 200 514 5.7260
+172.17.229.61 - - [14/Feb/2014 14:23:06] "GET /save_all?app_key='13a293446265f6113c3c22ea83ab76b0' HTTP/1.1" 200 514 2.8812
+172.17.229.61 - - [14/Feb/2014 14:23:15] "GET /save_all?app_key='13a293446265f6113c3c22ea83ab76b0' HTTP/1.1" 200 24 3.8046
+10.36.63.68 - - [14/Feb/2014 14:23:22] "GET /xplat_get_apps_by_space?org=%22columbus%22&space=%22cbbs%22 HTTP/1.1" 200 62 0.0061
+10.36.63.68 - - [14/Feb/2014 14:23:22] "GET /xplat_get_instances_by_app?org=%22columbus%22&app=%22cbbs%22&space=%22cbbs%22 HTTP/1.1" 200 15458 0.0597
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+172.17.229.61 - - [14/Feb/2014 14:25:26] "GET /add_log_monitor_raw?app_key='a1dd531d026797ec7447328ba538609e'&name='cbbs_flow'&log_filepath='/home/work/log/cb-server.log' HTTP/1.1" 200 58 5.0387
+172.17.229.61 - - [14/Feb/2014 14:25:41] "GET /add_log_monitor_item?raw_key='9bf9bfee89f07ec017b9b31e26c34ef9'&name='cbbs_flow'&cycle='60'&match_str='/n' HTTP/1.1" 200 59 0.0149
+172.17.229.61 - - [14/Feb/2014 14:26:02] "GET /add_log_monitor_rule?item_key='adc0771246054f58830f3c472bbef44e'&name='cbbs_flow'&compare='%3C'&threshold='0'&filter='1/1'&disable_time='00:00:00-00:00:00' HTTP/1.1" 200 59 0.0179
+172.17.229.61 - - [14/Feb/2014 14:26:25] "GET /add_log_monitor_alert?raw_key='9bf9bfee89f07ec017b9b31e26c34ef9'&max_alert_times='5'&remind_interval_second='900'&mail='columbus-op@baidu.com'&sms='g_ecom_dan_op' HTTP/1.1" 200 58 0.0275
+172.17.229.61 - - [14/Feb/2014 14:26:47] "GET /save_all?app_key='a1dd531d026797ec7447328ba538609e' HTTP/1.1" 200 514 4.7047
+172.17.229.61 - - [14/Feb/2014 14:26:54] "GET /save_all?app_key='a1dd531d026797ec7447328ba538609e' HTTP/1.1" 200 314 4.2103
+172.17.229.61 - - [14/Feb/2014 14:27:11] "GET /save_all?app_key='a1dd531d026797ec7447328ba538609e' HTTP/1.1" 200 24 3.9170
+10.26.35.43 - - [14/Feb/2014 15:01:23] "GET /xplat_get_instances_by_org_space?org=hackthon&space=season9 HTTP/1.1" 200 2 0.0059
+10.26.35.43 - - [14/Feb/2014 15:02:53] "GET /xplat_get_instances_by_org_space?org=hackthon&space=season9 HTTP/1.1" 200 2 0.0059
+10.36.156.29 - - [14/Feb/2014 15:19:04] "GET /xplat_get_instances_by_org_space?org=jpaas&space=platform HTTP/1.1" 200 663 0.0061
+10.36.156.29 - - [14/Feb/2014 15:19:10] "GET /xplat_get_instances_by_org_space?org=jpaas&space=platform HTTP/1.1" 200 663 0.0088
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.36.63.68 - - [14/Feb/2014 16:22:06] "GET /xplat_get_apps_by_space?org=%22columbus%22&space=%22cbas%22 HTTP/1.1" 200 128 5.0073
+10.36.63.68 - - [14/Feb/2014 16:22:06] "GET /xplat_get_apps_by_space?org=%22columbus%22&space=%22cbbs%22 HTTP/1.1" 200 62 0.0041
+10.36.63.68 - - [14/Feb/2014 16:22:10] "GET /xplat_get_apps_by_space?org=%22holmes%22&space=%22js-web%22 HTTP/1.1" 200 59 0.0048
+10.36.63.68 - - [14/Feb/2014 16:22:11] "GET /xplat_get_apps_by_space?org=%22map%22&space=%22as%22 HTTP/1.1" 200 129 0.0048
+10.36.63.68 - - [14/Feb/2014 16:22:18] "GET /xplat_get_apps_by_space?org=%22video%22&space=%22wise%22 HTTP/1.1" 200 1218 0.0072
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.44.89.24 - - [14/Feb/2014 16:37:07] "GET /xplat_get_instances_by_org_space?org=ite&space=test HTTP/1.1" 200 2 5.0076
+10.44.89.24 - - [14/Feb/2014 16:57:38] "GET /xplat_get_instances_by_org_space?org=ite&space=test HTTP/1.1" 200 2 0.0056
+10.57.128.36 - - [14/Feb/2014 17:11:31] "GET /xplat_get_instances_by_org_space?org=the-system_domain-org-name&space=test HTTP/1.1" 200 2 0.0045
+10.57.128.36 - - [14/Feb/2014 17:30:25] "GET /xplat_get_instances_by_org_space?org=the-system_domain-org-name&space=test HTTP/1.1" 200 2 0.0055
+10.57.128.36 - - [14/Feb/2014 17:33:12] "GET /xplat_get_instances_by_org_space?org=the-system_domain-org-name&space=test HTTP/1.1" 200 2 0.0069
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.57.128.36 - - [14/Feb/2014 17:40:18] "GET /xplat_get_instances_by_org_space?org=the-system_domain-org-name&space=test HTTP/1.1" 200 2 5.0067
+10.57.128.36 - - [14/Feb/2014 17:52:48] "GET /xplat_get_instances_by_org_space?org=the-system_domain-org-name&space=test HTTP/1.1" 200 2 0.0044
+10.57.128.36 - - [14/Feb/2014 17:54:36] "GET /xplat_get_instances_by_org_space?org=the-system_domain-org-name&space=test HTTP/1.1" 200 2 0.0052
+10.57.128.36 - - [14/Feb/2014 18:01:24] "GET /xplat_get_instances_by_org_space?org=the-system_domain-org-name&space=test HTTP/1.1" 200 2 0.0044
+10.57.128.36 - - [14/Feb/2014 18:01:56] "GET /xplat_get_instances_by_org_space?org=the-system_domain-org-name&space=test HTTP/1.1" 200 2 0.0053
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.57.128.36 - - [14/Feb/2014 18:11:34] "GET /xplat_get_instances_by_org_space?org=the-system_domain-org-name&space=test HTTP/1.1" 200 2 5.0075
+10.57.128.36 - - [14/Feb/2014 18:13:47] "GET /xplat_get_instances_by_org_space?org=the-system_domain-org-name&space=test HTTP/1.1" 200 2 0.0044
+10.57.128.36 - - [14/Feb/2014 18:14:23] "GET /xplat_get_instances_by_org_space?org=the-system_domain-org-name&space=test HTTP/1.1" 200 2 0.0043
+10.50.133.82 - - [14/Feb/2014 18:20:45] "GET /xplat_get_instances_by_org_space?org=jpaas&space=platform HTTP/1.1" 200 663 0.0068
+10.50.133.82 - - [14/Feb/2014 18:21:18] "GET /xplat_get_instances_by_org_space?org=jpaas&space=platform HTTP/1.1" 200 663 0.0066
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.50.133.82 - - [14/Feb/2014 18:21:38] "GET /xplat_get_instances_by_org_space?org=jpaas&space=platform HTTP/1.1" 200 663 5.0089
+10.50.133.82 - - [14/Feb/2014 18:22:05] "GET /xplat_get_instances_by_org_space?org=jpaas&space=platform HTTP/1.1" 200 663 0.0058
+10.50.133.82 - - [14/Feb/2014 18:22:21] "GET /xplat_get_instances_by_org_space?org=jpaas&space=platform HTTP/1.1" 200 663 0.0060
+10.50.133.82 - - [14/Feb/2014 18:23:08] "GET /xplat_get_instances_by_org_space?org=jpaas&space=platform HTTP/1.1" 200 663 0.0059
+10.50.35.55 - - [15/Feb/2014 22:15:43] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22j%22 HTTP/1.1" 200 2801 0.0099
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.50.35.55 - - [15/Feb/2014 22:16:07] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22j%22 HTTP/1.1" 200 2801 5.0128
+10.57.128.36 - - [17/Feb/2014 07:06:22] "GET /xplat_get_instances_by_org_space?org=the-system_domain-org-name&space=test HTTP/1.1" 200 2 0.0057
+10.57.128.36 - - [17/Feb/2014 07:11:45] "GET /xplat_get_instances_by_org_space?org=the-system_domain-org-name&space=test HTTP/1.1" 200 2 0.0056
+10.57.128.36 - - [17/Feb/2014 07:29:33] "GET /xplat_get_instances_by_org_space?org=the-system_domain-org-name&space=test HTTP/1.1" 200 2 0.0048
+10.36.63.68 - - [17/Feb/2014 11:03:24] "GET /xplat_get_apps_by_space?org=%22columbus%22&space=%22cbas%22 HTTP/1.1" 200 128 0.0050
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.36.63.68 - - [17/Feb/2014 11:03:29] "GET /xplat_get_instances_by_app?org=%22columbus%22&app=%22cbas%22&space=%22cbas%22 HTTP/1.1" 200 7683 5.0534
+10.36.63.68 - - [17/Feb/2014 11:03:29] "GET /xplat_get_instances_by_app?org=%22columbus%22&app=%22cbas%22&space=%22cbas%22 HTTP/1.1" 200 7683 3.3025
+10.50.35.55 - - [17/Feb/2014 11:29:45] "GET /xplat_get_instances_by_app?org=%22vsarch%22&space=%22finance%22&app=%22finance-ui_1-0-0-0-1%22 HTTP/1.1" 200 2 0.0052
+10.50.35.55 - - [17/Feb/2014 11:31:01] "GET /xplat_get_instances_by_app?org=%22holmes%22&space=%22js-web%22&app=%22j%22 HTTP/1.1" 200 2801 0.0085
+10.50.35.55 - - [17/Feb/2014 11:31:12] "GET /xplat_get_instances_by_app?org=%22vsarch%22&space=%22finance%22&app=%22finance-ui_1-0-0-0-1%22 HTTP/1.1" 200 2 0.0044
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.50.35.55 - - [17/Feb/2014 11:33:53] "GET /xplat_get_instances_by_app?org=%22vsarch%22&space=%22finance%22&app=%22finance-ui_1-0-0-0-1%22 HTTP/1.1" 200 2 5.0070
+172.17.236.104 - - [17/Feb/2014 11:34:00] "GET /xplat_get_instances_by_app?org=%22vsarch%22&space=%22finance%22&app=%22finance-ui_1-0-0-0-1%22 HTTP/1.1" 200 2 0.0053
+172.17.236.104 - - [17/Feb/2014 11:34:00] "GET /favicon.ico HTTP/1.1" 304 - 0.0007
+[2014-02-17 11:34:00] WARN  Could not determine content-length of response body. Set content-length of the response or set Response#chunked = true
+172.17.236.104 - - [17/Feb/2014 11:37:25] "GET /xplat_get_instances_by_app?org=%22vsarch%22&space=%22finance%22&app=%22finance-ui_1-0-0-0-1%22 HTTP/1.1" 200 2 0.0053
+172.17.236.104 - - [17/Feb/2014 11:38:13] "GET /xplat_get_instances_by_org_space?org=%22vsarch%22&space=%22finance%22 HTTP/1.1" 200 2437 0.0074
+10.50.88.42 - - [17/Feb/2014 11:38:58] "GET /xplat_get_instances_by_app?org=%22vsarch%22&space=%22finance%22&app=%22finance-ui_1-0-0-0-1%22 HTTP/1.1" 200 2 0.0048
+10.50.88.42 - - [17/Feb/2014 11:38:58] "GET /xplat_get_instances_by_app?org=%22vsarch%22&space=%22finance%22&app=%22finance-ui_1-0-0-0-1%22 HTTP/1.1" 200 2 0.0046
+10.50.88.42 - - [17/Feb/2014 11:38:58] "GET /favicon.ico HTTP/1.1" 200 232 0.0008
+10.50.88.42 - - [17/Feb/2014 11:38:58] "GET /favicon.ico HTTP/1.1" 200 232 0.0008
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.50.88.42 - - [17/Feb/2014 11:39:13] "GET /xplat_get_instances_by_app?org=%22vsarch%22&space=%22finance%22&app=%22finance-ui%22 HTTP/1.1" 200 2437 5.0101
+10.50.35.55 - - [17/Feb/2014 11:40:17] "GET /xplat_get_instances_by_app?org=%22vsarch%22&space=%22finance%22&app=%22finance-ui%22 HTTP/1.1" 200 2437 0.0101
+10.50.35.55 - - [17/Feb/2014 11:40:27] "GET /xplat_get_instances_by_app?org=%22vsarch%22&space=%22finance%22&app=%22finance-ui%22 HTTP/1.1" 200 2437 0.0079
+10.50.35.55 - - [17/Feb/2014 11:41:29] "GET /xplat_get_instances_by_app?org=%22vsarch%22&space=%22finance%22&app=%22finance-ui%22 HTTP/1.1" 200 2437 0.0088
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.50.35.55 - - [17/Feb/2014 11:41:40] "GET /xplat_get_instances_by_app?org=%22vsarch%22&space=%22finance%22&app=%22finance-ui%22 HTTP/1.1" 200 2437 5.0100
+10.50.35.55 - - [17/Feb/2014 11:41:47] "GET /xplat_get_instances_by_app?org=%22vsarch%22&space=%22finance%22&app=%22finance-ui%22 HTTP/1.1" 200 2437 0.0080
+10.50.35.55 - - [17/Feb/2014 11:43:00] "GET /xplat_get_instances_by_app?org=%22vsarch%22&space=%22finance%22&app=%22finance-ui%22 HTTP/1.1" 200 2437 0.0074
+10.50.35.55 - - [17/Feb/2014 11:43:32] "GET /xplat_get_instances_by_app?org=%22vsarch%22&space=%22finance%22&app=%22finance-ui%22 HTTP/1.1" 200 2437 0.0133
+10.50.35.55 - - [17/Feb/2014 11:43:38] "GET /xplat_get_instances_by_app?org=%22vsarch%22&space=%22finance%22&app=%22finance-ui%22 HTTP/1.1" 200 2437 0.0081
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.50.35.55 - - [17/Feb/2014 11:44:26] "GET /xplat_get_instances_by_app?org=%22vsarch%22&space=%22finance%22&app=%22finance-ui%22 HTTP/1.1" 200 2437 5.0101
+10.50.35.55 - - [17/Feb/2014 11:46:11] "GET /xplat_get_instances_by_app?org=%22vsarch%22&space=%22finance%22&app=%22finance-ui%22 HTTP/1.1" 200 2435 0.0082
+10.50.133.82 - - [17/Feb/2014 11:48:42] "GET /xplat_get_instances_by_org_space?org=jpaas&space=platform HTTP/1.1" 200 663 0.0065
+10.50.133.82 - - [17/Feb/2014 11:49:14] "GET /xplat_get_instances_by_org_space?org=jpaas&space=platform HTTP/1.1" 200 663 0.0069
+10.36.166.230 - - [17/Feb/2014 11:50:02] "GET /xplat_get_instances_by_org_space?org=vsarch&space=finance HTTP/1.1" 200 2435 0.0102
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.36.166.230 - - [17/Feb/2014 11:50:35] "GET /xplat_get_instances_by_org_space?org=vsarch&space=finance HTTP/1.1" 200 2435 5.0116
+10.36.166.230 - - [17/Feb/2014 11:53:03] "GET /xplat_get_instances_by_org_space?org=vsarch&space=finance HTTP/1.1" 200 2435 0.0079
+10.36.63.68 - - [17/Feb/2014 11:54:21] "GET /xplat_get_apps_by_space?org=%22video%22&space=%22wise%22 HTTP/1.1" 200 1218 0.0060
+10.36.63.68 - - [17/Feb/2014 11:54:21] "GET /xplat_get_instances_by_app?org=%22video%22&app=%22wise-channel%22&space=%22wise%22 HTTP/1.1" 200 689 0.0051
+172.17.236.97 - - [17/Feb/2014 11:54:28] "GET /get_raw_by_app_key?app_key=14ecd4c51d8c2949a3287fef217d2d3c&callback=jQuery203013179473439231515_1392609261746&_=1392609261747 HTTP/1.1" 200 271 0.0107
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.36.63.68 - - [17/Feb/2014 13:58:23] "GET /xplat_get_apps_by_space?org=%22columbus%22&space=%22cbas%22 HTTP/1.1" 200 128 5.0068
+10.36.63.68 - - [17/Feb/2014 13:58:23] "GET /xplat_get_instances_by_app?org=%22columbus%22&app=%22cbas%22&space=%22cbas%22 HTTP/1.1" 200 7683 0.0170
+10.57.128.36 - - [17/Feb/2014 13:59:18] "GET /xplat_get_instances_by_org_space?org=the-system_domain-org-name&space=test HTTP/1.1" 200 2 0.0332
+10.36.63.68 - - [17/Feb/2014 14:00:45] "GET /xplat_get_apps_by_space?org=%22holmes%22&space=%22js-web%22 HTTP/1.1" 200 59 0.0045
+10.36.63.68 - - [17/Feb/2014 14:00:45] "GET /xplat_get_instances_by_app?org=%22holmes%22&app=%22j%22&space=%22js-web%22 HTTP/1.1" 200 2801 0.0087
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.36.63.68 - - [17/Feb/2014 14:00:53] "GET /xplat_get_instances_by_app?org=%22holmes%22&app=%22j%22&space=%22js-web%22 HTTP/1.1" 200 2801 5.0112
+172.17.236.73 - - [17/Feb/2014 14:01:24] "GET /get_raw_by_app_key?app_key=3a20bdb33649100c49ca5ddab08be43a&callback=jQuery20307228253548376377_1392616825071&_=1392616825072 HTTP/1.1" 200 2610 0.0249
+172.17.236.73 - - [17/Feb/2014 14:03:07] "GET /get_log_monitor_by_raw_key?raw_key=c6565f8b438120d569922d3e0582a790&callback=jQuery20307228253548376377_1392616825071&_=1392616825073 HTTP/1.1" 200 810 0.0110
+172.17.236.73 - - [17/Feb/2014 14:03:32] "GET /get_log_monitor_by_raw_key?raw_key=64fdf782f8192693b9bef565f28711fe&callback=jQuery20307228253548376377_1392616825071&_=1392616825074 HTTP/1.1" 200 819 0.0105
+10.36.63.68 - - [17/Feb/2014 14:05:02] "GET /xplat_get_instances_by_app?org=%22holmes%22&app=%22j%22&space=%22js-web%22 HTTP/1.1" 200 2801 0.0102
+172.17.236.104 - - [17/Feb/2014 14:59:48] "GET /xplat_get_instances_by_org_space?org=%22jpaas%22&space=%22platform%22 HTTP/1.1" 200 663 0.0055
+172.17.236.104 - - [17/Feb/2014 15:00:13] "GET /xplat_get_spaces_by_org?org=%22jpaas%22 HTTP/1.1" 200 232 0.0118
+172.17.236.104 - - [17/Feb/2014 15:00:13] "GET /images/rack-logo.png HTTP/1.1" 200 26473 0.0065
+172.17.236.104 - - [17/Feb/2014 15:00:18] "GET /xplat_get_space_by_org?org=%22jpaas%22 HTTP/1.1" 200 21 0.0052
+172.17.236.104 - - [17/Feb/2014 15:00:46] "GET /xplat_get_instances_by_space_org?org=holmes&space=cloudu HTTP/1.1" 200 232 0.0009
+172.17.236.104 - - [17/Feb/2014 15:00:53] "GET /xplat_get_instances_by_org_space?org=holmes&space=cloudu HTTP/1.1" 200 2 0.0041
+172.17.236.104 - - [17/Feb/2014 15:01:02] "GET /xplat_get_instances_by_org_space?org=jpaas&space=cloudu HTTP/1.1" 200 2 0.0050
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+172.17.229.51 - - [17/Feb/2014 15:01:14] "GET /save_all?app_key='294ee92ef8f77decfff5271f29a3a2ce' HTTP/1.1" 200 419 9.5954
+172.17.229.51 - - [17/Feb/2014 15:01:14] "GET /favicon.ico HTTP/1.1" 304 - 0.0010
+[2014-02-17 15:01:14] WARN  Could not determine content-length of response body. Set content-length of the response or set Response#chunked = true
+172.17.229.51 - - [17/Feb/2014 15:01:19] "GET /save_all?app_key='294ee92ef8f77decfff5271f29a3a2ce' HTTP/1.1" 200 419 2.0256
+172.17.229.51 - - [17/Feb/2014 15:01:33] "GET /save_all?app_key='294ee92ef8f77decfff5271f29a3a2ce' HTTP/1.1" 200 24 2.8223
+172.17.236.104 - - [17/Feb/2014 15:13:29] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 1995 0.0091
+10.50.35.55 - - [17/Feb/2014 15:14:03] "GET /xplat_get_instances_by_org_space?org=szop HTTP/1.1" 200 2 0.0058
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.50.35.55 - - [17/Feb/2014 15:14:26] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 1995 5.0468
+10.50.35.55 - - [17/Feb/2014 15:15:06] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 1995 0.0090
+10.50.35.55 - - [17/Feb/2014 15:15:12] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 1995 0.0086
+10.50.35.55 - - [17/Feb/2014 15:15:49] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 1995 0.0074
+10.50.35.55 - - [17/Feb/2014 15:16:07] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 2649 0.0099
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.50.35.55 - - [17/Feb/2014 15:16:14] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 2649 5.0100
+10.50.35.55 - - [17/Feb/2014 15:17:07] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 2649 0.0086
+10.50.35.55 - - [17/Feb/2014 15:17:11] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 2649 0.0099
+10.50.35.55 - - [17/Feb/2014 15:21:55] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 2649 0.0092
+10.50.35.55 - - [17/Feb/2014 15:22:09] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 2649 0.0096
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.50.35.55 - - [17/Feb/2014 15:23:08] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 2649 5.0118
+10.50.35.55 - - [17/Feb/2014 15:23:26] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 2649 0.0092
+10.50.35.55 - - [17/Feb/2014 15:24:03] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 2649 0.0097
+10.50.35.55 - - [17/Feb/2014 15:30:27] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 2649 0.0091
+10.50.35.55 - - [17/Feb/2014 15:30:37] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 2649 0.0092
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.50.35.55 - - [17/Feb/2014 15:32:27] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 2649 5.0118
+10.50.35.55 - - [17/Feb/2014 15:33:28] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 2649 0.0098
+10.50.35.55 - - [17/Feb/2014 15:33:31] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 2649 0.0090
+10.50.35.55 - - [17/Feb/2014 15:34:11] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 2649 0.0099
+10.50.35.55 - - [17/Feb/2014 15:34:47] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 2649 0.0099
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.50.35.55 - - [17/Feb/2014 15:35:37] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 2649 5.0286
+10.50.35.55 - - [17/Feb/2014 15:36:30] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 2649 0.0092
+10.50.35.55 - - [17/Feb/2014 15:36:33] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 2649 0.0083
+10.50.35.55 - - [17/Feb/2014 15:38:55] "GET /xplat_get_instances_by_org_space?org=szop&space=servicedesk HTTP/1.1" 200 2649 0.0092
+10.50.35.55 - - [17/Feb/2014 15:41:03] "GET /xplat_get_instances_by_org)space?org=%22szop%22&space=%22servicedesk HTTP/1.1" 200 232 0.0011
+10.50.35.55 - - [17/Feb/2014 15:41:12] "GET /xplat_get_instances_by_org)space?org=%22szop%22&space=%22servicedesk HTTP/1.1" 200 232 0.0009
+10.50.35.55 - - [17/Feb/2014 15:42:15] "GET /xplat_get_instances_by_org)space?org=%22szop%22&space=%22servicedesk HTTP/1.1" 200 232 0.0008
+10.50.35.55 - - [17/Feb/2014 15:42:52] "GET /xplat_get_instances_by_org_space?org=%22szop%22&space=%22servicedesk HTTP/1.1" 200 2649 0.0091
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.50.35.55 - - [17/Feb/2014 15:43:21] "GET /xplat_get_instances_by_org_space?org=%22szop%22&space=%22servicedesk HTTP/1.1" 200 2649 5.0112
+10.50.35.55 - - [17/Feb/2014 15:43:31] "GET /xplat_get_instances_by_org_space?org=%22szop%22&space=%22servicedesk HTTP/1.1" 200 2649 0.0091
+10.50.35.55 - - [17/Feb/2014 15:44:22] "GET /xplat_get_instances_by_org_space?org=%22holmes%22&space=%22js-web HTTP/1.1" 200 2801 0.0098
+10.50.35.55 - - [17/Feb/2014 15:44:33] "GET /xplat_get_instances_by_org_space?org=%22holmes%22&space=%22js-web HTTP/1.1" 200 2801 0.0082
+10.50.35.55 - - [17/Feb/2014 15:44:39] "GET /xplat_get_instances_by_org_space?org=%22holmes%22&space=%22js-web HTTP/1.1" 200 2801 0.0082
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.58.44.56 - - [17/Feb/2014 16:32:34] "GET /xplat_get_instances_by_org_space?org=shifen&space=redis HTTP/1.1" 200 2 5.0069
+10.58.44.56 - - [17/Feb/2014 16:34:30] "GET /xplat_get_instances_by_org_space?org=shifen&space=redis HTTP/1.1" 200 2 0.0052
+10.58.44.56 - - [17/Feb/2014 17:10:16] "GET /xplat_get_instances_by_org_space?org=shifen&space=redis HTTP/1.1" 200 2 0.0051
+10.58.44.56 - - [17/Feb/2014 17:44:09] "GET /xplat_get_instances_by_org_space?org=shifen&space=redis HTTP/1.1" 200 2 0.0053
+10.57.128.36 - - [17/Feb/2014 17:52:32] "GET /xplat_get_instances_by_org_space?org=the-system_domain-org-name&space=test HTTP/1.1" 200 2 0.0053
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.57.128.36 - - [17/Feb/2014 18:40:51] "GET /xplat_get_instances_by_org_space?org=the-system_domain-org-name&space=test HTTP/1.1" 200 2 5.0074
+10.58.44.56 - - [18/Feb/2014 00:01:56] "GET /xplat_get_instances_by_org_space?org=shifen&space=redis HTTP/1.1" 200 2 0.0046
+10.36.63.68 - - [18/Feb/2014 10:53:41] "GET /xplat_get_apps_by_space?org=%22columbus%22&space=%22cbas%22 HTTP/1.1" 200 128 0.0051
+10.36.63.68 - - [18/Feb/2014 10:53:41] "GET /xplat_get_instances_by_app?org=%22columbus%22&app=%22cbas%22&space=%22cbas%22 HTTP/1.1" 200 7683 0.0147
+10.36.63.68 - - [18/Feb/2014 10:54:54] "GET /xplat_get_apps_by_space?org=%22columbus%22&space=%22cbbs%22 HTTP/1.1" 200 62 0.0050
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+DEPRECATION WARNING: Database connections will not be closed automatically, please close your
+database connection at the end of the thread by calling `close` on your
+connection.  For example: ActiveRecord::Base.connection.close
+. (called from mon_synchronize at /home/work/dashboard/jpaas_monitor_api/env/ruby193/lib/ruby/1.9.1/monitor.rb:211)
+10.36.63.68 - - [18/Feb/2014 10:54:59] "GET /xplat_get_instances_by_app?org=%22columbus%22&app=%22cbbs%22&space=%22cbbs%22 HTTP/1.1" 200 15458 5.0279
