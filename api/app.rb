@@ -1,20 +1,22 @@
 $:.unshift(File.expand_path("../lib/", File.dirname(__FILE__)))
 require "config"
 require "database"
+require "rack/contrib"
 
 module Acme
   class App < Grape::API
-    format :txt
+    use Rack::JSONP
+    format :json
     helpers do
       def remove_version(all)
-          if all=~ /([^_]*)_(.*)/
-               return /([^_]*)_(.*)/.match(all)[1]
-          else
-               return all
-          end
+          all.split("_")[0]
       end
     end
     desc "get app list by space"
+    params do
+        requires :space, type: String, desc: "space name"
+        requires :org, type: String, desc: "org name"
+    end
     get '/xplat_get_apps_by_space' do
 	    space=params[:space].to_s.gsub("\"",'').gsub("'",'')
 	    org=params[:org].to_s.gsub("\"",'').gsub("'",'')
@@ -25,9 +27,14 @@ module Acme
             app_info['app_key']=app.app_key
             apps.push(app_info)
         end
-        apps.to_json
+        apps
     end
     desc "get instance list by app name"
+    params do
+        requires :space, type: String, desc: "space name"
+        requires :org, type: String, desc: "org name"
+        requires :app, type: String, desc: "app name without version"
+    end
     get '/xplat_get_instances_by_app' do
 	    space=params[:space].to_s.gsub("\"",'').gsub("'",'')
 	    org=params[:org].to_s.gsub("\"",'').gsub("'",'')
@@ -42,9 +49,13 @@ module Acme
                 instance_hash["port_info"]=port_info_json
                 instances.push(instance_hash)
         end
-        instances.to_json
+        instances
     end
     desc "get instance list by org and space"
+    params do
+        requires :space, type: String, desc: "space name"
+        requires :org, type: String, desc: "org name"
+    end
     get '/xplat_get_instances_by_org_space' do
 	    space=params[:space].to_s.gsub("\"",'').gsub("'",'')
 	    org=params[:org].to_s.gsub("\"",'').gsub("'",'')
@@ -58,7 +69,7 @@ module Acme
                 instance_hash["port_info"]=port_info_json
                 instances.push(instance_hash)
         end
-        instances.to_json
+        instances
     end
   end
 end

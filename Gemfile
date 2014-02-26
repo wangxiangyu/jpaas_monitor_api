@@ -9,3 +9,4 @@ gem "mysql"
 gem "httparty"
 gem "savon"
 gem "activerecord", '~>3.2.13'
+gem "rack-contrib"

@@ -65,6 +65,8 @@ GEM
     rack (1.4.5)
     rack-accept (0.4.5)
       rack (>= 0.4)
+    rack-contrib (1.1.0)
+      rack (>= 0.9.1)
     rack-mount (0.8.3)
       rack (>= 1.0.0)
     rubyntlm (0.3.4)
@@ -98,4 +100,5 @@ DEPENDENCIES
   newrelic-grape (~> 1.1.0)
   newrelic_rpm (~> 3.5.4.34)
   rack (~> 1.4.1)
+  rack-contrib
   savon
