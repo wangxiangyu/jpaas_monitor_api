@@ -17,14 +17,73 @@ module Acme
         def format(s)
             s.to_s.gsub(/^"/,"").gsub(/"$/,"").gsub(/^'/,"").gsub(/'$/,"")
         end
+        def get_raws(app_key)
+            raws=[]
+            unless LogMonitorRaw.where(:app_key=>app_key).empty?
+                LogMonitorRaw.where(:app_key=>app_key).find_each do |raw|
+                    raw_hash=raw.serializable_hash
+                    raw_hash.delete('id')
+                    raw_hash.delete('cycle')
+                    raw_hash.delete('method')
+                    raw_hash.delete('target')
+                    raw_hash.delete('params')
+                    raw_hash.delete('limit_rate')
+                    raw_hash.delete('updated_at')
+                    raw_hash.delete('created_at')
+                    raws.push(raw_hash)
+                end
+            end
+            raws
+        end
+        def get_items(raw_key)
+            items=[]
+            unless LogMonitorItem.where(:raw_key=>raw_key).empty?
+                LogMonitorItem.where(:raw_key=>raw_key).find_each do |item|
+                    item_hash=item.serializable_hash
+                    item_hash.delete('id')
+                    item_hash.delete('threshold')
+                    item_hash.delete('created_at')
+                    item_hash.delete('updated_at')
+                    items.push(item_hash)
+                end
+            end
+            items
+        end
+        def get_rules(item_key)
+            rules=[]
+            unless LogMonitorRule.where(:item_key=>item_key).empty?
+                LogMonitorRule.where(:item_key=>item_key).find_each do |rule|
+                    rule_hash=rule.serializable_hash
+                    rule_hash.delete('id')
+                    rule_hash.delete('created_at')
+                    rule_hash.delete('updated_at')
+                    rule_hash.delete('alert')
+                    rules.push(rule_hash)
+                end
+            end
+            rules
+        end
+        def get_alerts(raw_key)
+            alert_info={}
+            unless LogMonitorAlert.where(:raw_key=>raw_key).empty?
+                alert_info=LogMonitorAlert.where(:raw_key=>raw_key).first.serializable_hash
+                alert_info.delete('id')
+                alert_info.delete('raw_key')
+                alert_info.delete('name')
+                alert_info.delete('created_at')
+                alert_info.delete('updated_at')
+            end
+            alert_info
+        end
     end
-    desc "add log monitor raw"
-    params do
-        requires :app_key, type: String, desc: "app key"
-        requires :name, type: String, desc: "log name"
-        requires :log_filepath, type: String, desc: "log path"
-    end
-    get '/add_log_monitor_raw' do
+    namespace :log_monitor do
+        desc "add log monitor raw"
+        params do
+            requires :app_key, type: String, desc: "app key"
+            requires :name, type: String, desc: "log name"
+            requires :log_filepath, type: String, desc: "log path"
+        end
+        get '/add_raw' do
             raw={}
 	        raw['app_key']=format(params['app_key'])
             if AppBns.where(:app_key=>raw['app_key']).empty?
@@ -46,35 +105,35 @@ module Acme
                     MyConfig.logger.warn("You have added the same log raw")
                     return {:rescode=>-1,:msg=>"Error: You have added the same log raw"}
             end
-    end
+        end
     
-    desc "del log monitor raw"
-    params do
-        requires :raw_key, type: String, desc: "raw key"
-    end
-    get '/del_log_monitor_raw' do
-        raw_key=format(params['raw_key'])
-        if LogMonitorRaw.where(:raw_key=>raw_key).empty?
-            return {:rescode=>-1,:msg=>"Error: raw:#{raw_key} doesn't exist"}
-        else
-            if LogMonitorItem.where(:raw_key=>raw_key).empty? 
-                LogMonitorRaw.where(:raw_key=>raw_key).destroy_all   
-                LogMonitorAlert.where(:raw_key=>raw_key).destroy_all   
-                return {:rescode=>0,:msg=>"ok"}
+        desc "del log monitor raw"
+        params do
+            requires :raw_key, type: String, desc: "raw key"
+        end
+        get '/del_raw' do
+            raw_key=format(params['raw_key'])
+            if LogMonitorRaw.where(:raw_key=>raw_key).empty?
+                return {:rescode=>-1,:msg=>"Error: raw:#{raw_key} doesn't exist"}
             else
-                return {:rescode=>-1,:msg=>"Error: please delete items related to this raw first"}
+                if LogMonitorItem.where(:raw_key=>raw_key).empty? 
+                    LogMonitorRaw.where(:raw_key=>raw_key).destroy_all   
+                    LogMonitorAlert.where(:raw_key=>raw_key).destroy_all   
+                    return {:rescode=>0,:msg=>"ok"}
+                else
+                    return {:rescode=>-1,:msg=>"Error: please delete items related to this raw first"}
+                end
             end
         end
-    end
 
-    desc "add log monitor item"
-    params do
-        requires :raw_key, type: String, desc: "raw key"
-        requires :item_name_prefix, type: String, desc: "item name"
-        requires :cycle, type: String, desc: "monitor cycle"
-        requires :match_str, type: String, desc: "match string in regex mode"
-    end
-    get '/add_log_monitor_item' do
+        desc "add log monitor item"
+        params do
+            requires :raw_key, type: String, desc: "raw key"
+            requires :item_name_prefix, type: String, desc: "item name"
+            requires :cycle, type: String, desc: "monitor cycle"
+            requires :match_str, type: String, desc: "match string in regex mode"
+        end
+        get '/add_item' do
             item={}
 	        item['raw_key']=format(params['raw_key'])
             if LogMonitorRaw.where(:raw_key=>item['raw_key']).empty?
@@ -91,37 +150,37 @@ module Acme
                     MyConfig.logger.warn("You have added the same log item")
                     return {:rescode=>-1,:msg=>"Error: You have added the same log item"}
             end
-    end
+        end
 
     
-    desc "del log monitor item"
-    params do
-        requires :item_key, type: String, desc: "item key"
-    end
-    get '/del_log_monitor_item' do
-        item_key=format(params['item_key'])
-        if LogMonitorItem.where(:item_key=>item_key).empty?
-            return {:rescode=>-1,:msg=>"Error: item:#{item_key} doesn't exist"}
-        else
-            if LogMonitorRule.where(:item_key=>item_key).empty? 
-                LogMonitorItem.where(:item_key=>item_key).destroy_all   
-                return {:rescode=>0,:msg=>"ok"}
+        desc "del log monitor item"
+        params do
+            requires :item_key, type: String, desc: "item key"
+        end
+        get '/del_item' do
+            item_key=format(params['item_key'])
+            if LogMonitorItem.where(:item_key=>item_key).empty?
+                return {:rescode=>-1,:msg=>"Error: item:#{item_key} doesn't exist"}
             else
-                return {:rescode=>-1,:msg=>"Error: please delete rules related to this item first"}
+                if LogMonitorRule.where(:item_key=>item_key).empty? 
+                    LogMonitorItem.where(:item_key=>item_key).destroy_all   
+                    return {:rescode=>0,:msg=>"ok"}
+                else
+                    return {:rescode=>-1,:msg=>"Error: please delete rules related to this item first"}
+                end
             end
         end
-    end
 
-    desc "add log_monitor rule"
-    params do
-        requires :item_key, type: String, desc: "item key"
-        requires :name, type: String, desc: "rule name"
-        requires :compare, type: String, desc: "compare conditions: eg < <= !=...."
-        requires :threshold, type: String, desc: "threshold"
-        requires :filter, type: String, desc: "setting for alarm strategy"
-        requires :disable_time, type: String, desc: "disable time in one day"
-    end
-    get '/add_log_monitor_rule' do
+        desc "add log_monitor rule"
+        params do
+            requires :item_key, type: String, desc: "item key"
+            requires :name, type: String, desc: "rule name"
+            requires :compare, type: String, desc: "compare conditions: eg < <= !=...."
+            requires :threshold, type: String, desc: "threshold"
+            requires :filter, type: String, desc: "setting for alarm strategy"
+            requires :disable_time, type: String, desc: "disable time in one day"
+        end
+        get '/add_rule' do
             rule={}
 	        rule['item_key']=format(params['item_key'])
             if LogMonitorItem.where(:item_key=>rule['item_key']).empty?
@@ -141,32 +200,31 @@ module Acme
                     MyConfig.logger.warn("You have added the same log rule ")
                     return {:rescode=>-1,:msg=>"Error: You have added the same log rule"}
             end
-    end
-
-
-    desc "del log monitor rule"
-    params do
-        requires :rule_key, type: String, desc: "rule key"
-    end
-    get '/del_log_monitor_rule' do
-        rule_key=format(params['rule_key'])
-        if LogMonitorRule.where(:rule_key=>rule_key).empty?
-            return {:rescode=>-1,:msg=>"Error: rule:#{rule_key} doesn't exist"}
-        else
-            LogMonitorRule.where(:rule_key=>rule_key).destroy_all   
-            return {:rescode=>0,:msg=>"ok"}
         end
-    end
 
-    desc "add log monitor alert"
-    params do
-        requires :raw_key, type: String, desc: "raw key"
-        requires :max_alert_times, type: String, desc: "max alert times"
-        requires :remind_interval_second, type: String, desc: " remind interval in seconds"
-        requires :mail, type: String, desc: "mails of alarm receivers"
-        requires :sms, type: String, desc: "phones of alarm receivers"
-    end
-    get '/add_log_monitor_alert' do
+        desc "del log monitor rule"
+        params do
+            requires :rule_key, type: String, desc: "rule key"
+        end
+        get '/del_rule' do
+            rule_key=format(params['rule_key'])
+            if LogMonitorRule.where(:rule_key=>rule_key).empty?
+                return {:rescode=>-1,:msg=>"Error: rule:#{rule_key} doesn't exist"}
+            else
+                LogMonitorRule.where(:rule_key=>rule_key).destroy_all   
+                return {:rescode=>0,:msg=>"ok"}
+            end
+        end
+
+        desc "add log monitor alert"
+        params do
+            requires :raw_key, type: String, desc: "raw key"
+            requires :max_alert_times, type: String, desc: "max alert times"
+            requires :remind_interval_second, type: String, desc: " remind interval in seconds"
+            requires :mail, type: String, desc: "mails of alarm receivers"
+            requires :sms, type: String, desc: "phones of alarm receivers"
+        end
+        get '/add_alert' do
             alert={}
 	        alert['raw_key']=format(params['raw_key'])
             if LogMonitorRaw.where(:raw_key=>alert['raw_key']).empty?
@@ -184,161 +242,98 @@ module Acme
                     MyConfig.logger.warn("You have added the alarm")
                     return {:rescode=>-1,:msg=>"Error: You have added the alarm"}
             end
-    end
-
-    desc "del log monitor alert"
-    params do
-        requires :raw_key, type: String, desc: "raw key"
-    end
-    get '/del_log_monitor_alert' do
-        raw_key=format(params['raw_key'])
-        if LogMonitorAlert.where(:raw_key=>raw_key).empty?
-            return {:rescode=>-1,:msg=>"Error: alert related to raw:#{raw_key} doesn't exist"}
-        else
-            LogMonitorAlert.where(:raw_key=>raw_key).destroy_all
-            return {:rescode=>0,:msg=>"ok"}
         end
-    end
-
-
-    desc "get raw by app key"
-    params do
-        requires :app_key, type: String, desc: "app key"
-    end
-    get '/get_raw_by_app_key'  do 
-        app_key=format(params['app_key'])
-        if AppBns.where(:app_key=>app_key).empty?
-            return {:rescode=>-1,:msg=>"app_key: #{app_key} doesn't exist"}
-        else
-            raws=[]
-            LogMonitorRaw.where(:app_key=>app_key).find_each do |raw|
-                raw_hash=raw.serializable_hash
-                raw_hash.delete('id')
-                raw_hash.delete('cycle')
-                raw_hash.delete('method')
-                raw_hash.delete('target')
-                raw_hash.delete('params')
-                raw_hash.delete('limit_rate')
-                raw_hash.delete('updated_at')
-                raw_hash.delete('created_at')
-                unless LogMonitorAlert.where(:raw_key=>raw_hash['raw_key']).empty?
-                    alert_info=LogMonitorAlert.where(:raw_key=>raw_hash['raw_key']).first.serializable_hash
-                    alert_info.delete('id')
-                    alert_info.delete('raw_key')
-                    alert_info.delete('name')
-                    alert_info.delete('created_at')
-                    alert_info.delete('updated_at')
-                    raw_hash.merge!(alert_info)
+        
+        desc "del log monitor alert"
+        params do
+            requires :raw_key, type: String, desc: "raw key"
+        end
+        get '/del_alert' do
+            raw_key=format(params['raw_key'])
+            if LogMonitorAlert.where(:raw_key=>raw_key).empty?
+                return {:rescode=>-1,:msg=>"Error: alert related to raw:#{raw_key} doesn't exist"}
+            else
+                LogMonitorAlert.where(:raw_key=>raw_key).destroy_all
+                return {:rescode=>0,:msg=>"ok"}
+            end
+        end
+        
+        
+        desc "get raw by app key"
+        params do
+            requires :app_key, type: String, desc: "app key"
+        end
+        get '/get_raw_by_app_key'  do 
+            app_key=format(params['app_key'])
+            if AppBns.where(:app_key=>app_key).empty?
+                return {:rescode=>-1,:msg=>"app_key: #{app_key} doesn't exist"}
+            else
+                raws=get_raws(app_key)
+                return {:rescode=>0,:raws=>raws}
+            end
+        end
+        
+        desc "get alert by raw key"
+        params do
+            requires :raw_key, type: String, desc: "raw key"
+        end
+        get '/get_alert_by_raw_key' do
+            raw_key=format(params['raw_key'])
+            unless LogMonitorAlert.where(:raw_key=>raw_key).empty?
+                alert_info=get_alerts(raw_key)
+                return {:rescode=>0,:alert=>alert_info}
+            else
+                return {:rescode=>-1,:msg=>"alert related to raw_key #{raw_key} doesn't exist"}
+            end
+        end
+        
+        desc "get item by raw key"
+        params do
+            requires :raw_key, type: String, desc: "raw key"
+        end
+        get '/get_item_by_raw_key' do
+            raw_key=format(params['raw_key'])
+            unless LogMonitorItem.where(:raw_key=>raw_key).empty?
+                return {:rescode=>-1,:msg=>"items related to raw_key #{raw_key} doesn't exist"}
+            else
+                items=get_items(raw_key)
+                return {:rescode=>0,:items=>items}
+            end
+        end
+        
+        desc "get_rules_by_item_key"
+        params do
+            requires :item_key, type: String, desc: "item key"
+        end
+        get '/get_rules_by_item_key' do
+            item_key=format(params['item_key'])
+            unless LogMonitorRule.where(:item_key=>item_key).empty?
+                return {:rescode=>-1,:msg=>"rules related to item_key #{item_key} doesn't exist"}
+            else
+                rules=get_rules(item_key)
+                return {:rescode=>0,:rules=>rules}
+            end
+        end
+        
+        desc "get_log_monitor_by_app_key"
+        params do
+            requires :app_key, type: String, desc: "app key"
+        end
+        get '/get_log_monitor_by_app_key' do
+            app_key=format(params['app_key'])
+            if AppBns.where(:app_key=>app_key).empty?
+                return {:rescode=>-1,:msg=>"app_key: #{app_key} doesn't exist"}
+            else
+                raws=get_raws(app_key)
+                raws.each do |raw|
+                    raw['items']=get_items(raw['raw_key'])
+                    raw['items'].each do |item|
+                        item['rules']=get_rules(item['item_key'])
+                    end
+                    raw['alert']=get_alerts(raw['raw_key'])
                 end
-                raws.push(raw_hash)
+                return {:rescode=>0,:raw=>raws}
             end
-            return {:rescode=>0,:raws=>raws}
-        end
-    end
-
-    desc "get alert by raw key"
-    params do
-        requires :raw_key, type: String, desc: "raw key"
-    end
-    get '/get_alert_by_raw_key' do
-        raw_key=format(params['raw_key'])
-        unless LogMonitorAlert.where(:raw_key=>raw_key).empty?
-            alert_info=LogMonitorAlert.where(:raw_key=>raw_key).first.serializable_hash
-            alert_info.delete('id')
-            alert_info.delete('raw_key')
-            alert_info.delete('name')
-            alert_info.delete('created_at')
-            alert_info.delete('updated_at')
-            return {:rescode=>0,:alert=>alert_info}
-        else
-            return {:rescode=>-1,:msg=>"alert related to raw_key #{raw_key} doesn't exist"}
-        end
-    end
-
-    desc "get item by raw key"
-    params do
-        requires :raw_key, type: String, desc: "raw key"
-    end
-    get '/get_item_by_raw_key' do
-        raw_key=format(params['raw_key'])
-        items=[]
-        LogMonitorItem.where(:raw_key=>raw_key).find_each do |item|
-            item_hash=item.serializable_hash
-            item_hash.delete('id')
-            item_hash.delete('threshold')
-            item_hash.delete('created_at')
-            item_hash.delete('updated_at')
-            items.push(item_hash)
-        end
-        return {:rescode=>0,:items=>items}
-    end
-
-    desc "get_rules_by_item_key"
-    params do
-        requires :item_key, type: String, desc: "item key"
-    end
-    get '/get_rules_by_item_key' do
-        item_key=format(params['item_key'])
-        rules=[]
-        LogMonitorRule.where(:item_key=>item_key).find_each do |rule|       
-            rule_hash=rule.serializable_hash
-            rule_hash.delete('id')
-            rule_hash.delete('created_at')
-            rule_hash.delete('updated_at')
-            rule_hash.delete('alert')
-            rules.push(rule_hash)
-        end
-        return {:rescode=>0,:rules=>rules}
-    end
-
-    desc "get_log_monitor_by_raw_key"
-    params do
-        requires :raw_key, type: String, desc: "raw key"
-    end
-    get '/get_log_monitor_by_raw_key' do
-        raw_key=format(params['raw_key'])
-        if LogMonitorRaw.where(:raw_key=>raw_key).empty?
-            return {:rescode=>-1,:msg=>"raw_key: #{raw_key} doesn't exist"}
-        else
-            raw_hash=LogMonitorRaw.where(:raw_key=>raw_key).first.serializable_hash
-            raw_hash.delete('id')
-            raw_hash.delete('cycle')
-            raw_hash.delete('method')
-            raw_hash.delete('target')
-            raw_hash.delete('params')
-            raw_hash.delete('limit_rate')
-            raw_hash.delete('updated_at')
-            raw_hash.delete('created_at')
-            raw_hash['items']=[]
-            raw_hash['alert']={}
-            LogMonitorAlert.where(:raw_key=>raw_key).find_each do |alert|
-                alert_info=alert.serializable_hash
-                alert_info.delete('id')
-                alert_info.delete('raw_key')
-                alert_info.delete('name')
-                alert_info.delete('created_at')
-                alert_info.delete('updated_at')
-                raw_hash['alert']=alert_info
-            end
-            LogMonitorItem.where(:raw_key=>raw_key).find_each do |item|
-                item_hash=item.serializable_hash
-                item_hash.delete('id')
-                item_hash.delete('threshold')
-                item_hash.delete('created_at')
-                item_hash.delete('updated_at')
-                item_hash.delete('filter_str')
-                item_hash['rules']=[]
-                LogMonitorRule.where(:item_key=>item.item_key).find_each do |rule|
-                    rule_hash=rule.serializable_hash
-                    rule_hash.delete('id')
-                    rule_hash.delete('created_at')
-                    rule_hash.delete('updated_at')
-                    rule_hash.delete('alert')
-                    item_hash['rules'].push(rule_hash)
-                end
-               raw_hash['items'].push(item_hash)
-            end
-            return {:rescode=>0,:raw=>raw_hash}
         end
     end
   end
