@@ -7,11 +7,6 @@ module Acme
   class App < Grape::API
     use Rack::JSONP
     format :json
-    helpers do
-      def remove_version(all)
-          all.split("_")[0]
-      end
-    end
     after do
          ActiveRecord::Base.clear_active_connections!
     end

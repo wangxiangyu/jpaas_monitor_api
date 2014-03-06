@@ -5,6 +5,7 @@ require "database"
 $:.unshift(File.expand_path("../lib/noah3.0", File.dirname(__FILE__)))
 require "noah3.0"
 require "rack/contrib"
+require "securerandom"
 
 module Acme
   class LogMonitor < Grape::API
@@ -16,6 +17,9 @@ module Acme
         end
         def format(s)
             s.to_s.gsub(/^"/,"").gsub(/"$/,"").gsub(/^'/,"").gsub(/'$/,"")
+        end
+        def get_random_hash
+            SecureRandom.hex 16
         end
         def get_raws(app_key)
             raws=[]
@@ -97,15 +101,14 @@ module Acme
 	        raw['method']='noah'
 	        raw['target']='logmon'
 	        raw['log_filepath']=format(params['log_filepath'])
-	        raw['raw_key']=Digest::MD5.hexdigest("#{raw['app_key']}#{raw['name']}log_monitor")
+	        raw['raw_key']=get_random_hash
 	        raw['limit_rate']='10'
             log_name="#{raw['app_key']}_#{raw['name']}.conf"
             raw['params']="${ATTACHMENT_DIR}/#{log_name}"
-            if LogMonitorRaw.where(:raw_key=>raw['raw_key']).empty?
+            if LogMonitorRaw.where(:app_key=> raw['app_key'],:name=>raw['name']).empty?
                     LogMonitorRaw.create(raw)
                     return {:rescode=>0,:raw_key=>raw['raw_key']}
             else
-                    MyConfig.logger.warn("You have added the same log raw")
                     return {:rescode=>-1,:msg=>"Error: You have added the same log raw"}
             end
         end
@@ -145,8 +148,8 @@ module Acme
 	        item['item_name_prefix']=format(params['name'])
 	        item['cycle']=format(params['cycle'])
 	        item['match_str']=format(params['match_str'])
-	        item['item_key']=Digest::MD5.hexdigest("#{item['raw_key']}#{item['item_name_prefix']}")
-            if LogMonitorItem.where(:item_key=>item['item_key']).empty?
+	        item['item_key']=get_random_hash
+            if LogMonitorItem.where(:raw_key=>item['raw_key'],:item_name_prefix=>item['item_name_prefix']).empty?
                     LogMonitorItem.create(item)
                     return {:rescode=>0,:item_key=>item['item_key']}
             else
@@ -195,8 +198,8 @@ module Acme
 	        rule['filter']=format(params['filter'])
 	        rule['alert']="alert_"+get_raw_key_by_rule_key(rule['item_key'])
 	        rule['disable_time']=format(params['disable_time'])
-	        rule['rule_key']=Digest::MD5.hexdigest("#{rule['item_key']}#{rule['name']}")
-            if LogMonitorRule.where(:rule_key=>rule['rule_key']).empty?
+	        rule['rule_key']=get_random_hash
+            if LogMonitorRule.where(:item_key=>rule['item_key'],:name=>rule['name']).empty?
                     LogMonitorRule.create(rule)
                     return {:rescode=>0,:rule_key=>rule['rule_key']}
             else

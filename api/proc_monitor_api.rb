@@ -5,6 +5,7 @@ require "database"
 $:.unshift(File.expand_path("../lib/noah3.0", File.dirname(__FILE__)))
 require "noah3.0"
 require "rack/contrib"
+require "securerandom"
 
 module Acme
   class ProcMonitor < Grape::API
@@ -14,12 +15,8 @@ module Acme
         def format(s)
             s.to_s.gsub(/^"/,"").gsub(/"$/,"").gsub(/^'/,"").gsub(/'$/,"")
         end
-        def check_cycle?(cycle)
-            cycles=['10','60','600','3600','21600','86400']
-            cycles.include?(cycle.to_s)
-        end
-        def check_name?(name)
-            name.to_s=~/^[_a-zA-Z0-9]+$/
+        def get_random_hash
+            SecureRandom.hex 16
         end
         def get_raws(app_key)
             raws=[]
@@ -86,8 +83,8 @@ module Acme
 	        raw['method']='noah'
 	        raw['target']='procmon'
 	        raw['params']=format(params['params'])
-	        raw['raw_key']=Digest::MD5.hexdigest("#{raw['app_key']}#{raw['name']}proc_monitor")
-            if ProcMonitorRaw.where(:raw_key=>raw['raw_key']).empty?
+	        raw['raw_key']=get_random_hash
+            if ProcMonitorRaw.where(:app_key=>raw['app_key'],:name=>raw['name']).empty?
                     ProcMonitorRaw.create(raw)
                     return {:rescode=>0,:raw_key=>raw['raw_key']}
             else
@@ -138,8 +135,8 @@ module Acme
 	            rule['filter']=format(params['filter'])
 	            rule['alert']="alert_"+raw_key
 	            rule['disable_time']=format(params['disable_time'])
-	            rule['rule_key']=Digest::MD5.hexdigest("#{rule['raw_key']}#{rule['name']}#{rule['monitor_item']}")
-                if ProcMonitorRule.where(:rule_key=>rule['rule_key']).empty?
+	            rule['rule_key']=get_random_hash
+                if ProcMonitorRule.where(:rule_key=>rule['rule_key'],:name=>rule['name'],:monitor_item=>rule['monitor_item']).empty?
                     ProcMonitorRule.create(rule)
                     return {:rescode=>0,:rule_key=>rule['rule_key']}
                 else

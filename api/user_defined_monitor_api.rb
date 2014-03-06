@@ -5,12 +5,16 @@ require "database"
 $:.unshift(File.expand_path("../lib/noah3.0", File.dirname(__FILE__)))
 require "noah3.0"
 require "rack/contrib"
+require "securerandom"
 
 module Acme
   class UserDefinedMonitor < Grape::API
     use Rack::JSONP
     format :json
     helpers do
+        def get_random_hash
+            SecureRandom.hex 16
+        end
         def format(s)
             s.to_s.gsub(/^"/,"").gsub(/"$/,"").gsub(/^'/,"").gsub(/'$/,"")
         end
@@ -79,8 +83,8 @@ module Acme
 	        raw['cycle']=format(params['cycle'])
 	        raw['method']='exec'
 	        raw['target']=format(params['target'])
-	        raw['raw_key']=Digest::MD5.hexdigest("#{raw['app_key']}#{raw['name']}user_defined_monitor")
-            if UserDefinedMonitorRaw.where(:raw_key=>raw['raw_key']).empty?
+	        raw['raw_key']=get_random_hash
+            if UserDefinedMonitorRaw.where(:app_key=>raw['app_key'],:name=>raw['name']).empty?
                     UserDefinedMonitorRaw.create(raw)
                     return {:rescode=>0,:raw_key=>raw['raw_key']}
             else
@@ -132,8 +136,8 @@ module Acme
 	            rule['filter']=format(params['filter'])
 	            rule['alert']="alert_"+raw_key
 	            rule['disable_time']=format(params['disable_time'])
-	            rule['rule_key']=Digest::MD5.hexdigest("#{rule['raw_key']}#{rule['name']}#{rule['monitor_item']}")
-                if UserDefinedMonitorRule.where(:rule_key=>rule['rule_key']).empty?
+	            rule['rule_key']=get_random_hash
+                if UserDefinedMonitorRule.where(:rule_key=>rule['rule_key'],:name=>rule['name'],:monitor_item=>rule['monitor_item']).empty?
                         UserDefinedMonitorRule.create(rule)
                         return {:rescode=>0,:rule_key=>rule['rule_key']}
                 else

@@ -70,6 +70,7 @@ GEM
     rack-mount (0.8.3)
       rack (>= 1.0.0)
     rubyntlm (0.3.4)
+    rubysl-securerandom (2.0.0)
     savon (2.3.0)
       akami (~> 1.2.0)
       builder (>= 2.1.2)
@@ -101,4 +102,5 @@ DEPENDENCIES
   newrelic_rpm (~> 3.5.4.34)
   rack (~> 1.4.1)
   rack-contrib
+  rubysl-securerandom
   savon
