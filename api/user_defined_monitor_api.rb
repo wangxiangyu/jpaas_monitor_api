@@ -59,6 +59,9 @@ module Acme
         end
     end
     namespace :user_defined_monitor do
+        after do
+            ActiveRecord::Base.clear_active_connections!
+        end
         desc "add user defined monitor raw"
         params do
             requires :app_key, type: String, desc: "app key"

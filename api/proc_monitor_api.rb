@@ -65,6 +65,9 @@ module Acme
         end
     end
     namespace :proc_monitor do
+        after do
+            ActiveRecord::Base.clear_active_connections!
+        end
         desc "add proc monitor raw"
         params do
             requires :app_key, type: String, desc: "app key"

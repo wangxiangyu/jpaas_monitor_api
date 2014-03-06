@@ -7,6 +7,9 @@ module Acme
   class Space < Grape::API
     use Rack::JSONP
     format :json
+    after do
+        ActiveRecord::Base.clear_active_connections!
+    end
     desc "get the spaces belong to one org"
     params do
         requires :org, type: String, desc: "org name"

@@ -6,6 +6,9 @@ module Acme
   class Org < Grape::API
     use Rack::JSONP
     format :json
+    after do
+        ActiveRecord::Base.clear_active_connections!
+    end
     desc "get organization list"
     get '/xplat_get_org_list' do
         orgs=[]

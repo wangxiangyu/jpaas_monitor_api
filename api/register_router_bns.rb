@@ -38,6 +38,9 @@ module Acme
         end
     end
 
+    after do
+        ActiveRecord::Base.clear_active_connections!
+    end
     desc "register bns of router for new app"
     get '/register_router_bns_for_app' do
         service_name=format(params['service_name'])

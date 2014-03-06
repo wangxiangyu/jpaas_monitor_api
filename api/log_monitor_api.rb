@@ -77,6 +77,9 @@ module Acme
         end
     end
     namespace :log_monitor do
+        after do
+            ActiveRecord::Base.clear_active_connections!
+        end
         desc "add log monitor raw"
         params do
             requires :app_key, type: String, desc: "app key"

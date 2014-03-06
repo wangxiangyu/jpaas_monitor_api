@@ -12,6 +12,9 @@ module Acme
           all.split("_")[0]
       end
     end
+    after do
+         ActiveRecord::Base.clear_active_connections!
+    end
     desc "get app list by space"
     params do
         requires :space, type: String, desc: "space name"
