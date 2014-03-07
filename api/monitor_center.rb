@@ -15,6 +15,9 @@ module Acme
             s.to_s.gsub(/^"/,"").gsub(/"$/,"").gsub(/^'/,"").gsub(/'$/,"")
         end
     end
+    after do
+        ActiveRecord::Base.clear_active_connections!
+    end
     desc "monitor configration take effect for a specific app"
     params do
         requires :app_key, type: String, desc: "app key"

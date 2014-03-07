@@ -111,6 +111,23 @@ module Acme
             end
         end
 
+        desc "update proc monitor raw"
+        params do
+            requires :raw_key, type: String, desc: "raw key"
+        end
+        get '/update_raw' do
+            raw={}
+            raw_key=format(params['raw_key'])
+            if ProcMonitorRaw.where(:raw_key=>raw_key).empty?
+                return {:rescode=>-1,:msg=>"Error: raw:#{raw_key} doesn't exist"}
+            end
+	        raw['name']=format(params['name'])
+	        raw['cycle']=format(params['cycle'])
+	        raw['params']=format(params['params'])
+            ProcMonitorRaw.where(:raw_key=>raw_ke).update_attribute(raw)
+            return {:rescode=>0,:raw_key=>raw_key}
+        end
+
         desc "add proc monitor rule"
         params do
             requires :raw_key, type: String, desc: "raw key"
@@ -159,6 +176,26 @@ module Acme
             end
         end
 
+        desc "update proc monitor rule"
+        params do
+            requires :rule_key, type: String, desc: "rule key"
+        end
+        get '/update_rule' do
+            rule={}
+            rule_key=format(params['rule_key'])
+            if ProcMonitorRule.where(:rule_key=>rule_key).empty?
+                return {:rescode=>-1,:msg=>"Error: rule:#{rule_key} doesn't exist"}
+            end
+	        rule['name']=format(params['name'])
+	        rule['monitor_item']=format(params['monitor_item'])
+	        rule['compare']=format(params['compare'])
+	        rule['threshold']=format(params['threshold'])
+	        rule['filter']=format(params['filter'])
+	        rule['disable_time']=format(params['disable_time'])
+            ProcMonitorRule.where(:rule_key=>rule_key).update_attribute(rule)
+            return {:rescode=>0,:rule_key=>rule_key}
+        end
+
         desc "add_proc_monitor_alert"
         params do
             requires :raw_key, type: String, desc: "raw key"
@@ -198,6 +235,24 @@ module Acme
                 ProcMonitorAlert.where(:raw_key=>raw_key).destroy_all
                 return {:rescode=>0,:msg=>"ok"}
             end
+        end
+
+        desc "update proc monitor alert"
+        params do
+            requires :raw_key, type: String, desc: "raw key"
+        end
+        get '/update_alert' do
+            alert={}
+            raw_key=format(params['raw_key'])
+            if ProcMonitorAlert.where(:raw_key=>raw_key).empty?
+                return {:rescode=>-1,:msg=>"Error: alert related to raw:#{raw_key} doesn't exist"}
+            end
+	        alert['max_alert_times']=format(params['max_alert_times'])
+	        alert['remind_interval_second']=format(params['remind_interval_second'])
+	        alert['mail']=format(params['mail'])
+	        alert['sms']=format(params['sms'])
+            ProcMonitorAlert.where(:raw_key=>raw_key).update_attribute(alert)
+            return {:rescode=>0,:raw_key=>raw_key}
         end
 
         desc "get raw by app key"
