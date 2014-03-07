@@ -124,7 +124,7 @@ module Acme
 	        raw['name']=format(params['name'])
 	        raw['cycle']=format(params['cycle'])
 	        raw['params']=format(params['params'])
-            ProcMonitorRaw.where(:raw_key=>raw_ke).update_attribute(raw)
+            ProcMonitorRaw.where(:raw_key=>raw_key).update_attribute(raw)
             return {:rescode=>0,:raw_key=>raw_key}
         end
 

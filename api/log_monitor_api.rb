@@ -144,7 +144,7 @@ module Acme
             end
 	        raw['name']=format(params['name'])
 	        raw['log_filepath']=format(params['log_filepath'])
-            LogMonitorRaw.where(:raw_key=>raw_ke).update_attribute(raw)
+            LogMonitorRaw.where(:raw_key=>raw_key).update_attribute(raw)
             return {:rescode=>0,:raw_key=>raw_key}
         end
 

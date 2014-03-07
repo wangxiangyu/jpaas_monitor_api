@@ -111,6 +111,22 @@ module Acme
             end
         end
         
+        desc "update user defined monitor raw"
+        params do
+            requires :raw_key, type: String, desc: "raw key"
+        end
+        get '/update_raw' do
+            raw={}
+            raw_key=format(params['raw_key'])
+            if UserDefinedMonitorRaw.where(:raw_key=>raw_key).empty?
+                return {:rescode=>-1,:msg=>"Error: raw:#{raw_key} doesn't exist"}
+            end
+	        raw['name']=format(params['name'])
+	        raw['cycle']=format(params['cycle'])
+	        raw['target']=format(params['target'])
+            UserDefinedMonitorRaw.where(:raw_key=>raw_key).update_attribute(raw)
+            return {:rescode=>0,:raw_key=>raw_key}
+        end
 
         desc "add user defined monitor rule"
         params do
@@ -160,6 +176,26 @@ module Acme
             end
         end
         
+        desc "update user defined monitor rule"
+        params do
+            requires :rule_key, type: String, desc: "rule key"
+        end
+        get '/update_rule' do
+            rule={}
+            rule_key=format(params['rule_key'])
+            if UserDefinedMonitorRule.where(:rule_key=>rule_key).empty?
+                return {:rescode=>-1,:msg=>"Error: rule:#{rule_key} doesn't exist"}
+            end
+            rule['name']=format(params['name'])
+            rule['monitor_item']=format(params['monitor_item'])
+            rule['compare']=format(params['compare'])
+            rule['threshold']=format(params['threshold'])
+            rule['filter']=format(params['filter'])
+            rule['disable_time']=format(params['disable_time'])
+            UserDefinedMonitorRule.where(:rule_key=>rule_key).update_attribute(rule)
+            return {:rescode=>0,:rule_key=>rule_key}
+        end
+
         desc "add user defined monitor alert"
         params do
             requires :raw_key, type: String, desc: "raw key"
@@ -201,6 +237,24 @@ module Acme
             end
         end
         
+        desc "update user defined monitor alert"
+        params do
+            requires :raw_key, type: String, desc: "raw key"
+        end
+        get '/update_alert' do
+            alert={}
+            raw_key=format(params['raw_key'])
+            if UserDefinedMonitorAlert.where(:raw_key=>raw_key).empty?
+                return {:rescode=>-1,:msg=>"Error: alert related to raw:#{raw_key} doesn't exist"}
+            end
+	        alert['max_alert_times']=format(params['max_alert_times'])
+	        alert['remind_interval_second']=format(params['remind_interval_second'])
+	        alert['mail']=format(params['mail'])
+	        alert['sms']=format(params['sms'])
+            UserDefinedMonitorAlert.where(:raw_key=>raw_key).update_attribute(alert)
+            return {:rescode=>0,:raw_key=>raw_key}
+        end
+
         desc "get raw by app key"
         params do
             requires :app_key, type: String, desc: "app key"
