@@ -1,10 +1,12 @@
 $:.unshift(File.expand_path("../lib/", File.dirname(__FILE__)))
 require "bns"
 require "config"
+require "rack/contrib"
 
 module Acme
   class RegisterRouterBns < Grape::API
-    format :txt
+    use Rack::JSONP
+    format :json
     helpers do
         def format(s)
             s.to_s.gsub(/^"/,"").gsub(/"$/,"").gsub(/^'/,"").gsub(/'$/,"")
@@ -42,10 +44,13 @@ module Acme
         ActiveRecord::Base.clear_active_connections!
     end
     desc "register bns of router for new app"
+    params do
+        requires :service_name, type: String, desc: "app name without version"
+    end
     get '/register_router_bns_for_app' do
         service_name=format(params['service_name'])
         if service_name.empty?
-            return {:rescode=>-1,:msg=>"please specify service_name"}.to_json
+            return {:rescode=>-1,:msg=>"please specify service_name"}
         end
         response=""
         rescode=0
@@ -68,7 +73,7 @@ module Acme
                 rescode=-1 if result[:rescode] !=0
                 response << result[:msg]
         end
-        return {:rescode=>rescode,:msg=>response}.to_json
+        return {:rescode=>rescode,:msg=>response}
     end
   end
 end
