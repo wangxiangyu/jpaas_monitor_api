@@ -52,3 +52,6 @@ end
 class ProcMonitorAlert < ActiveRecord::Base
 	self.table_name="proc_monitor_alarm"
 end
+class DeaList < ActiveRecord::Base
+    self.table_name="dea_list"
+end
