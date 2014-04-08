@@ -15,30 +15,29 @@ module Acme
         end
         desc "collect instance meta"
         params do
-            requires :state, type: String, desc: ""
+            requires :state, type: String, desc: "state"
             group :tags do
-                requires :space_name, type: String, desc: ""
-                requires :org_name, type: String, desc: ""
-                requires :bns_node, type: String, desc: ""
+                requires :space_name, type: String, desc: "space_name"
+                requires :org_name, type: String, desc: "org_name"
+                requires :bns_node, type: String, desc: "bns_node"
             end
-            requires :application_name, type: String, desc: ""
-            requires :uris, type: Array, desc: ""
-            requires :instance_index, type: String, desc: ""
-            #requires :host, type: String, desc: ""
-            #requires :cluster_num, type: String, desc: ""
-            requires :warden_handle, type: String, desc: ""
-            requires :warden_container_path, type: String, desc: ""
-            requires :state_starting_timestamp, type: String, desc: ""
+            requires :application_name, type: String, desc: "application_name"
+            requires :uris, type: Array, desc: "uris"
+            requires :instance_index, type: String, desc: "instance_index"
+            #requires :host, type: String, desc: "host"
+            requires :warden_handle, type: String, desc: "warden_handle"
+            requires :warden_container_path, type: String, desc: "warden_container_path"
+            requires :state_starting_timestamp, type: String, desc: "state_starting_timestamp"
             group :params do
-                requires :prod_ports, type: Hash, desc: ""
+                requires :prod_ports, type: Hash, desc: "prod_ports"
             end
-            requires :noah_monitor_host_port, type: String, desc: ""
-            requires :warden_host_ip, type: String, desc: ""
-            requires :instance_id, type: String, desc: ""
+            requires :noah_monitor_host_port, type: String, desc: "noah_monitor_host_port"
+            requires :warden_host_ip, type: String, desc: "warden_host_ip"
+            requires :instance_id, type: String, desc: "instance_id"
             group :limits do
-                requires :disk, type: String, desc: ""
-                requires :mem, type: String, desc: ""
-                requires :fds, type: String, desc: ""
+                requires :disk, type: String, desc: "disk"
+                requires :mem, type: String, desc: "mem"
+                requires :fds, type: String, desc: "fds"
             end
         end
         post '/collect_instance_meta' do
@@ -66,6 +65,7 @@ module Acme
             InstanceStatus.where(
                 :instance_id=>instance_info['instance_id']
             ).first_or_create.update_attributes(instance_info)
+            return {:rescode=>0,:msg=>"ok"}
         end
         desc "collect instance resource"
         params do
@@ -83,9 +83,13 @@ module Acme
             instance_info['cpu_usage']=params[:usage][:cpu]
             instance_info['mem_usage']=params[:usage][:mem]
             instance_info['fds_usage']=params[:usage][:fds]
-            InstanceStatus.where(
-                :instance_id=>instance_info['instance_id']
-            ).update_attributes(instance_info)
+            result=InstanceStatus.where(:instance_id=>instance_info['instance_id'])
+            if result.empty?
+                return {:rescode=>-1,:msg=>"instance doesn't exist"}
+            else
+                result.update_attributes(instance_info)
+                return {:rescode=>0,:msg=>"ok"}
+            end
         end
         
         desc "instance existence check"
@@ -101,6 +105,23 @@ module Acme
             end
         end
      
+        desc "collect dea info"
+        params do
+            requires :uuid, type: String, desc: ""
+            requires :ip, type: String, desc: ""
+        end
+        post '/collect_dea_info' do
+           dea_info={}
+           dea_info["uuid"]=params[:uuid]
+           dea_info["ip"]=params[:ip]
+           dea_info["cluster_num"]="unknown"
+           dea_info["time"]=Time.now.to_i
+           DeaList.where(
+               :uuid=>dea_info["uuid"]
+           ).first_or_create.update_attributes(dea_info)
+           return {:rescode=>0,:msg=>"ok"}
+        end
+
         route :any, '*path' do
             error! "unknown request: wiki http://wiki.babel.baidu.com/twiki/bin/view/Ps/OP/Xplat_mon_api"
         end
