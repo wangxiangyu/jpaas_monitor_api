@@ -11,7 +11,7 @@ module Acme
             ActiveRecord::Base.clear_active_connections!
         end
         rescue_from :all do |e|
-            error_response({ message: "Error occur: #{e.class.name}: #{e.message}" })
+            error_response({ message: "#{e.message}" })
         end
         desc "collect instance meta"
         params do

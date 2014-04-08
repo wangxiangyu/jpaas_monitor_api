@@ -10,6 +10,7 @@ module Acme
     mount ::Acme::UserDefinedMonitor
     mount ::Acme::MonitorCenter
     mount ::Acme::ProcMonitor
+    mount ::Acme::Collector
   end
 end
 
