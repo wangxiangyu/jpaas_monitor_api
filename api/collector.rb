@@ -22,13 +22,13 @@ module Acme
                 requires :bns_node, type: String, desc: "bns_node"
             end
             requires :application_name, type: String, desc: "application_name"
-            requires :uris, type: Array, desc: "uris"
+            requires :application_uris, type: Array, desc: "uris"
             requires :instance_index, type: String, desc: "instance_index"
             #requires :host, type: String, desc: "host"
             requires :warden_handle, type: String, desc: "warden_handle"
             requires :warden_container_path, type: String, desc: "warden_container_path"
             requires :state_starting_timestamp, type: String, desc: "state_starting_timestamp"
-            group :params do
+            group :instance_meta do
                 requires :prod_ports, type: Hash, desc: "prod_ports"
             end
             requires :noah_monitor_host_port, type: String, desc: "noah_monitor_host_port"
@@ -55,7 +55,7 @@ module Acme
             instance_info['warden_handle']=params[:warden_handle]
             instance_info['warden_container_path']=params[:warden_container_path]
             instance_info['state_starting_timestamp']=params[:state_starting_timestamp]
-            instance_info['port_info']=params[:params][:prod_ports].to_json.to_s
+            instance_info['port_info']=params[:instance_meta][:prod_ports].to_json.to_s
             instance_info['noah_monitor_port']=params[:noah_monitor_host_port]
             instance_info['warden_host_ip']=params[:warden_host_ip]
             instance_info['instance_id']=params[:instance_id]
@@ -87,7 +87,7 @@ module Acme
             if result.empty?
                 return {:rescode=>-1,:msg=>"instance doesn't exist"}
             else
-                result.update_attributes(instance_info)
+                result.first.update_attributes(instance_info)
                 return {:rescode=>0,:msg=>"ok"}
             end
         end
