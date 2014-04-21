@@ -217,14 +217,13 @@ module Acme
         get '/add_rule' do
             item_key=format(params['item_key'])
             unless DomainMonitorItem.where(:item_key=>item_key).empty?
-            if result.empty?
                 return {:rescode=>-1,:msg=>"Error: item:#{item_key} doesn't exist"}
             else
                 rule={}
                 rule['item_key']=item_key
 	            rule['name']=format(params['name'])
 	            rule['filter']=format(params['filter'])
-                rule['formula']="#{format(params['item_name']}_err_percent > 50"
+                rule['formula']="#{format(params['item_name'])}_err_percent>50"
 	            rule['alert']="alert_"+get_raw_key_by_item_key(rule['item_key'])
 	            rule['rule_key']=get_random_hash
                 if DomainMonitorRule.where(:item_key=>rule['item_key']).empty?
@@ -265,7 +264,7 @@ module Acme
             else
                 rule['name']=format(params['name'])
                 rule['filter']=format(params['filter'])
-                rule['formula']="#{format(params['item_name']}_err_percent > 50"
+                rule['formula']="#{format(params['item_name'])}_err_percent > 50"
                 DomainMonitorRule.where(:rule_key=>rule_key).update_attribute(rule)
                 return {:rescode=>0,:rule_key=>rule_key}
             end

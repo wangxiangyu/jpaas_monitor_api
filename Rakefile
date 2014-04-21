@@ -20,3 +20,6 @@ RSpec::Core::RakeTask.new(:spec) do |spec|
 end
 
 task :default => :spec
+
+require "standalone_migrations"
+StandaloneMigrations::Tasks.load_tasks
