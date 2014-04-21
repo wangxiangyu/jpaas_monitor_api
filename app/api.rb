@@ -11,6 +11,8 @@ module Acme
     mount ::Acme::MonitorCenter
     mount ::Acme::ProcMonitor
     mount ::Acme::Collector
+    mount ::Acme::HttpUserDefinedMonitor
+    mount ::Acme::DomainMonitor
   end
 end
 

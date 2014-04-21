@@ -55,3 +55,25 @@ end
 class DeaList < ActiveRecord::Base
     self.table_name="dea_list"
 end
+
+class DomainMonitorRaw < ActiveRecord::Base
+	self.table_name="domain_monitor_raw"
+end
+class DomainMonitorItem < ActiveRecord::Base
+	self.table_name="domain_monitor_item"
+end
+class DomainMonitorRule < ActiveRecord::Base
+	self.table_name="domain_monitor_rule"
+end
+class DomainMonitorAlert < ActiveRecord::Base
+	self.table_name="domain_monitor_alert"
+end
+class HttpUserDefinedMonitorRaw < ActiveRecord::Base
+	self.table_name="http_user_defined_monitor_raw"
+end
+class HttpUserDefinedMonitorRule < ActiveRecord::Base
+	self.table_name="http_user_defined_monitor_rule"
+end
+class HttpUserDefinedMonitorAlert < ActiveRecord::Base
+	self.table_name="http_user_defined_monitor_alarm"
+end
