@@ -18,6 +18,9 @@ module Acme
         def get_random_hash
             SecureRandom.hex 16
         end
+        def get_raw_key_by_item_key(item_key)
+                raw_key=DomainMonitorItem.where(:item_key=>item_key).first.raw_key
+        end
         def get_raws(app_key)
             raws=[]
             unless DomainMonitorRaw.where(:app_key=>app_key).empty?
@@ -45,8 +48,8 @@ module Acme
         end
         def get_items(raw_key)
             items=[]
-            unless LogMonitorItem.where(:raw_key=>raw_key).empty?
-                LogMonitorItem.where(:raw_key=>raw_key).find_each do |item|
+            unless DomainMonitorItem.where(:raw_key=>raw_key).empty?
+                DomainMonitorItem.where(:raw_key=>raw_key).find_each do |item|
                     item_hash=item.serializable_hash
                     item_hash.delete('id')
                     item_hash.delete('req_type')
@@ -147,7 +150,7 @@ module Acme
         end
         get '/add_item' do
             raw_key=format(params['raw_key'])
-            unless DomainMonitorItem.where(:raw_key=>raw_key).empty?
+            if DomainMonitorRaw.where(:raw_key=>raw_key).empty?
                 return {:rescode=>-1,:msg=>"Error: raw:#{raw_key} doesn't exist"}
             else
                 item={}
@@ -216,14 +219,16 @@ module Acme
         end
         get '/add_rule' do
             item_key=format(params['item_key'])
-            unless DomainMonitorItem.where(:item_key=>item_key).empty?
+            if DomainMonitorItem.where(:item_key=>item_key).empty?
                 return {:rescode=>-1,:msg=>"Error: item:#{item_key} doesn't exist"}
             else
                 rule={}
                 rule['item_key']=item_key
 	            rule['name']=format(params['name'])
 	            rule['filter']=format(params['filter'])
-                rule['formula']="#{format(params['item_name'])}_err_percent>50"
+                rule['item_name']="#{format(params['item_name'])}"
+                rule['compare']='>'
+                rule['threshold']='50'
 	            rule['alert']="alert_"+get_raw_key_by_item_key(rule['item_key'])
 	            rule['rule_key']=get_random_hash
                 if DomainMonitorRule.where(:item_key=>rule['item_key']).empty?
@@ -264,7 +269,7 @@ module Acme
             else
                 rule['name']=format(params['name'])
                 rule['filter']=format(params['filter'])
-                rule['formula']="#{format(params['item_name'])}_err_percent > 50"
+                rule['item_name']="#{format(params['item_name'])}"
                 DomainMonitorRule.where(:rule_key=>rule_key).update_attribute(rule)
                 return {:rescode=>0,:rule_key=>rule_key}
             end
@@ -357,7 +362,7 @@ module Acme
         end
         get '/get_item_by_raw_key' do
             raw_key=format(params['raw_key'])
-            unless DomainMonitorItem.where(:raw_key=>raw_key).empty?
+            if DomainMonitorItem.where(:raw_key=>raw_key).empty?
                 return {:rescode=>-1,:msg=>"items related to raw_key #{raw_key} doesn't exist"}
             else
                 items=get_items(raw_key)
@@ -371,7 +376,7 @@ module Acme
         end
         get '/get_rules_by_item_key' do
             item_key=format(params['item_key'])
-            unless DomainMonitorRule.where(:item_key=>item_key).empty?
+            if DomainMonitorRule.where(:item_key=>item_key).empty?
                 return {:rescode=>-1,:msg=>"rules related to item_key #{item_key} doesn't exist"}
             else
                 rules=get_rules(item_key)

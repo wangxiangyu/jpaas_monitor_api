@@ -66,7 +66,7 @@ class DomainMonitorRule < ActiveRecord::Base
 	self.table_name="domain_monitor_rule"
 end
 class DomainMonitorAlert < ActiveRecord::Base
-	self.table_name="domain_monitor_alert"
+	self.table_name="domain_monitor_alarm"
 end
 class HttpUserDefinedMonitorRaw < ActiveRecord::Base
 	self.table_name="http_user_defined_monitor_raw"
