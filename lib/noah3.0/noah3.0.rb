@@ -104,7 +104,7 @@ class Noah3
                     LogMonitorRule.where("item_key='#{item.item_key}'").find_each do |rule|
                         rule_each={}
                         rule_each['name']=rule.name
-                        rule_each['formula']=item.item_name_prefix+"_cnt"+rule.compare+rule.threshold
+                        rule_each['formula']="${#{item.item_name_prefix}_cnt}#{rule.compare}#{rule.threshold}"
                         rule_each['filter']=rule.filter
                         rule_each['alert']=rule.alert
                         rules<<rule_each
@@ -146,7 +146,7 @@ class Noah3
                     UserDefinedMonitorRule.where("raw_key='#{raw.raw_key}'").find_each do |rule|
                         rule_each={}
                         rule_each['name']=rule.name
-                        rule_each['formula']=rule.monitor_item+rule.compare+rule.threshold
+                        rule_each['formula']="${#{rule.monitor_item}}#{rule.compare}#{rule.threshold}"
                         rule_each['filter']=rule.filter
                         rule_each['alert']=rule.alert
                         rules<<rule_each
@@ -191,7 +191,7 @@ class Noah3
                     ProcMonitorRule.where("raw_key='#{raw.raw_key}'").find_each do |rule|
                         rule_each={}
                         rule_each['name']=rule.name
-                        rule_each['formula']=rule.monitor_item+rule.compare+rule.threshold
+                        rule_each['formula']="${#{rule.monitor_item}}#{rule.compare}#{rule.threshold}"
                         rule_each['filter']=rule.filter
                         rule_each['alert']=rule.alert
                         rules<<rule_each
@@ -287,7 +287,7 @@ class Noah3
             LogMonitorRule.where("item_key='#{item.item_key}'").find_each do |rule|
                 rule_each={}
                 rule_each['name']=rule.name
-                rule_each['formula']=item.item_name_prefix+"_cnt"+rule.compare+rule.threshold
+                rule_each['formula']="${#{item.item_name_prefix}_cnt}#{rule.compare}#{rule.threshold}"
                 rule_each['filter']=rule.filter
                 rule_each['alert']=rule.alert
                 config['rule'].push(rule_each)
