@@ -9,15 +9,23 @@ class Noah3
              Svn.checkout(svn_path,work_path,username,password)
         end
 
-        def init_config(app_bns,work_path,username,password)
+        def init_config_service(app_bns,work_path,username,password)
 		    `mkdir -p #{work_path}/#{app_bns}`
              Svn.add_all("#{work_path}")
              Svn.del_all("#{work_path}/#{app_bns}")
              Svn.commit(work_path,"delete",username,password)
         end
         
-        def commit_config(app_bns,work_path,message,username,password)
-            Svn.add_all("#{work_path}/#{app_bns}")
+        def init_config_domain(domain_monitor_config,work_path,username,password)
+             domain_monitor_config.each do |raw|
+		        `mkdir -p #{work_path}/#{raw['domain']}`
+                Svn.add_all("#{work_path}")
+                Svn.del_all("#{work_path}/#{raw['domain']}")
+             end
+             Svn.commit(work_path,"delete",username,password)
+        end
+
+        def commit_config(work_path,message,username,password)
             Svn.commit(work_path,message,username,password)
         end
         
@@ -215,7 +223,7 @@ class Noah3
             alerts
         end
 
-	    def gen_config(app_bns,config_path,raw=[],rule=[],alert=[],log_monitor_item={})
+	    def gen_config_service(app_bns,config_path,raw=[],rule=[],alert=[],log_monitor_item={})
 		    path="#{config_path}/#{app_bns}"
 		    #gen instance file content
 		    instance_content={}
@@ -234,6 +242,8 @@ class Noah3
                 item_file.write(JSON.pretty_generate(item_content))
                 item_file.close
 		    end
+            #svn add
+            Svn.add_all(path)
 	    end
         def gen_log_config(config_path)
             AppBns.find_each do |app|
@@ -305,6 +315,66 @@ class Noah3
                 config['alert'].push(alart_each)
             end
             config
+        end
+        def get_domain_by_app_key(app_key)
+            domain=nil
+            unless DomainMonitorRaw.where("app_key='#{app_key}'").empty?
+                domain=DomainMonitorRaw.where("app_key='#{app_key}'").first.domain
+            end
+            domain
+        end
+        def gen_domain_monitor_config(app_key)
+            raws=[]
+            DomainMonitorRaw.where(:app_key=>app_key).find_each do |raw|
+                 raw_each={}
+                 raw_each['name']=raw.name
+                 raw_each['domain']=raw.domain
+                 raw_each['item']=[]
+                 raw_each['rule']=[]
+                 DomainMonitorItem.where(:raw_key=>raw.raw_key).find_each do |item|
+                    item_each={}
+                    item_each['name']=item.name
+                    item_each['cycle']=item.cycle
+                    item_each['req_content']=item.req_content
+                    item_each['res_check']=item.res_check
+                    item_each['mon_idc']=item.mon_idc
+                    item_each['req_type']=item.req_type
+                    item_each['port']=item.port
+                    DomainMonitorRule.where(:item_key=>item.item_key).find_each do |rule|
+                        rule_each={}
+                        rule_each['name']=rule.name
+                        rule_each['formula']="#{rule.item_name}_err_percent#{rule.compare}#{rule.threshold}"
+                        rule_each['filter']=rule.filter
+                        rule_each['alert']=rule.alert
+                        raw_each['rule']<<rule_each
+                    end
+                    raw_each['item']<<item_each
+                 end
+                 raw_each['alert']=[]
+                 DomainMonitorAlert.where("raw_key='#{raw.raw_key}'").find_each do |alert|
+                    alert_each={}
+                    alert_each['name']=alert.name
+                    alert_each['mail']=alert.mail
+                    alert_each['sms']=alert.sms
+                    raw_each['alert']<<alert_each
+                 end
+                 raws<<raw_each
+            end
+            raws
+        end
+        def gen_config_domain(config_path,domain_monitor_config)
+            domain_monitor_config.each do |raw|
+                domain=raw['domain']
+                `mkdir -p #{config_path}/#{domain}`
+                file_content={}
+                file_content['request']=raw['item']
+                file_content['rule']=raw['rule']
+                file_content['alert']=raw['alert']
+                domain_file = File.open("#{config_path}/#{domain}/domain","w")
+                domain_file.write(JSON.pretty_generate(file_content))
+                domain_file.close
+                Svn.add_all("#{config_path}/#{domain}")
+            end
         end
     end
 end

@@ -67,11 +67,20 @@ module Acme
         rule+=Noah3.gen_proc_monitor_rule_config(app_key)
         alert+=Noah3.gen_proc_monitor_alert_config(app_key)
 
-	    #update config  for app
+        #generate config for domain monitor
+        domain_monitor_config=Noah3.gen_domain_monitor_config(app_key)
+
 	    Noah3.checkout_config(MyConfig.tmp_dir,MyConfig.svn_path,MyConfig.svn_user,MyConfig.svn_passwd)
-	    Noah3.init_config(app_bns,MyConfig.tmp_dir,MyConfig.svn_user,MyConfig.svn_passwd)
-	    Noah3.gen_config(app_bns,MyConfig.tmp_dir,raw,rule,alert,log_monitor_item)
-	    result=Noah3.commit_config(app_bns,MyConfig.tmp_dir,"update monitor for jpaas",MyConfig.svn_user,MyConfig.svn_passwd)
+
+	    #update service config  for app
+	    Noah3.init_config_service(app_bns,"#{MyConfig.tmp_dir}/service",MyConfig.svn_user,MyConfig.svn_passwd)
+	    Noah3.gen_config_service(app_bns,"#{MyConfig.tmp_dir}/service",raw,rule,alert,log_monitor_item)
+
+        #update domain config for app
+	    Noah3.init_config_domain(domain_monitor_config,"#{MyConfig.tmp_dir}/domain",MyConfig.svn_user,MyConfig.svn_passwd)
+	    Noah3.gen_config_domain("#{MyConfig.tmp_dir}/domain",domain_monitor_config)
+
+	    result=Noah3.commit_config(MyConfig.tmp_dir,"update monitor for jpaas",MyConfig.svn_user,MyConfig.svn_passwd)
 	    if result[:rescode]==0
             return {:rescode=>0,:msg=>"ok"}
 	    else

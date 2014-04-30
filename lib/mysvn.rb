@@ -1,9 +1,9 @@
     class Svn
         class << self
             def commit(working_path, message,username,password)
-                sleep 0.2
+                sleep 0.5
                 svn = `which svn`.strip
-                out=`cd #{working_path} 2>&1 && #{svn} commit -m "#{message}" --username #{username} --password #{password} --no-auth-cache 2>&1`
+                out=`cd #{working_path} 2>&1 && #{svn} commit -m "#{message}" --username "#{username}" --password "#{password}" --no-auth-cache 2>&1`
                 status= $?.success? ? 0 : -1
                 {:rescode=>status,:msg=>out}
             end
@@ -25,7 +25,7 @@
             def checkout(svn_path,working_path,username,password)
                 sleep 0.2
                 svn = `which svn`.strip
-                out=`#{svn} co #{svn_path} #{working_path} --username #{username} --password #{password} --no-auth-cache 2>&1`
+                out=`#{svn} co #{svn_path} #{working_path} --username "#{username}" --password "#{password}" --no-auth-cache 2>&1`
                 status= $?.success? ? 0 : -1
                 {:rescode=>status,:msg=>out}
             end
