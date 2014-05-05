@@ -45,6 +45,12 @@ module Acme
         unless proc_monitor_check_result[:rescode]==0
             return proc_monitor_check_result
         end
+        #for domain monitor    
+        domain_monitor_check_result=Noah3.domain_raw_completed?(app_key)
+        unless domain_monitor_check_result[:rescode]==0
+            return domain_monitor_check_result
+        end
+        
         #generate config
         raw=[]
         rule=[]

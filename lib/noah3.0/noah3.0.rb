@@ -47,6 +47,24 @@ class Noah3
             return {:rescode=>0,:msg=>"ok"}
         end
 
+        def domain_raw_completed?(app_key) 
+            DomainMonitorRaw.where(:app_key=>app_key).find_each do  |raw|
+                 if DomainMonitorAlert.where(:raw_key=>raw.raw_key).empty?
+                    return {:rescode=>-1,:msg=>"raw:#{raw.name} doesn't have any alert settings"}
+                 end
+                 if DomainMonitorItem.where(:raw_key=>raw.raw_key).empty?
+                    return {:rescode=>-1,:msg=>"raw:#{raw.name} doesn't have any item settings"}
+                 else 
+                    DomainMonitorItem.where(:raw_key=>raw.raw_key).find_each do |item|
+                       if DomainMonitorRule.where(:item_key=>item.item_key).empty?
+                            return {:rescode=>-1,:msg=>"item:#{item.name} doesn't have any rule settings"}
+                       end
+                    end
+                 end  
+            end
+            return {:rescode=>0,:msg=>"ok"}
+        end
+
         def user_defined_raw_completed?(app_key)
             UserDefinedMonitorRaw.where(:app_key=>app_key).find_each do  |raw|
                  if UserDefinedMonitorAlert.where(:raw_key=>raw.raw_key).empty?
