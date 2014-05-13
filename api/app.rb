@@ -69,5 +69,17 @@ module Acme
         end
         instances
     end
+    desc "get app list by dea ip"
+    params do
+        requires :dea_ip, type: String, desc: "dea_ip"
+    end
+    get '/get_app_list_by_dea_ip' do
+	    dea_ip=params[:dea_ip].to_s.gsub("\"",'').gsub("'",'')
+        apps=[]
+        InstanceStatus.where("host = ?",dea_ip).find_each do |instance|
+            apps.push(instance.app_name) unless apps.include?(instance.app_name)
+        end
+        apps
+    end
   end
 end
