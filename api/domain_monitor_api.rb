@@ -76,6 +76,16 @@ module Acme
             end
             rules
         end
+	
+	def get_item_name(item_key)
+	    item_name=nil
+            unless DomainMonitorItem.where(:item_key=>item_key).empty?
+                DomainMonitorItem.where(:item_key=>item_key).find_each do |item|
+			item_name=item.name
+                end
+            end
+	    item_name
+	end
     end
     namespace :domain_monitor do
         after do
@@ -135,9 +145,9 @@ module Acme
             if DomainMonitorRaw.where(:raw_key=>raw_key).empty?
                 return {:rescode=>-1,:msg=>"Error: raw:#{raw_key} doesn't exist"}
             end
-	        raw['name']=format(params['name'])
-	        raw['domain']=format(params['domain'])
-            DomainMonitorRaw.where(:raw_key=>raw_key).update_attribute(raw)
+	    raw['name']=format(params['name'])
+	    raw['domain']=format(params['domain'])
+            DomainMonitorRaw.where(:raw_key=>raw_key).update_all(raw)
             return {:rescode=>0,:raw_key=>raw_key}
         end
 
@@ -200,13 +210,14 @@ module Acme
         end
         get '/update_item' do
             item={}
-	        item['name']=format(params['name'])
-	        item['req_content']=format(params['req_content'])
-	        item['res_check']=format(params['res_check'])
+	    item_key=format(params['item_key'])
+	    item['name']=format(params['name'])
+	    item['req_content']=format(params['req_content'])
+	    item['res_check']=format(params['res_check'])
             if DomainMonitorItem.where(:item_key=>item_key).empty?
                 return {:rescode=>-1,:msg=>"Error: item:#{item_key} doesn't exist"}
             end
-            DomainMonitorItem.where(:item_key=>item_key).update_attribute(item)
+            DomainMonitorItem.where(:item_key=>item_key).update_all(item)
             return {:rescode=>0,:item_key=>item_key}
         end
 
@@ -214,7 +225,6 @@ module Acme
         params do
             requires :item_key, type: String, desc: "item key"
             requires :name, type: String, desc: "rule name"
-            requires :item_name, type: String, desc: "item name"
             requires :filter, type: String, desc: "setting for alarm strategy"
         end
         get '/add_rule' do
@@ -224,13 +234,13 @@ module Acme
             else
                 rule={}
                 rule['item_key']=item_key
-	            rule['name']=format(params['name'])
-	            rule['filter']=format(params['filter'])
-                rule['item_name']="#{format(params['item_name'])}"
+	        rule['name']=format(params['name'])
+	        rule['filter']=format(params['filter'])
+                rule['item_name']=get_item_name(item_key)
                 rule['compare']='>'
                 rule['threshold']='50'
-	            rule['alert']="alert_"+get_raw_key_by_item_key(rule['item_key'])
-	            rule['rule_key']=get_random_hash
+	        rule['alert']="alert_"+get_raw_key_by_item_key(rule['item_key'])
+	        rule['rule_key']=get_random_hash
                 if DomainMonitorRule.where(:item_key=>rule['item_key']).empty?
                     DomainMonitorRule.create(rule)
                     return {:rescode=>0,:rule_key=>rule['rule_key']}
@@ -258,19 +268,17 @@ module Acme
         params do
             requires :rule_key, type: String, desc: "rule key"
             requires :name, type: String, desc: "name"
-            requires :item_name, type: String, desc: "item name"
             requires :filter, type: String, desc: "filter"
         end
         get '/update_rule' do
             rule={}
             rule_key=format(params['rule_key'])
-            unless DomainMonitorRule.where(:rule_key=>rule_key).empty?
+            if DomainMonitorRule.where(:rule_key=>rule_key).empty?
                 return {:rescode=>-1,:msg=>"Error: rule:#{rule_key} doesn't exist"}
             else
                 rule['name']=format(params['name'])
                 rule['filter']=format(params['filter'])
-                rule['item_name']="#{format(params['item_name'])}"
-                DomainMonitorRule.where(:rule_key=>rule_key).update_attribute(rule)
+                DomainMonitorRule.where(:rule_key=>rule_key).update_all(rule)
                 return {:rescode=>0,:rule_key=>rule_key}
             end
         end
@@ -315,6 +323,8 @@ module Acme
         desc "update domain monitor alert"
         params do
             requires :raw_key, type: String, desc: "raw key"
+            requires :mail, type: String, desc: "mails of alarm receivers"
+            requires :sms, type: String, desc: "phones of alarm receivers"
         end
         get '/update_alert' do
             alert={}
@@ -322,9 +332,9 @@ module Acme
             if DomainMonitorAlert.where(:raw_key=>raw_key).empty?
                 return {:rescode=>-1,:msg=>"Error: alert related to raw:#{raw_key} doesn't exist"}
             end
-	        alert['mail']=format(params['mail'])
-	        alert['sms']=format(params['sms'])
-            DomainMonitorAlert.where(:raw_key=>raw_key).update_attribute(alert)
+	    alert['mail']=format(params['mail'])
+	    alert['sms']=format(params['sms'])
+            DomainMonitorAlert.where(:raw_key=>raw_key).update_all(alert)
             return {:rescode=>0,:raw_key=>raw_key}
         end
 

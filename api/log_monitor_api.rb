@@ -138,13 +138,13 @@ module Acme
         end
         get '/update_raw' do 
             raw={}
-	        raw_key=format(params['raw_key'])
+	    raw_key=format(params['raw_key'])
             if LogMonitorRaw.where(:raw_key=>raw_key).empty?
                 return {:rescode=>-1,:msg=>"Error: raw:#{raw_key} doesn't exist"}
             end
 	        raw['name']=format(params['name'])
 	        raw['log_filepath']=format(params['log_filepath'])
-            LogMonitorRaw.where(:raw_key=>raw_key).update_attribute(raw)
+            LogMonitorRaw.where(:raw_key=>raw_key).update_all(raw)
             return {:rescode=>0,:raw_key=>raw_key}
         end
 
@@ -206,7 +206,7 @@ module Acme
 	        item['item_name_prefix']=format(params['name'])
 	        item['cycle']=format(params['cycle'])
 	        item['match_str']=format(params['match_str'])
-            LogMonitorItem.where(:item_key=>item_key).update_attribute(item)
+            LogMonitorItem.where(:item_key=>item_key).update_all(item)
             return {:rescode=>0,:item_key=>item_key}
         end
 
@@ -270,7 +270,7 @@ module Acme
 	        rule['threshold']=format(params['threshold'])
 	        rule['filter']=format(params['filter'])
 	        rule['disable_time']=format(params['disable_time'])
-            LogMonitorRule.where(:rule_key=>rule_key).update_attribute(rule)
+            LogMonitorRule.where(:rule_key=>rule_key).update_all(rule)
             return {:rescode=>0,:rule_key=>rule_key}
         end
 
@@ -332,7 +332,7 @@ module Acme
 	        alert['remind_interval_second']=format(params['remind_interval_second'])
 	        alert['mail']=format(params['mail'])
 	        alert['sms']=format(params['sms'])
-            LogMonitorAlert.where(:raw_key=>raw_key).update_attribute(alert)
+            LogMonitorAlert.where(:raw_key=>raw_key).update_all(alert)
             return {:rescode=>0,:raw_key=>raw_key}
         end
 

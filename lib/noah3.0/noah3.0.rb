@@ -361,7 +361,7 @@ class Noah3
                     DomainMonitorRule.where(:item_key=>item.item_key).find_each do |rule|
                         rule_each={}
                         rule_each['name']=rule.name
-                        rule_each['formula']="#{rule.item_name}_err_percent#{rule.compare}#{rule.threshold}"
+                        rule_each['formula']="${#{rule.item_name}_err_percent}#{rule.compare}#{rule.threshold}"
                         rule_each['filter']=rule.filter
                         rule_each['alert']=rule.alert
                         raw_each['rule']<<rule_each

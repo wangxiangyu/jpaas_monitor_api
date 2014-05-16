@@ -124,7 +124,7 @@ module Acme
 	        raw['name']=format(params['name'])
 	        raw['cycle']=format(params['cycle'])
 	        raw['target']=format(params['target'])
-            UserDefinedMonitorRaw.where(:raw_key=>raw_key).update_attribute(raw)
+            UserDefinedMonitorRaw.where(:raw_key=>raw_key).update_all(raw)
             return {:rescode=>0,:raw_key=>raw_key}
         end
 
@@ -192,7 +192,7 @@ module Acme
             rule['threshold']=format(params['threshold'])
             rule['filter']=format(params['filter'])
             rule['disable_time']=format(params['disable_time'])
-            UserDefinedMonitorRule.where(:rule_key=>rule_key).update_attribute(rule)
+            UserDefinedMonitorRule.where(:rule_key=>rule_key).update_all(rule)
             return {:rescode=>0,:rule_key=>rule_key}
         end
 
@@ -251,7 +251,7 @@ module Acme
 	        alert['remind_interval_second']=format(params['remind_interval_second'])
 	        alert['mail']=format(params['mail'])
 	        alert['sms']=format(params['sms'])
-            UserDefinedMonitorAlert.where(:raw_key=>raw_key).update_attribute(alert)
+            UserDefinedMonitorAlert.where(:raw_key=>raw_key).update_all(alert)
             return {:rescode=>0,:raw_key=>raw_key}
         end
 
