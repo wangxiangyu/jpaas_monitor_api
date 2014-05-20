@@ -341,6 +341,7 @@ class Noah3
                     item_each['mon_idc']=item.mon_idc
                     item_each['req_type']=item.req_type
                     item_each['port']=item.port
+                    item_each['host']=raw.domain
                     DomainMonitorRule.where(:item_key=>item.item_key).find_each do |rule|
                         rule_each={}
                         rule_each['name']=rule.name
