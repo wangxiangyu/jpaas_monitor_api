@@ -40,6 +40,13 @@ module Acme
         unless user_defined_monitor_check_result[:rescode]==0
             return user_defined_monitor_check_result
         end
+
+        #for http user defined monitor
+        http_user_defined_monitor_check_result=Noah3.http_user_defined_raw_completed?(app_key)
+        unless http_user_defined_monitor_check_result[:rescode]==0
+            return http_user_defined_monitor_check_result
+        end
+
         #for proc defined monitor
         proc_monitor_check_result=Noah3.proc_raw_completed?(app_key)
         unless proc_monitor_check_result[:rescode]==0
@@ -67,6 +74,10 @@ module Acme
         rule+=Noah3.gen_user_defined_monitor_rule_config(app_key)
         alert+=Noah3.gen_user_defined_monitor_alert_config(app_key)
 
+        #generate config for http user defined monitor
+        raw+=Noah3.gen_http_user_defined_monitor_raw_config(app_key)
+        rule+=Noah3.gen_http_user_defined_monitor_rule_config(app_key)
+        alert+=Noah3.gen_http_user_defined_monitor_alert_config(app_key)
 
         #generate config for proc  monitor
         raw+=Noah3.gen_proc_monitor_raw_config(app_key)
