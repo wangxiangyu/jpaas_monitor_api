@@ -13,7 +13,7 @@ class Noah3
 		    `mkdir -p #{work_path}/#{app_bns}`
              Svn.add_all("#{work_path}")
              Svn.del_all("#{work_path}/#{app_bns}")
-             Svn.commit(work_path,"delete",username,password)
+             #Svn.commit(work_path,"delete",username,password)
         end
         
         def init_config_domain(domain_monitor_config,work_path,username,password)
@@ -22,7 +22,7 @@ class Noah3
                 Svn.add_all("#{work_path}")
                 Svn.del_all("#{work_path}/#{raw['domain']}")
              end
-             Svn.commit(work_path,"delete",username,password)
+             #Svn.commit(work_path,"delete",username,password)
         end
 
         def commit_config(work_path,message,username,password)
