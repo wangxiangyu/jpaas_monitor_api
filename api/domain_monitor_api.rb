@@ -210,14 +210,17 @@ module Acme
         end
         get '/update_item' do
             item={}
-	    item_key=format(params['item_key'])
-	    item['name']=format(params['name'])
-	    item['req_content']=format(params['req_content'])
-	    item['res_check']=format(params['res_check'])
+	        item_key=format(params['item_key'])
+	        item['name']=format(params['name'])
+	        item['req_content']=format(params['req_content'])
+	        item['res_check']=format(params['res_check'])
             if DomainMonitorItem.where(:item_key=>item_key).empty?
                 return {:rescode=>-1,:msg=>"Error: item:#{item_key} doesn't exist"}
             end
             DomainMonitorItem.where(:item_key=>item_key).update_all(item)
+            unless DomainMonitorRule.where(:item_key=>item_key).empty?
+                DomainMonitorRule.where(:item_key=>item_key).update_all({'name'=>item['name']})
+            end
             return {:rescode=>0,:item_key=>item_key}
         end
 
