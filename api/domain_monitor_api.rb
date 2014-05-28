@@ -219,7 +219,7 @@ module Acme
             end
             DomainMonitorItem.where(:item_key=>item_key).update_all(item)
             unless DomainMonitorRule.where(:item_key=>item_key).empty?
-                DomainMonitorRule.where(:item_key=>item_key).update_all({'name'=>item['name']})
+                DomainMonitorRule.where(:item_key=>item_key).update_all({'item_name'=>item['name']})
             end
             return {:rescode=>0,:item_key=>item_key}
         end
