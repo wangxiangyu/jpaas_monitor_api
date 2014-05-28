@@ -151,7 +151,7 @@ module Acme
         desc "add log monitor item"
         params do
             requires :raw_key, type: String, desc: "raw key"
-            requires :item_name_prefix, type: String, desc: "item name"
+            requires :name, type: String, desc: "item name"
             requires :cycle, type: String, desc: "monitor cycle"
             requires :match_str, type: String, desc: "match string in regex mode"
         end
@@ -196,6 +196,9 @@ module Acme
         desc "update log monitor item"
         params do
             requires :item_key, type: String, desc: "item key"
+            requires :name, type: String, desc: "item name"
+            requires :cycle, type: String, desc: "monitor cycle"
+            requires :match_str, type: String, desc: "match string in regex mode"
         end
         get '/update_item' do 
             item={}
