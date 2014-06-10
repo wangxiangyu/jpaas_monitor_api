@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140418065644) do
+ActiveRecord::Schema.define(:version => 20140610064851) do
 
   create_table "app_bns", :force => true do |t|
     t.string   "name"
@@ -19,8 +19,10 @@ ActiveRecord::Schema.define(:version => 20140418065644) do
     t.string   "space"
     t.string   "app_name"
     t.string   "app_key"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.string   "noah_parentPath"
+    t.string   "noah_authKey"
   end
 
   create_table "bns_instance_register", :force => true do |t|
@@ -64,6 +66,7 @@ ActiveRecord::Schema.define(:version => 20140418065644) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.string   "req_type"
+    t.string   "port"
   end
 
   create_table "domain_monitor_raw", :force => true do |t|
@@ -72,17 +75,20 @@ ActiveRecord::Schema.define(:version => 20140418065644) do
     t.string   "domain"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "raw_key"
   end
 
   create_table "domain_monitor_rule", :force => true do |t|
-    t.string   "raw_key"
+    t.string   "item_key"
     t.string   "name"
-    t.string   "formula"
+    t.string   "item_name"
     t.string   "filter"
     t.string   "alert"
     t.string   "rule_key"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "compare"
+    t.string   "threshold"
   end
 
   create_table "http_user_defined_monitor_alarm", :force => true do |t|
