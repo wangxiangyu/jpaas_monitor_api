@@ -81,5 +81,20 @@ module Acme
         end
         apps
     end
+    desc "get instance info by warden handle"
+    params do
+        requires :warden_handle, type: String, desc: "warden handle"
+    end
+    get '/get_instance_info_by_warden_handle' do
+	    warden_handle=params[:warden_handle].to_s.gsub("\"",'').gsub("'",'')
+        instance_info=[]
+        InstanceStatus.where(:warden_handle=>warden_handle).find_each do |instance|
+            instance_info=instance.serializable_hash
+            instance_info.delete('updated_at')
+            instance_info.delete('created_at')
+            instance_info.delete('id')
+        end
+        instance_info
+    end
   end
 end
