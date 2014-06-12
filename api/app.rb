@@ -81,20 +81,22 @@ module Acme
         end
         apps
     end
-    desc "get instance info by warden handle"
+    desc "get app name by warden handle"
     params do
         requires :warden_handle, type: String, desc: "warden handle"
     end
     get '/get_instance_info_by_warden_handle' do
 	    warden_handle=params[:warden_handle].to_s.gsub("\"",'').gsub("'",'')
-        instance_info=[]
+        result=''
         InstanceStatus.where(:warden_handle=>warden_handle).find_each do |instance|
             instance_info=instance.serializable_hash
-            instance_info.delete('updated_at')
-            instance_info.delete('created_at')
-            instance_info.delete('id')
+            app_name=instance_info['app_name'].split('_')[0]
+            app_space=instance_info['space']
+            app_org=instance_info['organization']
+            app_cluster=instance_info['cluster_num']
+            result=app_name+' '+app_space+' '+app_org+' '+app_cluster
         end
-        instance_info
+        result
     end
   end
 end
