@@ -155,11 +155,11 @@ module Acme
 	            rule['alert']="alert_"+raw_key
 	            rule['disable_time']=format(params['disable_time'])
 	            rule['rule_key']=get_random_hash
-                if ProcMonitorRule.where(:rule_key=>rule['rule_key'],:name=>rule['name'],:monitor_item=>rule['monitor_item']).empty?
+                if ProcMonitorRule.where(:raw_key=>rule['raw_key'],:name=>rule['name'],:monitor_item=>rule['monitor_item']).empty?
                     ProcMonitorRule.create(rule)
                     return {:rescode=>0,:rule_key=>rule['rule_key']}
                 else
-                    return {:rescode=>-1,:msg=>"Error: You have added the same  rule"}
+                    return {:rescode=>-1,:msg=>"Error: You have added the same rule"}
                 end
             end
         end
