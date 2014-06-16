@@ -130,7 +130,7 @@ class Noah3
                     item_each['filter_str']=item.filter_str
                     log_item['item'].push(item_each)
                 end
-                config_file="#{raw.app_key}_#{raw.name}.conf"
+                config_file="#{raw.raw_key}_#{raw.name}.conf"
                 items[config_file]=log_item
             end
             items
