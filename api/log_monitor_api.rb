@@ -103,7 +103,7 @@ module Acme
 	        raw['log_filepath']=format(params['log_filepath'])
 	        raw['raw_key']=get_random_hash
 	        raw['limit_rate']='10'
-            log_name="#{raw['app_key']}_#{raw['name']}.conf"
+            log_name="#{raw['raw_key']}_#{raw['name']}.conf"
             raw['params']="${ATTACHMENT_DIR}/#{log_name}"
             if LogMonitorRaw.where(:app_key=> raw['app_key'],:name=>raw['name']).empty?
                     LogMonitorRaw.create(raw)
