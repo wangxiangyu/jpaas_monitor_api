@@ -374,7 +374,7 @@ module Acme
         end
         get '/get_item_by_raw_key' do
             raw_key=format(params['raw_key'])
-            unless LogMonitorItem.where(:raw_key=>raw_key).empty?
+            if LogMonitorItem.where(:raw_key=>raw_key).empty?
                 return {:rescode=>-1,:msg=>"items related to raw_key #{raw_key} doesn't exist"}
             else
                 items=get_items(raw_key)
