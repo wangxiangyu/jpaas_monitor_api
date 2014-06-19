@@ -388,7 +388,7 @@ module Acme
         end
         get '/get_rules_by_item_key' do
             item_key=format(params['item_key'])
-            unless LogMonitorRule.where(:item_key=>item_key).empty?
+            if LogMonitorRule.where(:item_key=>item_key).empty?
                 return {:rescode=>-1,:msg=>"rules related to item_key #{item_key} doesn't exist"}
             else
                 rules=get_rules(item_key)
