@@ -23,3 +23,6 @@ edit db/migrate/20081220234130_foo_bar_migration.rb
 
 #create database
 rake DATABASE=jpaas DB=production db:migrate
+
+#load migrations
+rake DATABASE=jpaas DB=production db:schema:load

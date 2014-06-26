@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140610064851) do
+ActiveRecord::Schema.define(:version => 20140626090520) do
 
   create_table "app_bns", :force => true do |t|
     t.string   "name"
@@ -155,6 +155,7 @@ ActiveRecord::Schema.define(:version => 20140610064851) do
     t.string   "disk_quota"
     t.string   "mem_quota"
     t.string   "fds_quota"
+    t.string   "instance_mgr_host_port"
   end
 
   create_table "log_monitor_alarm", :force => true do |t|
