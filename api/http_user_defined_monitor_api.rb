@@ -152,7 +152,7 @@ module Acme
 	            rule['alert']="alert_"+raw_key
 	            rule['disable_time']=format(params['disable_time'])
 	            rule['rule_key']=get_random_hash
-                if HttpUserDefinedMonitorRule.where(:rule_key=>rule['rule_key'],:name=>rule['name'],:monitor_item=>rule['monitor_item']).empty?
+                if HttpUserDefinedMonitorRule.where(:raw_key=>rule['raw_key'],:name=>rule['name'],:monitor_item=>rule['monitor_item']).empty?
                         HttpUserDefinedMonitorRule.create(rule)
                         return {:rescode=>0,:rule_key=>rule['rule_key']}
                 else
