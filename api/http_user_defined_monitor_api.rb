@@ -300,7 +300,7 @@ module Acme
         params do
             requires :app_key, type: String, desc: "app key"
         end
-        get '/get_user_defined_monitor_by_app_key' do
+        get '/get_http_user_defined_monitor_by_app_key' do
             app_key=format(params['app_key'])
             if AppBns.where(:app_key=>app_key).empty?
                 return {:rescode=>-1,:msg=>"app_key: #{app_key} doesn't exist"}
