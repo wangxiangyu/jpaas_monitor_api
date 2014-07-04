@@ -113,6 +113,9 @@ module Acme
         desc "update user defined monitor raw"
         params do
             requires :raw_key, type: String, desc: "raw key"
+            requires :name, type: String, desc: "monitor name"
+            requires :cycle, type: String, desc: "monitor cycle"
+            requires :target, type: String, desc: "script path"
         end
         get '/update_raw' do
             raw={}
@@ -178,6 +181,12 @@ module Acme
         desc "update http user defined monitor rule"
         params do
             requires :rule_key, type: String, desc: "rule key"
+            requires :name, type: String, desc: "rule name"
+            requires :monitor_item, type: String, desc: "item name"
+            requires :compare, type: String, desc: "compare conditions: eg < <= !=...."
+            requires :threshold, type: String, desc: "threshold"
+            requires :filter, type: String, desc: "setting for alarm strategy"
+            requires :disable_time, type: String, desc: "disable time in one day"
         end
         get '/update_rule' do
             rule={}
@@ -239,6 +248,10 @@ module Acme
         desc "update http user defined monitor alert"
         params do
             requires :raw_key, type: String, desc: "raw key"
+            requires :max_alert_times, type: String, desc: "max alert times"
+            requires :remind_interval_second, type: String, desc: "remind interval in seconds"
+            requires :mail, type: String, desc: "mails of alarm receivers"
+            requires :sms, type: String, desc: "phones of alarm receivers"
         end
         get '/update_alert' do
             alert={}
