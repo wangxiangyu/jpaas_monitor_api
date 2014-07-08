@@ -75,7 +75,7 @@ module Acme
 		    result=JSON.parse(Net::HTTP.get("monitor.jpaas.baidu.com","/monitor_block/block?bns=#{domain}&time=#{time}",8002))
 		    msg << "#{domain}: #{result['msg']}"
 	    end
-	        return {:rescode=>0,:msg=>"#{msg}"}
+	        return {:rescode=>0,:msg=>msg}
         end
 
 
@@ -91,7 +91,7 @@ module Acme
 		    result=JSON.parse(Net::HTTP.get("monitor.jpaas.baidu.com","/monitor_block/unblock?bns=#{domain}",8002))
 		    msg << "#{domain}: #{result['msg']}"
 	    end
-	        return {:rescode=>0,:msg=>"#{msg}"}
+	        return {:rescode=>0,:msg=>msg}
         end
 
         desc "query domain monitor"
@@ -106,7 +106,7 @@ module Acme
 		    result=JSON.parse(Net::HTTP.get("monitor.jpaas.baidu.com","/monitor_block/query?bns=#{domain}",8002))
 		    msg << "#{domain}: #{result['msg']}"
 	    end
-	        return {:rescode=>0,:msg=>"#{msg}"}
+	        return {:rescode=>0,:msg=>msg}
         end
     end
   end
