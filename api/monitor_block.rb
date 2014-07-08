@@ -68,13 +68,14 @@ module Acme
         end
         get '/block_domain_monitor' do
             cluster=format(params['cluster'])
-	    domains=JSON.parse(Net::HTTP.get('10.50.34.43','/api/domains',8775))
+            time=format(params['time'])
+	        domains=JSON.parse(Net::HTTP.get('10.50.34.43','/api/domains',8775))
             msg=[]
-	    domains["datas"][cluster].each do |domain|
-		result=JSON.parse(Net::HTTP.get("monitor.jpaas.baidu.com","/monitor_block/block?bns=#{domain}&time=#{time}",8002))
-		msg << "#{domain}: #{result['msg']}"
+	        domains["datas"][cluster].each do |domain|
+		    result=JSON.parse(Net::HTTP.get("monitor.jpaas.baidu.com","/monitor_block/block?bns=#{domain}&time=#{time}",8002))
+		    msg << "#{domain}: #{result['msg']}"
 	    end
-	    return {:rescode=>0,:msg=>"#{msg}"}
+	        return {:rescode=>0,:msg=>"#{msg}"}
         end
 
 
@@ -84,13 +85,13 @@ module Acme
         end
         get '/unblock_domain_monitor' do
             cluster=format(params['cluster'])
-	    domains=JSON.parse(Net::HTTP.get('10.50.34.43','/api/domains',8775))
+	        domains=JSON.parse(Net::HTTP.get('10.50.34.43','/api/domains',8775))
             msg=[]
-	    domains["datas"][cluster].each do |domain|
-		result=JSON.parse(Net::HTTP.get("monitor.jpaas.baidu.com","/monitor_block/unblock?bns=#{domain}",8002))
-		msg << "#{domain}: #{result['msg']}"
+	        domains["datas"][cluster].each do |domain|
+		    result=JSON.parse(Net::HTTP.get("monitor.jpaas.baidu.com","/monitor_block/unblock?bns=#{domain}",8002))
+		    msg << "#{domain}: #{result['msg']}"
 	    end
-	    return {:rescode=>0,:msg=>"#{msg}"}
+	        return {:rescode=>0,:msg=>"#{msg}"}
         end
 
         desc "query domain monitor"
@@ -99,13 +100,13 @@ module Acme
         end
         get '/query_domain_monitor' do
             cluster=format(params['cluster'])
-	    domains=JSON.parse(Net::HTTP.get('10.50.34.43','/api/domains',8775))
+	        domains=JSON.parse(Net::HTTP.get('10.50.34.43','/api/domains',8775))
             msg=[]
-	    domains["datas"][cluster].each do |domain|
-		result=JSON.parse(Net::HTTP.get("monitor.jpaas.baidu.com","/monitor_block/query?bns=#{domain}",8002))
-		msg << "#{domain}: #{result['msg']}"
+	        domains["datas"][cluster].each do |domain|
+		    result=JSON.parse(Net::HTTP.get("monitor.jpaas.baidu.com","/monitor_block/query?bns=#{domain}",8002))
+		    msg << "#{domain}: #{result['msg']}"
 	    end
-	    return {:rescode=>0,:msg=>"#{msg}"}
+	        return {:rescode=>0,:msg=>"#{msg}"}
         end
     end
   end
