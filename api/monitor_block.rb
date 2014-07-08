@@ -5,6 +5,7 @@ require "database"
 $:.unshift(File.expand_path("../lib/noah3.0", File.dirname(__FILE__)))
 require "noah3.0"
 require "rack/contrib"
+require "net/http"
 
 module Acme
   class MonitorBlock < Grape::API
@@ -25,10 +26,10 @@ module Acme
             bns=format(params['bns'])
             time=format(params['time'])
             result=`/home/work/dashboard/jpaas_monitor_api/lib/montool.py -b #{bns} -d #{time} 2>&1`
-            if result == 'OK'
+            if result=~/^OK/
                 return {:rescode=>0,:msg=>"ok"}
             else
-                return {:rescode=>-1,:msg=>"Failed: #{result}"}
+                return {:rescode=>-1,:msg=>"Failed: #{result.gsub("\n",' ').gsub("\t",' ')}"}
             end
         end
 
@@ -39,10 +40,10 @@ module Acme
         get '/unblock' do
             bns=format(params['bns'])
             result=`/home/work/dashboard/jpaas_monitor_api/lib/montool.py -u #{bns} 2>&1`
-            if result == 'OK'
+            if result=~/^OK/
                 return {:rescode=>0,:msg=>"ok"}
             else
-                return {:rescode=>-1,:msg=>"Failed: #{result}"}
+                return {:rescode=>-1,:msg=>"Failed: #{result.gsub("\n",' ').gsub("\t",' ')}"}
             end
         end
 
@@ -53,11 +54,58 @@ module Acme
         get '/query' do
             bns=format(params['bns'])
             result=`/home/work/dashboard/jpaas_monitor_api/lib/montool.py -s #{bns} 2>&1`
-            if result.include?(" blocked ") or result.include?(" unblocked ")
-                return {:rescode=>0,:msg=>"#{result}"}
+            if result.include?("blocked") or result.include?("unblocked")
+                return {:rescode=>0,:msg=>"#{result.gsub("\n",' ').gsub("\t",' ')}"}
             else
-                return {:rescode=>-1,:msg=>"Failed: #{result}"}
+                return {:rescode=>-1,:msg=>"Failed: #{result.gsub("\n",' ').gsub("\t",' ')}"}
             end
+        end
+
+        desc "block domain monitor"
+        params do
+            requires :cluster, type: String, desc: "cluster"
+            requires :time, type: Integer, desc: "time" 
+        end
+        get '/block_domain_monitor' do
+            cluster=format(params['cluster'])
+	    domains=JSON.parse(Net::HTTP.get('10.50.34.43','/api/domains',8775))
+            msg=[]
+	    domains["datas"][cluster].each do |domain|
+		result=JSON.parse(Net::HTTP.get("monitor.jpaas.baidu.com","/monitor_block/block?bns=#{domain}&time=#{time}",8002))
+		msg << "#{domain}: #{result['msg']}"
+	    end
+	    return {:rescode=>0,:msg=>"#{msg}"}
+        end
+
+
+        desc "unblock domain monitor"
+        params do
+            requires :cluster, type: String, desc: "cluster"
+        end
+        get '/unblock_domain_monitor' do
+            cluster=format(params['cluster'])
+	    domains=JSON.parse(Net::HTTP.get('10.50.34.43','/api/domains',8775))
+            msg=[]
+	    domains["datas"][cluster].each do |domain|
+		result=JSON.parse(Net::HTTP.get("monitor.jpaas.baidu.com","/monitor_block/unblock?bns=#{domain}",8002))
+		msg << "#{domain}: #{result['msg']}"
+	    end
+	    return {:rescode=>0,:msg=>"#{msg}"}
+        end
+
+        desc "query domain monitor"
+        params do
+            requires :cluster, type: String, desc: "cluster"
+        end
+        get '/query_domain_monitor' do
+            cluster=format(params['cluster'])
+	    domains=JSON.parse(Net::HTTP.get('10.50.34.43','/api/domains',8775))
+            msg=[]
+	    domains["datas"][cluster].each do |domain|
+		result=JSON.parse(Net::HTTP.get("monitor.jpaas.baidu.com","/monitor_block/query?bns=#{domain}",8002))
+		msg << "#{domain}: #{result['msg']}"
+	    end
+	    return {:rescode=>0,:msg=>"#{msg}"}
         end
     end
   end

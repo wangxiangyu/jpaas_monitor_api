@@ -13,6 +13,7 @@ module Acme
     mount ::Acme::Collector
     mount ::Acme::HttpUserDefinedMonitor
     mount ::Acme::DomainMonitor
+    mount ::Acme::MonitorBlock
   end
 end
 
