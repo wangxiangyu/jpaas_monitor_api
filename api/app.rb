@@ -38,7 +38,7 @@ module Acme
 	    org=params[:org].to_s.gsub("\"",'').gsub("'",'')
 	    app=params[:app].to_s.gsub("\"",'').gsub("'",'')
         instances=[]
-        InstanceStatus.where("app_name like ? and organization = ?  and space = ?","#{app}\\_%",org,space).find_each do |instance|
+        InstanceStatus.where("state = ? and app_name like ? and organization = ?  and space = ?",'RUNNING',"#{app}\\_%",org,space).find_each do |instance|
                 instance_hash=instance.serializable_hash
                 instance_hash.delete("id")
                 instance_hash.delete("created_at")
@@ -58,7 +58,7 @@ module Acme
 	    space=params[:space].to_s.gsub("\"",'').gsub("'",'')
 	    org=params[:org].to_s.gsub("\"",'').gsub("'",'')
         instances=[]
-        InstanceStatus.where("organization = ?  and space = ?",org,space).find_each do |instance|
+        InstanceStatus.where("state = ? and organization = ?  and space = ?",'RUNNING',org,space).find_each do |instance|
                 instance_hash=instance.serializable_hash
                 instance_hash.delete("id")
                 instance_hash.delete("created_at")
@@ -76,7 +76,7 @@ module Acme
     get '/get_app_list_by_dea_ip' do
 	    dea_ip=params[:dea_ip].to_s.gsub("\"",'').gsub("'",'')
         apps=[]
-        InstanceStatus.where("host = ?",dea_ip).find_each do |instance|
+        InstanceStatus.where("state = ? and host = ?",'RUNNING',dea_ip).find_each do |instance|
             apps.push(instance.app_name) unless apps.include?(instance.app_name)
         end
         apps

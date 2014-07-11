@@ -1,12 +1,13 @@
-mysql_host: "10.50.33.25"
-mysql_user: "jpaas"
-mysql_passwd: "mhxzkhl"
-mysql_dbname: "jpaas"
+mysql_host: "10.36.4.225"
+mysql_user: "jpaas_monitor_w"
+mysql_passwd: "U60edW3M4de28bIs"
+mysql_dbname: "jpaas_monitor"
+mysql_port: 6064
 logpath: "/home/work/dashboard/jpaas_monitor_api/log/monitor_api.log"
 tmp_dir: "/home/work/dashboard/jpaas_monitor_api/lib/noah3.0/tmp"
-svn_path: "http://svn.noah.baidu.com/svn/conf/online/JPaaS/service"
+svn_path: "http://svn.noah.baidu.com/svn/conf/online/JPaaS"
 svn_user: "wangxiangyu"
-svn_passwd: "wangxiangyu"
+svn_passwd: "#SHJDwxy404"
 bns_passwd: "16934ef14ae83d010259e7fad2656eae"
 routerlist1:
     m1-sdc-paas00.m1: 0

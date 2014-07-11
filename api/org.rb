@@ -25,7 +25,7 @@ module Acme
     get '/xplat_get_app_list_by_org' do
         org=params[:org].to_s.gsub("\"",'').gsub("'",'')
         result={}
-        InstanceStatus.where("organization = ?",org).find_each do |instance|
+        InstanceStatus.where("state = ? and organization = ?",'RUNNING',org).find_each do |instance|
                 instance_hash=instance.serializable_hash
                 result[instance_hash['space']]=[] unless result.has_key?(instance_hash['space'])
                 result[instance_hash['space']].push(instance_hash['app_name'].split('_')[0]) unless result[instance_hash['space']].include?(instance_hash['app_name'].split('_')[0])

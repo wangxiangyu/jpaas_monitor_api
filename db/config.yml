@@ -1,10 +1,10 @@
-production: 
+production:
   adapter: mysql
   encoding: utf8
   reconnect: true
-  database: jpaas
+  database: jpaas_monitor
   pool: 10
-  host: 10.36.58.31
-  username: jpaas
-  password: mhxzkhl
-  port: 3306
+  host: 10.36.4.225
+  username: jpaas_monitor_w
+  password: U60edW3M4de28bIs
+  port: 6064
