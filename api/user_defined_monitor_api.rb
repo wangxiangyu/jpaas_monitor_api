@@ -24,7 +24,6 @@ module Acme
                 UserDefinedMonitorRaw.where(:app_key=>app_key).find_each do |raw|
                     raw_hash=raw.serializable_hash
                     raw_hash.delete('id')
-                    raw_hash.delete('cycle')
                     raw_hash.delete('method')
                     raw_hash.delete('updated_at')
                     raw_hash.delete('created_at')
