@@ -295,11 +295,11 @@ class Noah3
             alerts
         end
 
-	    def gen_config_service(app_bns,config_path,raw=[],rule=[],alert=[],log_monitor_item={})
+	    def gen_config_service(use_jpaas,app_bns,config_path,raw=[],rule=[],alert=[],log_monitor_item={})
 		    path="#{config_path}/#{app_bns}"
 		    #gen instance file content
 		    instance_content={}
-		    instance_content["started_mode"]="jpaas"
+		    instance_content["started_mode"]="jpaas" if use_jpaas
 		    instance_content["raw"]=raw
 		    instance_content["rule"]=rule
 		    instance_content["alert"]=alert

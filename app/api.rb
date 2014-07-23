@@ -14,6 +14,7 @@ module Acme
     mount ::Acme::HttpUserDefinedMonitor
     mount ::Acme::DomainMonitor
     mount ::Acme::MonitorBlock
+    mount ::Acme::InstanceNumCheck
   end
 end
 

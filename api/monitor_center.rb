@@ -24,6 +24,7 @@ module Acme
     end
     get '/take_effect' do
         app_key=format(params['app_key'])
+        use_jpaas=params['no_jpaas'].nil? ? true : false
 	    app_bns_info=AppBns.where(:app_key=>app_key)
 	    if app_bns_info.empty?
 		    return {:rescode=>-1,:msg=>"Error: this app doesn't exist"}
@@ -91,7 +92,7 @@ module Acme
 
 	    #update service config  for app
 	    Noah3.init_config_service(app_bns,"#{MyConfig.tmp_dir}/service",MyConfig.svn_user,MyConfig.svn_passwd)
-	    Noah3.gen_config_service(app_bns,"#{MyConfig.tmp_dir}/service",raw,rule,alert,log_monitor_item)
+	    Noah3.gen_config_service(use_jpaas,app_bns,"#{MyConfig.tmp_dir}/service",raw,rule,alert,log_monitor_item)
 
         #update domain config for app
 	    Noah3.init_config_domain(domain_monitor_config,"#{MyConfig.tmp_dir}/domain",MyConfig.svn_user,MyConfig.svn_passwd)

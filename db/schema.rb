@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140709072547) do
+ActiveRecord::Schema.define(:version => 20140722072418) do
 
   create_table "app_bns", :force => true do |t|
     t.string   "name"
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(:version => 20140709072547) do
     t.integer  "time"
   end
 
+  add_index "dea_list", ["ip"], :name => "index_dea_list_on_ip"
   add_index "dea_list", ["uuid"], :name => "index_dea_list_on_uuid"
 
   create_table "domain_monitor_alarm", :force => true do |t|
@@ -143,6 +144,17 @@ ActiveRecord::Schema.define(:version => 20140709072547) do
     t.datetime "updated_at",   :null => false
   end
 
+  create_table "instance_num_expected", :force => true do |t|
+    t.integer  "app_id"
+    t.string   "app_name"
+    t.string   "cluster_num"
+    t.string   "organization"
+    t.string   "space"
+    t.integer  "instance_num_expected"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+  end
+
   create_table "instance_status", :force => true do |t|
     t.integer  "time"
     t.string   "host"
@@ -174,6 +186,9 @@ ActiveRecord::Schema.define(:version => 20140709072547) do
   end
 
   add_index "instance_status", ["app_name", "organization", "space"], :name => "index_instance_status_on_app_name_and_organization_and_space"
+  add_index "instance_status", ["instance_id"], :name => "index_instance_status_on_instance_id"
+  add_index "instance_status", ["instance_id"], :name => "index_name"
+  add_index "instance_status", ["instance_id"], :name => "instance_id", :length => {"instance_id"=>"50"}
 
   create_table "log_monitor_alarm", :force => true do |t|
     t.string   "raw_key"
