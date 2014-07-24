@@ -37,8 +37,15 @@ module Acme
 	    space=params[:space].to_s.gsub("\"",'').gsub("'",'')
 	    org=params[:org].to_s.gsub("\"",'').gsub("'",'')
 	    app=params[:app].to_s.gsub("\"",'').gsub("'",'')
+        cluster=params[:cluster].nil? ? nil : params[:cluster].to_s.gsub("\"",'').gsub("'",'')
+        state=params[:state].nil? ? "RUNNING" : params[:state].to_s.gsub("\"",'').gsub("'",'')
         instances=[]
-        InstanceStatus.where("state = ? and app_name like ? and organization = ?  and space = ?",'RUNNING',"#{app}\\_%",org,space).find_each do |instance|
+        if cluster.nil?
+            instances_result=InstanceStatus.where("state = ? and app_name like ? and organization = ?  and space = ?",state,"#{app}\\_%",org,space)
+        else
+            instances_result=InstanceStatus.where("cluster_num = ? and state = ? and app_name like ? and organization = ?  and space = ?",cluster,state,"#{app}\\_%",org,space)
+        end
+        instances_result.find_each do |instance|
                 instance_hash=instance.serializable_hash
                 instance_hash.delete("id")
                 instance_hash.delete("created_at")
@@ -57,8 +64,15 @@ module Acme
     get '/xplat_get_instances_by_org_space' do
 	    space=params[:space].to_s.gsub("\"",'').gsub("'",'')
 	    org=params[:org].to_s.gsub("\"",'').gsub("'",'')
+        cluster=params[:cluster].nil? ? nil : params[:cluster].to_s.gsub("\"",'').gsub("'",'')
+        state=params[:state].nil? ? "RUNNING" : params[:state].to_s.gsub("\"",'').gsub("'",'')
         instances=[]
-        InstanceStatus.where("state = ? and organization = ?  and space = ?",'RUNNING',org,space).find_each do |instance|
+        if cluster.nil?
+            instances_result=InstanceStatus.where("state = ? and organization = ?  and space = ?",state,org,space)
+        else
+            instances_result=InstanceStatus.where("cluster_num = ? and state = ? and organization = ?  and space = ?",cluster,state,org,space)
+        end
+        instances_result.find_each do |instance|
                 instance_hash=instance.serializable_hash
                 instance_hash.delete("id")
                 instance_hash.delete("created_at")
