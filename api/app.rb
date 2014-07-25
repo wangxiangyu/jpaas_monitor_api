@@ -112,5 +112,24 @@ module Acme
         end
         result
     end
+
+    desc "get app name by warden handle"
+    params do
+        requires :warden_handle, type: String, desc: "warden handle"
+    end
+    get '/get_detail_instance_info_by_warden_handle' do
+	    warden_handle=params[:warden_handle].to_s.gsub("\"",'').gsub("'",'')
+        result=''
+        InstanceStatus.where(:warden_handle=>warden_handle).find_each do |instance|
+            result=instance.serializable_hash
+            result.delete("id")
+            result.delete("created_at")
+            result.delete("updated_at")
+            port_info_json=JSON.parse(result['port_info'])
+            result["port_info"]=port_info_json
+        end
+        result
+    end
+
   end
 end

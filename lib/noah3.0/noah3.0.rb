@@ -326,41 +326,46 @@ class Noah3
         end
         def gen_domain_monitor_config(app_key)
             raws=[]
-            DomainMonitorRaw.where(:app_key=>app_key).find_each do |raw|
-                 raw_each={}
-                 raw_each['name']=raw.name
-                 raw_each['domain']=raw.domain
-                 raw_each['item']=[]
-                 raw_each['rule']=[]
-                 DomainMonitorItem.where(:raw_key=>raw.raw_key).find_each do |item|
-                    item_each={}
-                    item_each['name']=item.name
-                    item_each['cycle']=item.cycle
-                    item_each['req_content']=item.req_content
-                    item_each['res_check']=item.res_check
-                    item_each['mon_idc']=item.mon_idc
-                    item_each['req_type']=item.req_type
-                    item_each['port']=item.port
-                    item_each['host']=raw.domain
-                    DomainMonitorRule.where(:item_key=>item.item_key).find_each do |rule|
-                        rule_each={}
-                        rule_each['name']=rule.name
-                        rule_each['formula']="${#{rule.item_name}_err_percent}#{rule.compare}#{rule.threshold}"
-                        rule_each['filter']=rule.filter
-                        rule_each['alert']=rule.alert
-                        raw_each['rule']<<rule_each
+            DomainMonitorRaw.where(:app_key=>app_key).find_each do |domain_each|
+               raw_each={}
+               domain=domain_each.domain
+               raw_each['domain']=domain
+               raw_each['item']=[]
+               raw_each['rule']=[]
+               raw_each['alert']=[]
+               DomainMonitorRaw.where(:domain=>domain).find_each do |has_this_domain|
+                  DomainMonitorRaw.where(:app_key=>has_this_domain.app_key).find_each do |raw|
+                    next unless raw.domain==domain
+                    DomainMonitorItem.where(:raw_key=>raw.raw_key).find_each do |item|
+                       item_each={}
+                       item_each['name']=item.name
+                       item_each['cycle']=item.cycle
+                       item_each['req_content']=item.req_content
+                       item_each['res_check']=item.res_check
+                       item_each['mon_idc']=item.mon_idc
+                       item_each['req_type']=item.req_type
+                       item_each['port']=item.port
+                       item_each['host']=raw.domain
+                       DomainMonitorRule.where(:item_key=>item.item_key).find_each do |rule|
+                           rule_each={}
+                           rule_each['name']=rule.name
+                           rule_each['formula']="${#{rule.item_name}_err_percent}#{rule.compare}#{rule.threshold}"
+                           rule_each['filter']=rule.filter
+                           rule_each['alert']=rule.alert
+                           raw_each['rule']<<rule_each
+                       end
+                       raw_each['item']<<item_each
                     end
-                    raw_each['item']<<item_each
+                    DomainMonitorAlert.where("raw_key='#{raw.raw_key}'").find_each do |alert|
+                       alert_each={}
+                       alert_each['name']=alert.name
+                       alert_each['mail']=alert.mail
+                       alert_each['sms']=alert.sms
+                       raw_each['alert']<<alert_each
+                    end
                  end
-                 raw_each['alert']=[]
-                 DomainMonitorAlert.where("raw_key='#{raw.raw_key}'").find_each do |alert|
-                    alert_each={}
-                    alert_each['name']=alert.name
-                    alert_each['mail']=alert.mail
-                    alert_each['sms']=alert.sms
-                    raw_each['alert']<<alert_each
-                 end
-                 raws<<raw_each
+               end
+               raws<<raw_each
             end
             raws
         end
