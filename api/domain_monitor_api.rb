@@ -166,7 +166,7 @@ module Acme
                 item={}
                 item['raw_key']=raw_key
 	            item['name']=format(params['name'])
-	            item['cycle']='60'
+	            item['cycle']='10'
 	            item['port']='80'
 	            item['req_type']='http'
 	            item['req_content']=format(params['req_content'])
@@ -241,7 +241,7 @@ module Acme
 	        rule['filter']=format(params['filter'])
                 rule['item_name']=get_item_name(item_key)
                 rule['compare']='>'
-                rule['threshold']='50'
+                rule['threshold']='0'
 	        rule['alert']="alert_"+get_raw_key_by_item_key(rule['item_key'])
 	        rule['rule_key']=get_random_hash
                 if DomainMonitorRule.where(:item_key=>rule['item_key']).empty?
