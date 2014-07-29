@@ -171,7 +171,7 @@ module Acme
 	            item['req_type']='http'
 	            item['req_content']=format(params['req_content'])
 	            item['res_check']=format(params['res_check'])
-	            item['mon_idc']='all'
+	            item['mon_idc']='jx,cq01,cq02,db01,m1,st01,tc,yf01'
 	            item['item_key']=get_random_hash
                 if DomainMonitorItem.where(:raw_key=>item['raw_key'],:name=>item['name']).empty?
                     DomainMonitorItem.create(item)
