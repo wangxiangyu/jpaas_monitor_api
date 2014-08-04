@@ -1,29 +1,13 @@
-mysql_host: "10.36.4.225"
-mysql_user: "jpaas_monitor_w"
-mysql_passwd: "U60edW3M4de28bIs"
-mysql_dbname: "jpaas_monitor"
-mysql_port: 6064
-logpath: "/home/work/dashboard/jpaas_monitor_api/log/monitor_api.log"
-tmp_dir: "/home/work/dashboard/jpaas_monitor_api/lib/noah3.0/tmp"
-svn_path: "http://svn.noah.baidu.com/svn/conf/online/JPaaS"
-svn_user: "wangxiangyu"
-svn_passwd: "#SHJDwxy404"
-bns_passwd: "16934ef14ae83d010259e7fad2656eae"
+mysql_host: 
+mysql_user: 
+mysql_passwd:
+mysql_dbname:
+mysql_port: 
+logpath: 
+tmp_dir: 
+svn_path:
+svn_user:
+svn_passwd:
+bns_passwd: 
 routerlist1:
-    m1-sdc-paas00.m1: 0
-    m1-sdc-paas01.m1: 0
-    cq01-sdc-paas00.cq01: 0
-    cq01-sdc-paas01.cq01: 0
-    st01-sdc-paas01.st01: 1
-    st01-sdc-paas02.st01: 1
-    st01-sdc-paas03.st01: 1
-    st01-sdc-paas04.st01: 1
 routerlist2:
-    m1-sdc-paas00.m1: 1
-    m1-sdc-paas01.m1: 1
-    cq01-sdc-paas00.cq01: 1
-    cq01-sdc-paas01.cq01: 1
-    st01-sdc-paas01.st01: 0
-    st01-sdc-paas02.st01: 0
-    st01-sdc-paas03.st01: 0
-    st01-sdc-paas04.st01: 0
