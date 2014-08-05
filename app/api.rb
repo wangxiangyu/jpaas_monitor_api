@@ -16,6 +16,7 @@ module Acme
     mount ::Acme::MonitorBlock
     mount ::Acme::InstanceNumCheck
     mount ::Acme::MonitorCheck
+    mount ::Acme::DoAlarm
   end
 end
 

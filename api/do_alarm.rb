@@ -12,13 +12,15 @@ module Acme
     use Rack::JSONP
     format :json
     helpers do
+        def format(s)
+            s.to_s.gsub(/^"/,"").gsub(/"$/,"").gsub(/^'/,"").gsub(/'$/,"")
+        end
         def do_alarm(receiver,msg)
             gem_server="emp01.baidu.com:15003"
-            `gsmsend -s #{gem_server} #{receiver}@#{msg}`
+            `gsmsend -s #{gem_server} #{receiver}@'#{msg}'`
         end
         def get_receivers(app,space,org)
             host="icf_2.jpaas-ng00.baidu.com"
-            path="/api/spaces/#{space_id}/apps"
             path="/api/apps/users?org=#{org}&space=#{space}&app=#{app}"
             http = Net::HTTP.new(host,80)
             headers = {
@@ -42,6 +44,10 @@ module Acme
             requires :msg, type: String, desc: "alarm message"
         end
         get "/by_app_info" do
+            app=format(params['app'])
+            space=format(params['space'])
+            org=format(params['org'])
+            msg=format(params['msg'])
             receivers=get_receivers(app,space,org)
             receivers.each do  |receiver|
                 do_alarm(receiver['mobile'],msg)
