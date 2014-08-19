@@ -138,12 +138,14 @@ module Acme
         end
         get '/update_raw' do 
             raw={}
-	    raw_key=format(params['raw_key'])
+	        raw_key=format(params['raw_key'])
             if LogMonitorRaw.where(:raw_key=>raw_key).empty?
                 return {:rescode=>-1,:msg=>"Error: raw:#{raw_key} doesn't exist"}
             end
 	        raw['name']=format(params['name'])
 	        raw['log_filepath']=format(params['log_filepath'])
+            log_name="#{raw_key}_#{raw['name']}.conf"
+            raw['params']="${ATTACHMENT_DIR}/#{log_name}"
             LogMonitorRaw.where(:raw_key=>raw_key).update_all(raw)
             return {:rescode=>0,:raw_key=>raw_key}
         end
