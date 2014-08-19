@@ -131,5 +131,20 @@ module Acme
         result
     end
 
+    desc "get app bns by app key"
+    params do
+        requires :app_key, type: String, desc: "app key"
+    end
+    get '/get_app_bns_by_app_key' do
+	    app_key=params[:app_key].to_s.gsub("\"",'').gsub("'",'')
+        app_bns_info=AppBns.where(:app_key=>app_key)
+        if app_bns_info.empty?
+            return {:rescode=>-1,:msg=>"Error: the app doesn't exist"}
+        else
+            app_bns=app_bns_info.first.name
+            return {:rescode=>0,:msg=>{:app_bns=>app_bns}}
+        end
+    end
+
   end
 end

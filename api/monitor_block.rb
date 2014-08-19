@@ -55,7 +55,12 @@ module Acme
             bns=format(params['bns'])
             result=`/home/work/dashboard/jpaas_monitor_api/lib/montool.py -s #{bns} 2>&1`
             if result.include?("blocked") or result.include?("unblocked")
-                return {:rescode=>0,:msg=>"#{result.gsub("\n",' ').gsub("\t",' ')}"}
+                if result.include?("unblocked")
+                    return {:rescode=>0,:msg=>{:block=>'no'}}
+                else
+                    time=result.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/).to_s
+                    return {:rescode=>0,:msg=>{:block=>'yes',:time=>time}}
+                end
             else
                 return {:rescode=>-1,:msg=>"Failed: #{result.gsub("\n",' ').gsub("\t",' ')}"}
             end
