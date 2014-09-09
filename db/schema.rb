@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140722072418) do
+ActiveRecord::Schema.define(:version => 20140909032312) do
 
   create_table "app_bns", :force => true do |t|
     t.string   "name"
@@ -183,12 +183,17 @@ ActiveRecord::Schema.define(:version => 20140722072418) do
     t.string   "fds_quota"
     t.string   "instance_mgr_host_port"
     t.integer  "to_del_cnt",               :default => 3
+    t.string   "state_running_timestamp"
   end
 
   add_index "instance_status", ["app_name", "organization", "space"], :name => "index_instance_status_on_app_name_and_organization_and_space"
+  add_index "instance_status", ["host"], :name => "host"
+  add_index "instance_status", ["host"], :name => "index_instance_status_on_host"
   add_index "instance_status", ["instance_id"], :name => "index_instance_status_on_instance_id"
   add_index "instance_status", ["instance_id"], :name => "index_name"
   add_index "instance_status", ["instance_id"], :name => "instance_id", :length => {"instance_id"=>"50"}
+  add_index "instance_status", ["warden_handle"], :name => "index_instance_status_on_warden_handle"
+  add_index "instance_status", ["warden_handle"], :name => "warden_handle"
 
   create_table "log_monitor_alarm", :force => true do |t|
     t.string   "raw_key"
