@@ -114,11 +114,15 @@ class Noah3
             end
             raws
         end
-        def gen_log_monitor_item_config(app_key)
+        def gen_log_monitor_item_config(backend,app_key)
             items={}
             LogMonitorRaw.where(:app_key=>app_key).find_each do |raw|
                 log_item={}
-                log_item['log_filepath']=raw.log_filepath
+                if backend == 'matrix'
+                    log_item['log_filepath']="${DEPLOY_DIR}/"+raw.log_filepath.gsub(/^\//,'')
+                else #jpaas
+                    log_item['log_filepath']=raw.log_filepath
+                end
                 log_item['limit_rate']=raw.limit_rate
                 log_item['item']=[]
                 LogMonitorItem.where("raw_key='#{raw.raw_key}'").find_each do |item|
@@ -166,14 +170,18 @@ class Noah3
             end
             alerts
         end
-        def gen_user_defined_monitor_raw_config(app_key) 
+        def gen_user_defined_monitor_raw_config(backend,app_key) 
             raws=[]
             UserDefinedMonitorRaw.where(:app_key=>app_key).find_each do |raw|
                  raw_each={}
                  raw_each['name']=raw.name
                  raw_each['cycle']=raw.cycle
                  raw_each['method']=raw.method
-                 raw_each['target']=raw.target
+                 if backend == 'matrix'
+                     raw_each['target']="${DEPLOY_DIR}/"+raw.target.gsub(/^\//,'')
+                 else #jpaas
+                     raw_each['target']=raw.target
+                 end
                  raws<<raw_each
             end
             raws
@@ -252,7 +260,7 @@ class Noah3
         end
 
 
-        def gen_proc_monitor_raw_config(app_key) 
+        def gen_proc_monitor_raw_config(backend,app_key) 
             raws=[]
             ProcMonitorRaw.where(:app_key=>app_key).find_each do |raw|
                  raw_each={}
@@ -260,7 +268,11 @@ class Noah3
                  raw_each['cycle']=raw.cycle
                  raw_each['method']=raw.method
                  raw_each['target']=raw.target
-                 raw_each['params']=raw.params
+                 if backend == 'matrix'
+                     raw_each['params']="${DEPLOY_DIR}/"+raw.params.gsub(/^\//,'')
+                 else #jpaas
+                     raw_each['params']=raw.params
+                 end
                  raws<<raw_each
             end
             raws

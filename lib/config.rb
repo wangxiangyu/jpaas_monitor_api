@@ -10,6 +10,11 @@ require "logger"
         :mysql_passwd,
         :mysql_dbname,
         :mysql_port,
+        :mysql_cluster_host,
+        :mysql_cluster_user,
+        :mysql_cluster_passwd,
+        :mysql_cluster_dbname,
+        :mysql_cluster_port,
         :logger,
         :tmp_dir,
         :svn_path,
@@ -33,6 +38,11 @@ require "logger"
         @mysql_passwd=config['mysql_passwd']
         @mysql_dbname=config['mysql_dbname']
         @mysql_port=config['mysql_port'] || 3306
+        @mysql_cluster_host=config['mysql_cluster_host']
+        @mysql_cluster_user=config['mysql_cluster_user']
+        @mysql_cluster_passwd=config['mysql_cluster_passwd']
+        @mysql_cluster_dbname=config['mysql_cluster_dbname']
+        @mysql_cluster_port=config['mysql_cluster_port'] || 3306
         @logger=Logger.new(config['logpath'])
         @logger.datetime_format = "%Y-%m-%d %H:%M:%S"
         @logger.formatter = proc do |severity, datetime, progname, msg|

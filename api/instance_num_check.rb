@@ -49,7 +49,7 @@ module Acme
             rule={}
             rule['raw_key']=raw['raw_key']
             rule['name']="instance_num_check_#{app_name}_#{space}_#{org}_failed_caused_by_lack_of_instances"
-            rule['monitor_item']="result"
+            rule['monitor_item']="#{app_name}_#{space}_#{org}_result"
             rule['compare']="!="
             rule['threshold']="0"
             rule['filter']="3/3"

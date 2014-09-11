@@ -24,13 +24,18 @@ module Acme
     end
     get '/take_effect' do
         app_key=format(params['app_key'])
-        use_jpaas=params['no_jpaas'].nil? ? true : false
 	    app_bns_info=AppBns.where(:app_key=>app_key)
 	    if app_bns_info.empty?
 		    return {:rescode=>-1,:msg=>"Error: this app doesn't exist"}
 	    else
 	        app_bns=app_bns_info.first.name
 	    end
+        backend=app_bns_info.first.backend
+        if backend=='jpaas' and params['no_jpaas'].nil?
+            use_jpaas=true
+        else
+            use_jpaas=false
+        end
         #for log monitor
         log_monitor_check_result=Noah3.log_raw_completed?(app_key)
         unless log_monitor_check_result[:rescode]==0
@@ -66,12 +71,12 @@ module Acme
 	    log_monitor_item={}
         #generate config for log monitor
         raw+=Noah3.gen_log_monitor_raw_config(app_key)
-        log_monitor_item=Noah3.gen_log_monitor_item_config(app_key)
+        log_monitor_item=Noah3.gen_log_monitor_item_config(backend,app_key)
         rule+=Noah3.gen_log_monitor_rule_config(app_key)
         alert+=Noah3.gen_log_monitor_alert_config(app_key)
 
         #generate config for user defined monitor
-        raw+=Noah3.gen_user_defined_monitor_raw_config(app_key)
+        raw+=Noah3.gen_user_defined_monitor_raw_config(backend,app_key)
         rule+=Noah3.gen_user_defined_monitor_rule_config(app_key)
         alert+=Noah3.gen_user_defined_monitor_alert_config(app_key)
 
@@ -81,7 +86,7 @@ module Acme
         alert+=Noah3.gen_http_user_defined_monitor_alert_config(app_key)
 
         #generate config for proc  monitor
-        raw+=Noah3.gen_proc_monitor_raw_config(app_key)
+        raw+=Noah3.gen_proc_monitor_raw_config(backend,app_key)
         rule+=Noah3.gen_proc_monitor_rule_config(app_key)
         alert+=Noah3.gen_proc_monitor_alert_config(app_key)
 
