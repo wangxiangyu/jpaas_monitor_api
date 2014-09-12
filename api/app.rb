@@ -120,13 +120,45 @@ module Acme
     get '/get_detail_instance_info_by_warden_handle' do
 	    warden_handle=params[:warden_handle].to_s.gsub("\"",'').gsub("'",'')
         result=''
-        InstanceStatus.where(:warden_handle=>warden_handle).find_each do |instance|
-            result=instance.serializable_hash
-            result.delete("id")
-            result.delete("created_at")
-            result.delete("updated_at")
-            port_info_json=JSON.parse(result['port_info'])
-            result["port_info"]=port_info_json
+        if params[:matrix]
+            InstanceStatus.where(:warden_handle=>warden_handle,:state=>"RUNNING").find_each do |instance|
+                result=instance.serializable_hash
+                result.delete("id")
+                result.delete("created_at")
+                result.delete("updated_at")
+                port_info_json={}
+                port_info_json=JSON.parse(result['port_info']) if result['port_info']!='null'
+                result["port_info"]=port_info_json
+            end
+        else
+            InstanceStatus.where(:warden_handle=>warden_handle).find_each do |instance|
+                result=instance.serializable_hash
+                result.delete("id")
+                result.delete("created_at")
+                result.delete("updated_at")
+                port_info_json=JSON.parse(result['port_info'])
+                result["port_info"]=port_info_json
+            end
+        end
+        result
+    end
+
+    desc "get app name by instance id"
+    params do
+        requires :instance_id, type: String, desc: "instance id"
+    end
+    get '/get_resource_usage_info_by_instance_id' do
+	    instance_id=params[:instance_id].to_s.gsub("\"",'').gsub("'",'')
+        result=''
+        InstanceStatus.where(:instance_id=>instance_id).find_each do |instance|
+            disk_quota_MB=instance.disk_quota.to_f
+            mem_quota_MB=instance.mem_quota.to_f
+            cpu_usage_percentage=format("%.2f",instance.cpu_usage.to_f*100).to_f
+            mem_usage_MB=format("%.2f",instance.mem_usage.to_f).to_f
+            disk_usage_MB=format("%.2f",instance.disk_usage.to_f/1024).to_f
+            mem_usage_percentage=format("%.2f",mem_usage_MB/mem_quota_MB*100).to_f
+            disk_usage_percentage=format("%.2f",disk_usage_MB/disk_quota_MB*100).to_f
+            result=["mem_quota_MB=#{mem_quota_MB}","disk_quota_MB=#{disk_quota_MB}","cpu_usage_percentage=#{cpu_usage_percentage}","mem_usage_MB=#{mem_usage_MB}","disk_usage_MB=#{disk_usage_MB}","mem_usage_percentage=#{mem_usage_percentage}","disk_usage_percentage=#{disk_usage_percentage}"].join(" ")
         end
         result
     end
