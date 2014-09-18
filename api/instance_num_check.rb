@@ -17,28 +17,31 @@ module Acme
     end
         desc "add instances num monitor" 
         params do 
-            requires :app_name, type: String, desc: "app_name" 
-            requires :org, type: String, desc: "org" 
-            requires :space, type: String, desc: "space" 
-            requires :cluster, type: String, desc: "cluster" 
+            requires :app_key, type: String, desc: "app_key" 
+            requires :cluster, type: String, desc: "cluster"
             requires :mail, type: String, desc: "mail" 
             requires :sms, type: String, desc: "sms" 
         end 
         get '/add_instance_num_monitor' do 
-            app_name=format(params['app_name']) 
-            org=format(params['org']) 
-            space=format(params['space']) 
+            app_key=format(params['app_key'])
             mail=format(params['mail']) 
             sms=format(params['sms']) 
-            cluster=format(params['cluster']).gsub(';',' ') 
+            cluster=format(params['cluster']).gsub(';',' ')
+            result=AppBns.where(:app_key=>app_key)
+            if result.empty?
+                return {:rescode=>-1,:msg=>"Error: app_key:#{app_key} doesn't exist"}
+            end
+            bns_info=result.first
+            app_name=bns_info.app_name
+            org=bns_info.organization
+            space=bns_info.space
             #add_raw
             raw={}
-            app_key="c9832ed4fa4aa0163d0455e82acfcae8"#Digest::MD5.hexdigest("instance_num_monitor")
             raw['app_key']=app_key
             raw['name']="instance_num_check_#{app_name}_#{space}_#{org}"
             raw['cycle']=10
             raw['method']='exec'
-            raw['target']="/home/work/opbin/monitor/instance_num_check/instance_num_check.sh #{app_name} #{space} #{org} #{cluster}"
+            raw['target']="/usr/monitor/instance_num_check.sh #{app_name} #{space} #{org} #{cluster}"
             raw['raw_key']=get_random_hash
             if UserDefinedMonitorRaw.where(:app_key=>app_key,:name=>raw['name']).empty?
                     UserDefinedMonitorRaw.create(raw)
@@ -70,24 +73,27 @@ module Acme
         end 
         desc "update instances num monitor"
         params do
-            requires :app_name, type: String, desc: "app_name"
-            requires :org, type: String, desc: "org"
-            requires :space, type: String, desc: "space"
+            requires :app_key, type: String, desc: "app_key"
             requires :cluster, type: String, desc: "cluster"
             requires :mail, type: String, desc: "mail"
             requires :sms, type: String, desc: "sms"
         end
         get "/update_instance_num_monitor" do
-            app_name=format(params['app_name'])
-            org=format(params['org'])
-            space=format(params['space'])
-            cluster=format(params['cluster']).gsub(';',' ')
+            app_key=format(params['app_key'])
             mail=format(params['mail'])
             sms=format(params['sms'])
+            cluster=format(params['cluster']).gsub(';',' ')
+            result=AppBns.where(:app_key=>app_key)
+            if result.empty?
+                return {:rescode=>-1,:msg=>"Error: app_key:#{app_key} doesn't exist"}
+            end
+            bns_info=result.first
+            app_name=bns_info.app_name
+            org=bns_info.organization
+            space=bns_info.space
             name="instance_num_check_#{app_name}_#{space}_#{org}"
-            app_key='c9832ed4fa4aa0163d0455e82acfcae8'
             raw={}
-            raw['target']="/home/work/opbin/monitor/instance_num_check/instance_num_check.sh #{app_name} #{space} #{org} #{cluster}"
+            raw['target']="/usr/monitor/instance_num_check.sh #{app_name} #{space} #{org} #{cluster}"
             result=UserDefinedMonitorRaw.where(:app_key=>app_key,:name=>name)
             if result.empty?
                 return {:rescode=>-1,:msg=>"Error: #{app_name} #{space} #{org} doesn't exist"}
@@ -104,16 +110,19 @@ module Acme
 
         desc "delete instances num monitor"
         params do
-            requires :app_name, type: String, desc: "app_name"
-            requires :org, type: String, desc: "org"
-            requires :space, type: String, desc: "space"
+            requires :app_key, type: String, desc: "app_key"
         end
         get "/delete_instance_num_monitor" do
-            app_name=format(params['app_name'])
-            org=format(params['org'])
-            space=format(params['space'])
+            app_key=format(params['app_key'])
+            result=AppBns.where(:app_key=>app_key)
+            if result.empty?
+                return {:rescode=>-1,:msg=>"Error: app_key:#{app_key} doesn't exist"}
+            end
+            bns_info=result.first
+            app_name=bns_info.app_name
+            org=bns_info.organization
+            space=bns_info.space
             name="instance_num_check_#{app_name}_#{space}_#{org}"
-            app_key='c9832ed4fa4aa0163d0455e82acfcae8'
             result=UserDefinedMonitorRaw.where(:app_key=>app_key,:name=>name)
             if result.empty?
                 return {:rescode=>-1,:msg=>"Error: #{app_name} #{space} #{org} doesn't exist"}
@@ -128,16 +137,19 @@ module Acme
         
         desc "get instances num monitor"
         params do
-            requires :app_name, type: String, desc: "app_name"
-            requires :org, type: String, desc: "org"
-            requires :space, type: String, desc: "space"
+            requires :app_key, type: String, desc: "app_key"
         end
         get "/get_instance_num_monitor" do
-            app_name=format(params['app_name'])
-            org=format(params['org'])
-            space=format(params['space'])
+            app_key=format(params['app_key'])
+            result=AppBns.where(:app_key=>app_key)
+            if result.empty?
+                return {:rescode=>-1,:msg=>"Error: app_key:#{app_key} doesn't exist"}
+            end
+            bns_info=result.first
+            app_name=bns_info.app_name
+            org=bns_info.organization
+            space=bns_info.space
             name="instance_num_check_#{app_name}_#{space}_#{org}"
-            app_key='c9832ed4fa4aa0163d0455e82acfcae8'
             result=UserDefinedMonitorRaw.where(:app_key=>app_key,:name=>name)
             if result.empty?
                 return {:rescode=>-1,:msg=>"Error: #{app_name} #{space} #{org} doesn't exist"}
