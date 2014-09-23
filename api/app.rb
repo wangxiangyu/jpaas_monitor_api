@@ -50,7 +50,8 @@ module Acme
                 instance_hash.delete("id")
                 instance_hash.delete("created_at")
                 instance_hash.delete("updated_at")
-                port_info_json=JSON.parse(instance_hash['port_info'])
+		port_info_json={}
+                port_info_json=JSON.parse(instance_hash['port_info']) if instance_hash['port_info']!='null'
                 instance_hash["port_info"]=port_info_json
                 instances.push(instance_hash)
         end
@@ -77,7 +78,8 @@ module Acme
                 instance_hash.delete("id")
                 instance_hash.delete("created_at")
                 instance_hash.delete("updated_at")
-                port_info_json=JSON.parse(instance_hash['port_info'])
+		port_info_json={}
+                port_info_json=JSON.parse(instance_hash['port_info']) if instance_hash['port_info']!='null'
                 instance_hash["port_info"]=port_info_json
                 instances.push(instance_hash)
         end
@@ -136,7 +138,8 @@ module Acme
                 result.delete("id")
                 result.delete("created_at")
                 result.delete("updated_at")
-                port_info_json=JSON.parse(result['port_info'])
+	        port_info_json={}
+                port_info_json=JSON.parse(result['port_info']) if result['port_info']!='null'
                 result["port_info"]=port_info_json
             end
         end
