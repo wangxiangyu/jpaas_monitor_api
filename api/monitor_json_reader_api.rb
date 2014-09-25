@@ -13,18 +13,18 @@ module Acme
             def add_log_monitor(app_key, log_monitor_hash)
                 validate_k log_monitor_hash, 'raws'
                 raws = log_monitor_hash['raws'].clone
-                MyConfig.logger.warn(raws)
+                pre_clean("log_monitor", app_key)
+                #MyConfig.logger.warn(raws)
                 raws.each do |raw|
                     raw_key = nil
-                    send_local_api("log_monitor", "add_raw", {'app_key' => app_key}, raw, "items") do |reply|
+                    send_local_api("log_monitor", "add_raw", {'app_key' => app_key}, raw, ["items","alert"]) do |reply|
                         raw_key = reply['raw_key']
-			            MyConfig.logger.warn(reply)
                     end
 		            MyConfig.logger.warn("raw_key: #{raw_key}")
                     validate_k raw, 'items'
                     raw['items'].each do |item|
                         item_key = nil
-                        send_local_api("log_monitor", "add_item", {'raw_key' => raw_key}, raw, "rules") do |reply|
+                        send_local_api("log_monitor", "add_item", {'raw_key' => raw_key}, item, ["rules"]) do |reply|
                             item_key = reply['item_key']
                         end
                         validate_k item, 'rules'
@@ -42,15 +42,14 @@ module Acme
                 MyConfig.logger.warn(raws)
                 raws.each do |raw|
                     raw_key = nil
-                    send_local_api("domain_monitor", "add_raw", {'app_key' => app_key}, raw, "items") do |reply|
+                    send_local_api("domain_monitor", "add_raw", {'app_key' => app_key}, raw, ["items","alert"]) do |reply|
                         raw_key = reply['raw_key']
-			            MyConfig.logger.warn(reply)
                     end
 		            MyConfig.logger.warn("raw_key: #{raw_key}")
                     validate_k raw, 'items'
                     raw['items'].each do |item|
                         item_key = nil
-                        send_local_api("domain_monitor", "add_item", {'raw_key' => raw_key}, raw, "rules") do |reply|
+                        send_local_api("domain_monitor", "add_item", {'raw_key' => raw_key}, item, ["rules"]) do |reply|
                             item_key = reply['item_key']
                         end
                         validate_k item, 'rules'
@@ -68,9 +67,8 @@ module Acme
                 MyConfig.logger.warn(raws)
                 raws.each do |raw|
                     raw_key = nil
-                    send_local_api("proc_monitor", "add_raw", {'app_key' => app_key}, raw, "rules") do |reply|
+                    send_local_api("proc_monitor", "add_raw", {'app_key' => app_key}, raw, ["rules","alert"]) do |reply|
                         raw_key = reply['raw_key']
-			            MyConfig.logger.warn(reply)
                     end
 		            MyConfig.logger.warn("raw_key: #{raw_key}")
                     validate_k raw, 'rules'
@@ -87,9 +85,8 @@ module Acme
                 MyConfig.logger.warn(raws)
                 raws.each do |raw|
                     raw_key = nil
-                    send_local_api("user_defined_monitor", "add_raw", {'app_key' => app_key}, raw, "rules") do |reply|
+                    send_local_api("user_defined_monitor", "add_raw", {'app_key' => app_key}, raw, ["rules","alert"]) do |reply|
                         raw_key = reply['raw_key']
-			            MyConfig.logger.warn(reply)
                     end
 		            MyConfig.logger.warn("raw_key: #{raw_key}")
                     validate_k raw, 'rules'
@@ -106,9 +103,8 @@ module Acme
                 MyConfig.logger.warn(raws)
                 raws.each do |raw|
                     raw_key = nil
-                    send_local_api("http_user_defined_monitor", "add_raw", {'app_key' => app_key}, raw, "rules") do |reply|
+                    send_local_api("http_user_defined_monitor", "add_raw", {'app_key' => app_key}, raw, ["rules","alert"]) do |reply|
                         raw_key = reply['raw_key']
-			            MyConfig.logger.warn(reply)
                     end
 		            MyConfig.logger.warn("raw_key: #{raw_key}")
                     validate_k raw, 'rules'
@@ -119,26 +115,83 @@ module Acme
                     send_local_api("http_user_defined_monitor", "add_alert", {'raw_key' => raw_key}, alert)
                 end
             end
-
+            def pre_clean(namespace, app_key)
+                case namespace
+                    when "http_user_defined_monitor"
+                        raws = summary_request(namespace, "get_http_user_defined_monitor_by_app_key", app_key)
+                        cleaner(namespace, raws, 'raw') 
+                    when "domain_monitor"
+                        raws = summary_request(namespace, "get_domain_monitor_by_app_key", app_key)
+                        cleaner(namespace, raws, 'raw')
+                    when "user_defined_monitor"
+                        raws = summary_request(namespace, "get_user_defined_monitor_by_app_key", app_key)
+                        cleaner(namespace, raws, 'raw')
+                    when "proc_monitor"
+                        raws = summary_request(namespace, "get_proc_monitor_by_app_key", app_key)
+                        cleaner(namespace, raws, 'raw')
+                    when "log_monitor"
+                        raws = summary_request(namespace, "get_log_monitor_by_app_key", app_key)
+                        cleaner(namespace, raws, 'raw') 
+                end
+            end
+            def summary_request(namespace, api, app_key)
+                raws = []
+                begin 
+                send_local_api(namespace, api, {"app_key" => app_key}, {}) do |reply|
+                    raws = reply['raw'] 
+                end
+                raws 
+                rescue
+                    MyConfig.logger.debug("No monitor found for app: #{app_key}. New app inserting.")
+                end
+            end
+            def cleaner(namespace, array, clean_key="")
+                if array.nil? 
+                    return
+                end
+                array.each do |element|
+                    if element['items'] != nil
+                        cleaner(namespace, element['items'], "item")
+                    elsif element['rules'] != nil
+                        cleaner(namespace, element['rules'], "rule")
+                    end
+                    if clean_key == "raw" && !element['alert'].nil? && !element['alert'].empty?
+                        send_local_api(namespace, "del_alert", {"raw_key" => element['raw_key']}, {}) do |reply|
+                            MyConfig.logger.debug("delete del_alert #{element['raw_key']}")
+                        end
+                    end
+                    to_del_key = "#{clean_key}_key"
+                    send_local_api(namespace, "del_#{clean_key}", {"#{to_del_key}" => element[to_del_key]}, {}) do |reply|
+                        MyConfig.logger.debug("delete del_#{clean_key} #{element[to_del_key]}")
+                    end
+                end
+            end
             def validate_k(hash, check_key)
                 unless hash.has_key?(check_key) && ! hash[check_key].nil? && hash[check_key].length > 0
                     raise "input hash: #{hash.keys}, where #{check_key} not given"
                 end
             end
-            def send_local_api(namespace, api_name, key, hash, exclude_key=nil, &callback)
+            def send_local_api(namespace, api_name, key, hash, exclude_keys=nil, &callback)
                 params_hash = hash.clone
-                params_hash.delete(exclude_key) unless exclude_key.nil?
-		        MyConfig.logger.warn("paramsi_hash:#{params_hash},key:#{key}")
+                unless exclude_keys.nil?
+                    exclude_keys.each do |exclude_key|
+                        params_hash.delete(exclude_key) unless exclude_key.nil?
+                    end
+                end
+		        #MyConfig.logger.warn("paramsi_hash:#{params_hash},key:#{key}")
                 params_hash.merge!(key)
                 params = split_hash(params_hash)
-                uri = URI("http://127.0.0.1:8002/#{namespace}/#{api_name}?#{params}")
+                uri = URI(URI.escape("http://127.0.0.1:8002/#{namespace}/#{api_name}?#{params}"))
                 http = Net::HTTP.new(uri.host, uri.port)
                 request = Net::HTTP::Get.new(uri.request_uri)
+                MyConfig.logger.warn("request:#{uri.request_uri}")
                 response = http.request(request)
-                if response.code != "200" || response.body['rescode'] != '0'
-                    raise "Local api request failed. \n URI: #{uri} \n RES_STAT: #{response.code} \n RES_BODY: #{response.body}"
+                resbody = JSON.parse(response.body)
+                rescode = resbody['rescode']
+                if response.code != '200' || rescode != 0
+                    raise "Local api request failed. \n URI: #{uri} \n RES_STAT: #{response.code} \n RESCODE: #{rescode} \n RES_BODY: #{response.body}"
                 end
-                callback.call(response.body)
+                callback.call(resbody) unless callback.nil?
             end
             def split_hash(hash)
                 tiny_string = ''
@@ -149,7 +202,7 @@ module Acme
                         raise "The value of #{key} is not a string"
                     end
                     pavalue = value
-                    tiny_string << "&#{key}=#{pavalue}" 
+                    tiny_string << "&#{key}='#{pavalue}'" 
                 end
                 tiny_string
             end
