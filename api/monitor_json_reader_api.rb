@@ -14,13 +14,11 @@ module Acme
                 validate_k log_monitor_hash, 'raws'
                 raws = log_monitor_hash['raws'].clone
                 pre_clean("log_monitor", app_key)
-                #MyConfig.logger.warn(raws)
                 raws.each do |raw|
                     raw_key = nil
                     send_local_api("log_monitor", "add_raw", {'app_key' => app_key}, raw, ["items","alert"]) do |reply|
                         raw_key = reply['raw_key']
                     end
-		            MyConfig.logger.warn("raw_key: #{raw_key}")
                     validate_k raw, 'items'
                     raw['items'].each do |item|
                         item_key = nil
@@ -39,13 +37,12 @@ module Acme
             def add_domain_monitor(app_key, domain_monitor_hash)
                 validate_k domain_monitor_hash, 'raws'
                 raws = domain_monitor_hash['raws'].clone
-                MyConfig.logger.warn(raws)
+                pre_clean("domain_monitor", app_key)
                 raws.each do |raw|
                     raw_key = nil
                     send_local_api("domain_monitor", "add_raw", {'app_key' => app_key}, raw, ["items","alert"]) do |reply|
                         raw_key = reply['raw_key']
                     end
-		            MyConfig.logger.warn("raw_key: #{raw_key}")
                     validate_k raw, 'items'
                     raw['items'].each do |item|
                         item_key = nil
@@ -64,52 +61,49 @@ module Acme
             def add_proc_monitor(app_key, proc_monitor_hash)
                 validate_k proc_monitor_hash, 'raws'
                 raws = proc_monitor_hash['raws'].clone
-                MyConfig.logger.warn(raws)
+                pre_clean("proc_monitor", app_key)
                 raws.each do |raw|
                     raw_key = nil
                     send_local_api("proc_monitor", "add_raw", {'app_key' => app_key}, raw, ["rules","alert"]) do |reply|
                         raw_key = reply['raw_key']
                     end
-		            MyConfig.logger.warn("raw_key: #{raw_key}")
                     validate_k raw, 'rules'
                     raw['rules'].each do |rule|
-                        send_local_api("proc_monitor", "add_rule", {'item_key' => item_key}, rule)              
+                        send_local_api("proc_monitor", "add_rule", {'raw_key' => raw_key}, rule)              
                     end
                     alert = raw['alert']
                     send_local_api("proc_monitor", "add_alert", {'raw_key' => raw_key}, alert)
                 end
             end
-            def add_usr_defined_monitor(app_key, udm_monitor_hash)
+            def add_udm_monitor(app_key, udm_monitor_hash)
                 validate_k udm_monitor_hash, 'raws'
                 raws = udm_monitor_hash['raws'].clone
-                MyConfig.logger.warn(raws)
+                pre_clean("user_defined_monitor", app_key)
                 raws.each do |raw|
                     raw_key = nil
                     send_local_api("user_defined_monitor", "add_raw", {'app_key' => app_key}, raw, ["rules","alert"]) do |reply|
                         raw_key = reply['raw_key']
                     end
-		            MyConfig.logger.warn("raw_key: #{raw_key}")
                     validate_k raw, 'rules'
                     raw['rules'].each do |rule|
-                        send_local_api("user_defined_monitor", "add_rule", {'item_key' => item_key}, rule)              
+                        send_local_api("user_defined_monitor", "add_rule", {'raw_key' => raw_key}, rule)              
                     end
                     alert = raw['alert']
                     send_local_api("user_defined_monitor", "add_alert", {'raw_key' => raw_key}, alert)
                 end
             end
-            def add_http_usr_defined_monitor(app_key, http_monitor_hash)
+            def add_http_monitor(app_key, http_monitor_hash)
                 validate_k http_monitor_hash, 'raws'
                 raws = http_monitor_hash['raws'].clone
-                MyConfig.logger.warn(raws)
+                pre_clean("http_user_defined_monitor", app_key)
                 raws.each do |raw|
                     raw_key = nil
                     send_local_api("http_user_defined_monitor", "add_raw", {'app_key' => app_key}, raw, ["rules","alert"]) do |reply|
                         raw_key = reply['raw_key']
                     end
-		            MyConfig.logger.warn("raw_key: #{raw_key}")
                     validate_k raw, 'rules'
                     raw['rules'].each do |rule|
-                        send_local_api("http_user_defined_monitor", "add_rule", {'item_key' => item_key}, rule)              
+                        send_local_api("http_user_defined_monitor", "add_rule", {'raw_key' => raw_key}, rule)              
                     end
                     alert = raw['alert']
                     send_local_api("http_user_defined_monitor", "add_alert", {'raw_key' => raw_key}, alert)
@@ -139,6 +133,7 @@ module Acme
                 begin 
                 send_local_api(namespace, api, {"app_key" => app_key}, {}) do |reply|
                     raws = reply['raw'] 
+                    raws ||= reply['raws']
                 end
                 raws 
                 rescue
@@ -178,13 +173,12 @@ module Acme
                         params_hash.delete(exclude_key) unless exclude_key.nil?
                     end
                 end
-		        #MyConfig.logger.warn("paramsi_hash:#{params_hash},key:#{key}")
                 params_hash.merge!(key)
                 params = split_hash(params_hash)
                 uri = URI(URI.escape("http://127.0.0.1:8002/#{namespace}/#{api_name}?#{params}"))
                 http = Net::HTTP.new(uri.host, uri.port)
                 request = Net::HTTP::Get.new(uri.request_uri)
-                MyConfig.logger.warn("request:#{uri.request_uri}")
+                MyConfig.logger.debug("request:#{uri.request_uri}")
                 response = http.request(request)
                 resbody = JSON.parse(response.body)
                 rescode = resbody['rescode']
@@ -197,7 +191,6 @@ module Acme
                 tiny_string = ''
                 hash.each do |key,value|
                     pavalue = ""
-                    #MyConfig.logger.warn("value is #{value.class}; #{value.is_a? String}")
                     unless value.is_a?(String)
                         raise "The value of #{key} is not a string"
                     end
@@ -233,7 +226,7 @@ module Acme
 		            return {:rescode => 0, :result => "success"}
                 rescue Exception => e
                     #TODO LOGGER TOBE ADD
-                    MyConfig.logger.warn(e.message)
+                    #MyConfig.logger.warn(e.message)
 		            MyConfig.logger.warn(e.backtrace.inspect)
 	        	    error!({:rescode => -1, :result => "error", :msg => e.message}, 400)
                 end
