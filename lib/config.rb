@@ -46,7 +46,7 @@ require "logger"
         @logger=Logger.new(config['logpath'])
         @logger.datetime_format = "%Y-%m-%d %H:%M:%S"
         @logger.formatter = proc do |severity, datetime, progname, msg|
-            "[#{datetime}] #{severity} : #{msg}"
+            "[#{datetime}] #{severity} : #{msg} \n"
         end
         @tmp_dir=config['tmp_dir']
         @svn_path=config['svn_path']
