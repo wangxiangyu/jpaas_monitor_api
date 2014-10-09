@@ -19,6 +19,7 @@ module Acme
     mount ::Acme::DoAlarm
     mount ::Acme::Cluster
     mount ::Acme::JsonReader
+    mount ::Acme::MonitorMigration
   end
 end
 
