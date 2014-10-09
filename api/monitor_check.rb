@@ -194,5 +194,30 @@ module Acme
             return {:rescode=>0,:msg=>"false"}
         end
     end
+    
+    desc "instance num blance check between ng00 and ng01"
+    get "/check/instance_num_blance_check_ng00_ng01" do
+        result=[]
+        running_apps_info=InstanceStatus.where(:state=>"RUNNING").where("cluster_num = ? or cluster_num = ? ","jpaas-ng00","jpaas-ng01")
+        running_app_info=running_apps_info.select("distinct app_name,space,organization")
+        running_app_info.each do |each_app|
+            app_name=each_app.app_name
+            organization=each_app.organization
+            space=each_app.space
+            instance_num_ng00=running_apps_info.where(:app_name=>app_name,:organization=>organization,:space=>space,:cluster_num=>"jpaas-ng00").count
+            instance_num_ng01=running_apps_info.where(:app_name=>app_name,:organization=>organization,:space=>space,:cluster_num=>"jpaas-ng01").count
+            if instance_num_ng00 != instance_num_ng01
+               message={}
+               message["app_name"]=app_name
+               message["organization"]=organization
+               message["space"]=space
+               message["instance_num_ng00"]=instance_num_ng00
+               message["instance_num_ng01"]=instance_num_ng01
+               result << message
+            end
+        end
+        result
+    end
+
   end
 end
