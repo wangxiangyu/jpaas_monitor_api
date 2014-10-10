@@ -4,11 +4,24 @@ require "config"
 $:.unshift(File.expand_path("../lib/noah3.0", File.dirname(__FILE__)))
 require "rack/contrib"
 
+module YamlParser
+  def self.call(object, env)
+    data = YAML.load object
+    out = {value: data}
+    if data.is_a? Hash
+      out.merge!(data)
+    end
+    out
+  end
+end
+
 module Acme
     class JsonReader < Grape::API
         use Rack::JSONP
         format :json
         rescue_from :all
+	content_type :yaml, "text/yaml"
+	parser :yaml, YamlParser
         helpers do
             def add_log_monitor(app_key, log_monitor_hash)
                 validate_k log_monitor_hash, 'raws'
