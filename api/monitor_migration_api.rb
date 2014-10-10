@@ -173,7 +173,7 @@ module Acme
                 item = {}
                 item['raw_key'] = raw['raw_key']
                 item['item_key'] = get_random_hash
-                item.merge! membrane(item_hash, ['item_name_prefix', 'cycle', 'match_str'])
+                item.merge! membrane(item_hash, ['item_name_prefix', 'cycle', 'match_str', 'match_type'])
                 LogMonitorItem.create(item)
                 LogMonitorRule.where(:item_key => item_hash['item_key']).find_each do |rule|
                   rule_hash = rule.serializable_hash

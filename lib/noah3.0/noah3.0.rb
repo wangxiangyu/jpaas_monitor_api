@@ -130,6 +130,7 @@ class Noah3
                     item_each['item_name_prefix']=item.item_name_prefix
                     item_each['cycle']=item.cycle
                     item_each['match_str']=item.match_str
+		    item_each['match_type']=item.match_type if('FUZZ_REGEX' == item.match_type)
                     item_each['threshold']=item.threshold
                     item_each['filter_str']=item.filter_str
                     log_item['item'].push(item_each)

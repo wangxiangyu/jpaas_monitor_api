@@ -156,6 +156,7 @@ module Acme
             requires :name, type: String, desc: "item name"
             requires :cycle, type: String, desc: "monitor cycle"
             requires :match_str, type: String, desc: "match string in regex mode"
+	    optional :match_type, type: String, desc: "match type"
         end
         get '/add_item' do
             item={}
@@ -166,6 +167,8 @@ module Acme
 	        item['item_name_prefix']=format(params['name'])
 	        item['cycle']=format(params['cycle'])
 	        item['match_str']=format(params['match_str'])
+		item['match_type']=params['match_type'] ? format(params['match_type']).upcase : 'EXACT_MATCH'
+
 	        item['item_key']=get_random_hash
             if LogMonitorItem.where(:raw_key=>item['raw_key'],:item_name_prefix=>item['item_name_prefix']).empty?
                     LogMonitorItem.create(item)
@@ -201,6 +204,7 @@ module Acme
             requires :name, type: String, desc: "item name"
             requires :cycle, type: String, desc: "monitor cycle"
             requires :match_str, type: String, desc: "match string in regex mode"
+	    optional :match_type, type: String, desc: "match type"
         end
         get '/update_item' do 
             item={}
@@ -211,6 +215,7 @@ module Acme
 	        item['item_name_prefix']=format(params['name'])
 	        item['cycle']=format(params['cycle'])
 	        item['match_str']=format(params['match_str'])
+		item['match_type']=params['match_type'] ? format(params['match_type']).upcase : 'EXACT_MATCH'
             LogMonitorItem.where(:item_key=>item_key).update_all(item)
             return {:rescode=>0,:item_key=>item_key}
         end
