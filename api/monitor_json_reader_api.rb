@@ -20,8 +20,8 @@ module Acme
         use Rack::JSONP
         format :json
         rescue_from :all
-	content_type :yaml, "text/yaml"
-	parser :yaml, YamlParser
+        content_type :yaml, "text/yaml"
+        parser :yaml, YamlParser
         helpers do
             def add_log_monitor(app_key, log_monitor_hash)
                 validate_k log_monitor_hash, 'raws'
@@ -212,7 +212,7 @@ module Acme
                 end
                 tiny_string
             end
-	end #end_of_helpers
+        end #end_of_helpers
         namespace :json_reader do
             after do
                 ActiveRecord::Base.clear_active_connections!
@@ -225,33 +225,33 @@ module Acme
                 optional :proc, type: Hash, desc: "proc monitor config" 
                 optional :udm, type: Hash,  desc: "udm monitor config"
                 optional :http, type: Hash, desc: "http monitor config"
-		optional :config_file, desc: "config file in yaml json"
+                optional :config_file, desc: "config file in yaml json"
             end
             post '/add_monitor' do
-		#part for advanced verification.
-		if params.nil?
-		  raise "No input params."
-		end
-		param_hash = params.clone
+                #part for advanced verification.
+                if params.nil?
+                  raise "No input params."
+                end
+                param_hash = params.clone
                 unless(param_hash['config_file'].nil? || param_hash['config_file'].empty?)
                   config_file = params['config_file']['tempfile']
                   param_hash = YAML.load(config_file) || {}
                 end
-		if ! param_hash.has_key?('app_key')
+                if ! param_hash.has_key?('app_key')
                   raise "missing app_key in params. #{params}"
-	        end
-		flag = 0
+                end
+                flag = 0
                 param_hash.each_key do |key|
                   flag = 1 if('log' == key || 'domain' == key || 'proc' == key || 'udm' == key || 'http' == key)
-                end	   
+                end           
                 if(flag == 0)
                   raise "missing params. \n==NOTE\nMUST CONTAIN at least one of domain, proc, udm and http.\nNOTE==\nYour config is \n#{params}"
                 end
-		#end of advanced verification.
+                #end of advanced verification.
 
                 MyConfig.logger.debug("params: #{param_hash}")
                 app_key = param_hash['app_key']
-		begin
+                begin
                     add_log_monitor(app_key, param_hash['log']) unless param_hash['log'].nil?
                     add_domain_monitor(app_key, param_hash['domain']) unless param_hash['domain'].nil?
                     add_proc_monitor(app_key, param_hash['proc']) unless param_hash['proc'].nil?
@@ -261,8 +261,8 @@ module Acme
                 rescue Exception => e
                     #TODO LOGGER TOBE ADD
                     #MyConfig.logger.warn(e.message)
-		    MyConfig.logger.warn(e.backtrace.join("\n"))
-	            error!({:rescode => -1, :result => "error", :msg => e.message}, 400)
+                    MyConfig.logger.warn(e.backtrace.join("\n"))
+                    error!({:rescode => -1, :result => "error", :msg => e.message}, 400)
                 end
             end #end_of_post
         end #end_of_namespace
