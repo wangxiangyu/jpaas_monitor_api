@@ -7,6 +7,11 @@ module Acme
   class App < Grape::API
     use Rack::JSONP
     format :json
+    helpers do
+        def format(s)
+            s.to_s.gsub(/^"/,"").gsub(/"$/,"").gsub(/^'/,"").gsub(/'$/,"")
+        end
+    end
     after do
          ActiveRecord::Base.clear_active_connections!
     end
@@ -32,6 +37,11 @@ module Acme
         requires :space, type: String, desc: "space name"
         requires :org, type: String, desc: "org name"
         requires :app, type: String, desc: "app name without version"
+        optional :state, type: String, desc: "app state", default: "RUNNING"
+        optional :cluster, type: String, desc: "cluster"
+        optional :start, type: String, desc: "result start index",default: "0"
+        optional :end, type: String, desc: "result end index",default: "99999999"
+        optional :result_size, type: String, desc: "need result size or not, not nil for yes",default: nil
     end
     get '/xplat_get_instances_by_app' do
 	    space=params[:space].to_s.gsub("\"",'').gsub("'",'')
@@ -39,23 +49,32 @@ module Acme
 	    app=params[:app].to_s.gsub("\"",'').gsub("'",'')
         cluster=params[:cluster].nil? ? nil : params[:cluster].to_s.gsub("\"",'').gsub("'",'')
         state=params[:state].nil? ? "RUNNING" : params[:state].to_s.gsub("\"",'').gsub("'",'')
+        start_index=format(params[:start])
+        end_index=format(params[:end])
+        result_size=params[:result_size]
         instances=[]
         if cluster.nil?
-            instances_result=InstanceStatus.where("state = ? and app_name like ? and organization = ?  and space = ?",state,"#{app}\\_%",org,space)
+            instances_result=InstanceStatus.where("state = ? and app_name like ? and organization = ?  and space = ?",state,"#{app}\\_%",org,space).order('created_at DESC').all
         else
-            instances_result=InstanceStatus.where("cluster_num = ? and state = ? and app_name like ? and organization = ?  and space = ?",cluster,state,"#{app}\\_%",org,space)
+            instances_result=InstanceStatus.where("cluster_num = ? and state = ? and app_name like ? and organization = ?  and space = ?",cluster,state,"#{app}\\_%",org,space).order('created_at DESC').all
         end
-        instances_result.find_each do |instance|
+        size=instances_result.size
+        instances_result[start_index.to_i..end_index.to_i].each do |instance|
                 instance_hash=instance.serializable_hash
                 instance_hash.delete("id")
                 instance_hash.delete("created_at")
                 instance_hash.delete("updated_at")
-		port_info_json={}
+		        port_info_json={}
                 port_info_json=JSON.parse(instance_hash['port_info']) if instance_hash['port_info']!='null'
                 instance_hash["port_info"]=port_info_json
                 instances.push(instance_hash)
         end
         instances
+        if result_size.nil?
+            return instances
+        else
+            return {:size=>size,:data=>instances}
+        end
     end
     desc "get instance list by org and space"
     params do
