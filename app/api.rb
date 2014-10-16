@@ -20,6 +20,7 @@ module Acme
     mount ::Acme::Cluster
     mount ::Acme::JsonReader
     mount ::Acme::Html
+    mount ::Acme::RouterLog
   end
 end
 
