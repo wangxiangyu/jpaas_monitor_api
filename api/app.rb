@@ -59,7 +59,7 @@ module Acme
             instances_result=InstanceStatus.where("cluster_num = ? and state = ? and app_name like ? and organization = ?  and space = ?",cluster,state,"#{app}\\_%",org,space).order('created_at DESC').all
         end
         size=instances_result.size
-        instances_result[start_index.to_i..end_index.to_i].each do |instance|
+        instances_result[start_index.to_i..end_index.to_i].to_a.each do |instance|
                 instance_hash=instance.serializable_hash
                 instance_hash.delete("id")
                 instance_hash.delete("created_at")
