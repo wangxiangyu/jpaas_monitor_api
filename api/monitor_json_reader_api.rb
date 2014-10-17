@@ -179,6 +179,14 @@ module Acme
                     raise "input hash: #{hash.keys}, where #{check_key} not given"
                 end
             end
+            def local_get_request(namespace, api_name, params)
+                uri = URI(URI.escape("http://127.0.0.1:8002/#{namespace}/#{api_name}?#{params}"))
+                http = Net::HTTP.new(uri.host, uri.port)
+                request = Net::HTTP::Get.new(uri.request_uri)
+                MyConfig.logger.debug("request:#{uri.request_uri}")
+                response = http.request(request)
+                response
+            end
             def send_local_api(namespace, api_name, key, hash, exclude_keys=nil, &callback)
                 params_hash = hash.clone
                 unless exclude_keys.nil?
@@ -188,15 +196,11 @@ module Acme
                 end
                 params_hash.merge!(key)
                 params = split_hash(params_hash)
-                uri = URI(URI.escape("http://127.0.0.1:8002/#{namespace}/#{api_name}?#{params}"))
-                http = Net::HTTP.new(uri.host, uri.port)
-                request = Net::HTTP::Get.new(uri.request_uri)
-                MyConfig.logger.debug("request:#{uri.request_uri}")
-                response = http.request(request)
+                response = local_get_request(namespace, api_name, params)
                 resbody = JSON.parse(response.body)
                 rescode = resbody['rescode']
                 if response.code != '200' || rescode != 0
-                    raise "Local api request failed. \n URI: #{uri} \n RES_STAT: #{response.code} \n RESCODE: #{rescode} \n RES_BODY: #{response.body}"
+                    raise "Local api request failed. \n URI: #{namespace}/#{api_name}?#{params} \n RES_STAT: #{response.code} \n RESCODE: #{rescode} \n RES_BODY: #{response.body}"
                 end
                 callback.call(resbody) unless callback.nil?
             end
@@ -220,6 +224,9 @@ module Acme
             desc "add monitor in json"
             params do
                 optional :app_key, type: String, desc: "app key"
+                optional :org_name, type: String, desc: "org name"
+                optional :space_name, type: String, desc: "space name"
+                optional :app_name, type: String, desc: "app name"
                 optional :log, type: Hash, desc: "log monitor config"
                 optional :domain, type: Hash, desc: "domain monitor config"
                 optional :proc, type: Hash, desc: "proc monitor config" 
@@ -238,7 +245,23 @@ module Acme
                   param_hash = YAML.load(config_file) || {}
                 end
                 if ! param_hash.has_key?('app_key')
-                  raise "missing app_key in params. #{params}"
+                  if(param_hash.has_key?('org_name') && param_hash.has_key?('space_name') && param_hash.has_key?('app_name'))
+                      #TODO send_local_api
+                      response = local_get_request("", "xplat_get_apps_by_space", "org=#{param_hash['org_name']}&space=#{param_hash['space_name']}")
+                      resbody = JSON.parse(response.body)
+                      app_key = nil
+                      resbody.each do |app|
+                          if(app && param_hash['app_name'] == app['name'])
+                              app_key = app['app_key']
+                          end          
+                      end
+                      unless app_key
+                          raise "org:#{param_hash['org_name']}, space:#{param_hash['space_name']}, app:#{param_hash['app_name']} not found. in that org space, available app list #{resbody}"
+                      end
+                      param_hash['app_key'] = app_key
+                  else
+                      raise "missing app_key in params, or params should include org_name, space_name and app_name. #{param_hash}"
+                  end
                 end
                 flag = 0
                 param_hash.each_key do |key|
