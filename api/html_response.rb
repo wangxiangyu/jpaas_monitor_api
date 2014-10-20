@@ -114,6 +114,9 @@ module Acme
         router_need=format(params['router'])
         begin_time=format(params['begin_time'])
         end_time=format(params['end_time'])
+        if begin_time == ""  or end_time==""
+            return "please specify begin time and end time"
+        end
         begin_time_sec_to_now=Time.now.to_i-Time.parse(begin_time).to_i
         end_time_sec_to_now=Time.now.to_i-Time.parse(end_time).to_i
         if begin_time_sec_to_now < end_time_sec_to_now
