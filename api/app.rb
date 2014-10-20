@@ -200,5 +200,21 @@ module Acme
         end
     end
 
+    desc "get app name by application_id"
+    params do
+        requires :application_id, type: String, desc: "application id"
+    end
+    get '/get_app_name_by_application_id' do
+	    application_id=params[:application_id].to_s.gsub("\"",'').gsub("'",'')
+        app_info=InstanceStatus.where(:application_id=>application_id)
+        if app_info.empty?
+            return {:rescode=>-1,:msg=>"Error: the app doesn't exist"}
+        else
+            app_name=app_info.first.app_name
+            return {:rescode=>0,:msg=>{:app_name=>app_name}}
+        end
+    end
+    
+
   end
 end

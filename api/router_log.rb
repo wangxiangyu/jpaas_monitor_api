@@ -8,6 +8,14 @@ module Acme
     use Rack::JSONP
     format :json
     helpers do
+        def get_app_name_by_application_id(application_id)
+            result=JSON.parse(Net::HTTP.get("127.0.0.1","/get_app_name_by_application_id?application_id=#{application_id}",8002))
+            if result['rescode']==0
+                return result['msg']['app_name']
+            else
+                return application_id
+            end
+        end
     end
     namespace :routerlog do
         after do
@@ -20,7 +28,7 @@ module Acme
             optional :idc, type: String, desc: "show idc or not" , values: ['yes','no'], default: 'no'
             optional :instance_addr, type: String, desc: "show instance_addr or not", values: ['yes','no'], default: 'no'
             optional :error_type, type: String, desc: "show error_type or not", values: ['yes','no'], default: 'no'
-            optional :app_id, type: String, desc: "show app_id or not", values: ['yes','no'], default: 'no'
+            optional :app_name, type: String, desc: "show app_name or not", values: ['yes','no'], default: 'no'
             optional :cluster, type: String, desc: "show cluster or not", values: ['yes','no'], default: 'no'
             optional :router, type: String, desc: "show router or not", values: ['yes','no'], default: 'no'
         end
@@ -30,7 +38,7 @@ module Acme
             idc_need=format(params['idc'])
             instance_addr_need=format(params['instance_addr'])
             error_type_need=format(params['error_type'])
-            app_id_need=format(params['app_id'])
+            app_name_need=format(params['app_name'])
             cluster_need=format(params['cluster'])
             router_need=format(params['router'])
             result=[]
@@ -52,7 +60,7 @@ module Acme
                     key=key+idc+'&' if idc_need == 'yes'
                     key=key+instance_addr+'&' if instance_addr_need == 'yes'
                     key=key+error_type+'&' if error_type_need == 'yes'
-                    key=key+app_id+'&' if app_id_need == 'yes'
+                    key=key+app_id+'&' if app_name_need == 'yes'
                     key=key+cluster+'&' if cluster_need == 'yes'
                     key=key+router if router_need == 'yes'
                     key.sub!(/&$/,'')
@@ -63,7 +71,7 @@ module Acme
                         result_event['log_info'][key]['idc']=idc if idc_need == 'yes'
                         result_event['log_info'][key]['instance_addr']=instance_addr if instance_addr_need == 'yes'
                         result_event['log_info'][key]['error_type']=error_type if error_type_need == 'yes'
-                        result_event['log_info'][key]['app_id']=app_id if app_id_need == 'yes'
+                        result_event['log_info'][key]['app_name']=get_app_name_by_application_id(app_id) if app_name_need == 'yes'
                         result_event['log_info'][key]['cluster']=cluster if cluster_need == 'yes'
                         result_event['log_info'][key]['router']=router if router_need == 'yes'
                         result_event['log_info'][key]['count']=count.to_i
@@ -80,7 +88,7 @@ module Acme
             optional :idc, type: String, desc: "show idc or not" , values: ['yes','no'], default: 'no'
             optional :instance_addr, type: String, desc: "show instance_addr or not", values: ['yes','no'], default: 'no'
             optional :error_type, type: String, desc: "show error_type or not", values: ['yes','no'], default: 'no'
-            optional :app_id, type: String, desc: "show app_id or not", values: ['yes','no'], default: 'no'
+            optional :app_name, type: String, desc: "show app_name or not", values: ['yes','no'], default: 'no'
             optional :cluster, type: String, desc: "show cluster or not", values: ['yes','no'], default: 'no'
             optional :router, type: String, desc: "show router or not", values: ['yes','no'], default: 'no'
         end
@@ -90,7 +98,7 @@ module Acme
             idc_need=format(params['idc'])
             instance_addr_need=format(params['instance_addr'])
             error_type_need=format(params['error_type'])
-            app_id_need=format(params['app_id'])
+            app_name_need=format(params['app_name'])
             cluster_need=format(params['cluster'])
             router_need=format(params['router'])
             result={}
@@ -109,7 +117,7 @@ module Acme
                     key=key+idc+'&' if idc_need == 'yes'
                     key=key+instance_addr+'&' if instance_addr_need == 'yes'
                     key=key+error_type+'&' if error_type_need == 'yes'
-                    key=key+app_id+'&' if app_id_need == 'yes'
+                    key=key+app_id+'&' if app_name_need == 'yes'
                     key=key+cluster+'&' if cluster_need == 'yes'
                     key=key+router if router_need == 'yes'
                     key.sub!(/&$/,'')
@@ -120,7 +128,7 @@ module Acme
                         result[key]['idc']=idc if idc_need == 'yes'
                         result[key]['instance_addr']=instance_addr if instance_addr_need == 'yes'
                         result[key]['error_type']=error_type if error_type_need == 'yes'
-                        result[key]['app_id']=app_id if app_id_need == 'yes'
+                        result[key]['app_name']=get_app_name_by_application_id(app_id) if app_name_need == 'yes'
                         result[key]['cluster']=cluster if cluster_need == 'yes'
                         result[key]['router']=router if router_need == 'yes'
                         result[key]['count']=count.to_i
