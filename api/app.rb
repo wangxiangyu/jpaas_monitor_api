@@ -180,7 +180,7 @@ module Acme
             disk_usage_MB=format("%.2f",instance.disk_usage.to_f/1024).to_f
             mem_usage_percentage=format("%.2f",mem_usage_MB/mem_quota_MB*100).to_f
             disk_usage_percentage=format("%.2f",disk_usage_MB/disk_quota_MB*100).to_f
-            result=["mem_quota_MB=#{mem_quota_MB}","disk_quota_MB=#{disk_quota_MB}","cpu_usage_percentage=#{cpu_usage_percentage}","mem_usage_MB=#{mem_usage_MB}","disk_usage_MB=#{disk_usage_MB}","mem_usage_percentage=#{mem_usage_percentage}","disk_usage_percentage=#{disk_usage_percentage}"].join(" ")
+            result=["mem_quota_MB:#{mem_quota_MB}","disk_quota_MB:#{disk_quota_MB}","cpu_usage_percentage:#{cpu_usage_percentage}","mem_usage_MB:#{mem_usage_MB}","disk_usage_MB:#{disk_usage_MB}","mem_usage_percentage:#{mem_usage_percentage}","disk_usage_percentage:#{disk_usage_percentage}"].join(" ")
         end
         result
     end
