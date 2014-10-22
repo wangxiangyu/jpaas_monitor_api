@@ -8,7 +8,7 @@ module Acme
     use Rack::JSONP
     format :json
     helpers do
-        def format(s)
+        def params_format(s)
             s.to_s.gsub(/^"/,"").gsub(/"$/,"").gsub(/^'/,"").gsub(/'$/,"")
         end
     end
@@ -49,8 +49,8 @@ module Acme
 	    app=params[:app].to_s.gsub("\"",'').gsub("'",'')
         cluster=params[:cluster].nil? ? nil : params[:cluster].to_s.gsub("\"",'').gsub("'",'')
         state=params[:state].nil? ? "RUNNING" : params[:state].to_s.gsub("\"",'').gsub("'",'')
-        start_index=format(params[:start])
-        end_index=format(params[:end])
+        start_index=params_format(params[:start])
+        end_index=params_format(params[:end])
         result_size=params[:result_size]
         instances=[]
         if cluster.nil?
