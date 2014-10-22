@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140909032312) do
+ActiveRecord::Schema.define(:version => 20141020081113) do
 
   create_table "app_bns", :force => true do |t|
     t.string   "name"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(:version => 20140909032312) do
     t.datetime "updated_at",      :null => false
     t.string   "noah_parentPath"
     t.string   "noah_authKey"
+    t.string   "backend"
   end
 
   add_index "app_bns", ["app_key"], :name => "index_app_bns_on_app_key"
@@ -184,6 +185,8 @@ ActiveRecord::Schema.define(:version => 20140909032312) do
     t.string   "instance_mgr_host_port"
     t.integer  "to_del_cnt",               :default => 3
     t.string   "state_running_timestamp"
+    t.string   "disk_usage"
+    t.string   "application_id"
   end
 
   add_index "instance_status", ["app_name", "organization", "space"], :name => "index_instance_status_on_app_name_and_organization_and_space"

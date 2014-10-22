@@ -61,6 +61,71 @@ module Acme
                 <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css">
                 <script type="text/javascript" src="http://console-jpaas.baidu.com/hatch_static/javascripts/lib/jquery-1-9-0-min.js"></script>
                 <script type="text/javascript" src="http://console-jpaas.baidu.com/site_media//js/lib/My97DatePicker/WdatePicker.js"></script>
+                <script type="text/javascript">
+                    Date.prototype.Format = function(fmt)   
+                        { //author: meizz   
+                          var o = {   
+                            "M+" : this.getMonth()+1,
+                            "d+" : this.getDate(),
+                            "h+" : this.getHours(),
+                            "m+" : this.getMinutes(),
+                            "s+" : this.getSeconds(),
+                            "q+" : Math.floor((this.getMonth()+3)/3),
+                            "S"  : this.getMilliseconds()
+                          };   
+                          if(/(y+)/.test(fmt))   
+                            fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));   
+                          for(var k in o)   
+                            if(new RegExp("("+ k +")").test(fmt))   
+                          fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));   
+                          return fmt;   
+                        }  
+                    Date.prototype.DateDel = function(strInterval, Number) {   
+                        var dtTmp = this;  
+                        switch (strInterval) {   
+                            case 's' :return new Date(Date.parse(dtTmp) - (1000 * Number));  
+                            case 'n' :return new Date(Date.parse(dtTmp) - (60000 * Number));  
+                            case 'h' :return new Date(Date.parse(dtTmp) - (3600000 * Number));  
+                            case 'd' :return new Date(Date.parse(dtTmp) - (86400000 * Number));  
+                            case 'w' :return new Date(Date.parse(dtTmp) - ((86400000 * 7) * Number));  
+                            case 'q' :return new Date(dtTmp.getFullYear(), (dtTmp.getMonth()) - Number*3, dtTmp.getDate(), dtTmp.getHours(), dtTmp.getMinutes(), dtTmp.getSeconds());  
+                            case 'm' :return new Date(dtTmp.getFullYear(), (dtTmp.getMonth()) - Number, dtTmp.getDate(), dtTmp.getHours(), dtTmp.getMinutes(), dtTmp.getSeconds());  
+                            case 'y' :return new Date((dtTmp.getFullYear() - Number), dtTmp.getMonth(), dtTmp.getDate(), dtTmp.getHours(), dtTmp.getMinutes(), dtTmp.getSeconds());  
+                        }  
+                    }  
+                    $(document).ready(function(){
+                        $("#set_10min").click(function(){
+                            var time_end=new Date().Format("yyyy-MM-dd hh:mm:ss"); 
+                            var time_begin=new Date().DateDel("n",10).Format("yyyy-MM-dd hh:mm:ss"); 
+                            $("#begin_time").attr("value",time_begin);
+                            $("#end_time").attr("value",time_end);
+                        });
+                        $("#set_30min").click(function(){
+                            var time_end=new Date().Format("yyyy-MM-dd hh:mm:ss"); 
+                            var time_begin=new Date().DateDel("n",30).Format("yyyy-MM-dd hh:mm:ss"); 
+                            $("#begin_time").attr("value",time_begin);
+                            $("#end_time").attr("value",time_end);
+                        });
+                        $("#set_1hour").click(function(){
+                            var time_end=new Date().Format("yyyy-MM-dd hh:mm:ss"); 
+                            var time_begin=new Date().DateDel("h",1).Format("yyyy-MM-dd hh:mm:ss"); 
+                            $("#begin_time").attr("value",time_begin);
+                            $("#end_time").attr("value",time_end);
+                        });
+                        $("#set_12hour").click(function(){
+                            var time_end=new Date().Format("yyyy-MM-dd hh:mm:ss"); 
+                            var time_begin=new Date().DateDel("h",12).Format("yyyy-MM-dd hh:mm:ss"); 
+                            $("#begin_time").attr("value",time_begin);
+                            $("#end_time").attr("value",time_end);
+                        });
+                        $("#set_1day").click(function(){
+                            var time_end=new Date().Format("yyyy-MM-dd hh:mm:ss"); 
+                            var time_begin=new Date().DateDel("d",1).Format("yyyy-MM-dd hh:mm:ss"); 
+                            $("#begin_time").attr("value",time_begin);
+                            $("#end_time").attr("value",time_end);
+                        });
+                    });
+                </script>
             </head>
             <body>
                 <form name="input" action="router_502_log_sum" method="get">
@@ -79,10 +144,15 @@ module Acme
                     </br>
                     <div class="col-xs-6">
                     Time: From
-                    <input class="domain-trend-chart-begin Wdate" name="begin_time" data-require="true" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'%y/%M/%d %H:%m:%s'})" type="text">
+                    <input id="begin_time" class="domain-trend-chart-begin Wdate" name="begin_time" data-require="true" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'%y/%M/%d %H:%m:%s'})" type="text">
                     To
-                    <input class="domain-trend-chart-begin Wdate" name="end_time" data-require="true" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'%y/%M/%d %H:%m:%s'})" type="text">
+                    <input id="end_time" class="domain-trend-chart-begin Wdate" name="end_time" data-require="true" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'%y/%M/%d %H:%m:%s'})" type="text">
                     </div>
+                    <input type="button" id="set_10min" value="10min"/>
+                    <input type="button" id="set_30min" value="30min"/>
+                    <input type="button" id="set_1hour" value="1hour"/>
+                    <input type="button" id="set_12hour" value="12hour"/>
+                    <input type="button" id="set_1day" value="1day"/>
                     </br>
                     <input type="submit" value="Submit" />
                 </form>
@@ -138,8 +208,33 @@ module Acme
                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
                 <title>router_502_log</title>
                 <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css">
+                <script type="text/javascript" src="http://console-jpaas.baidu.com/hatch_static/javascripts/lib/jquery-1-9-0-min.js"></script>
+                <script type="text/javascript" src="http://console-jpaas.baidu.com/site_media//js/lib/My97DatePicker/WdatePicker.js"></script>
             </head>
             <body>
+                <form name="input" action="router_502_log_sum" method="get">
+                    <input type="checkbox" name="router" />
+                    router
+                    <input type="checkbox" name="cluster" />
+                    cluster
+                    <input type="checkbox" name="app_name" />
+                    app_name
+                    <input type="checkbox" name="error_type" />
+                    error_type
+                    <input type="checkbox" name="instance_addr" />
+                    instance_addr
+                    <input type="checkbox" name="idc" />
+                    idc
+                    </br>
+                    <div class="col-xs-6">
+                    Time: From
+                    <input class="domain-trend-chart-begin Wdate" name="begin_time" data-require="true" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'%y/%M/%d %H:%m:%s'})" type="text">
+                    To
+                    <input class="domain-trend-chart-begin Wdate" name="end_time" data-require="true" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'%y/%M/%d %H:%m:%s'})" type="text">
+                    </div>
+                    </br>
+                    <input type="submit" value="Submit" />
+                </form>
                 <table border="1" align="center">
                     <tr>
                         <% if router_need == 'on' %>
