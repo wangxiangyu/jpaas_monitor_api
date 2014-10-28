@@ -119,7 +119,7 @@ class Noah3
             LogMonitorRaw.where(:app_key=>app_key).find_each do |raw|
                 log_item={}
                 if backend == 'matrix'
-                    log_item['log_filepath']="${DEPLOY_DIR}/"+raw.log_filepath.gsub(/^\//,'')
+                    log_item['log_filepath']=raw.log_filepath
                 else #jpaas
                     log_item['log_filepath']=raw.log_filepath
                 end
@@ -178,7 +178,7 @@ class Noah3
                  raw_each['cycle']=raw.cycle
                  raw_each['method']=raw.method
                  if backend == 'matrix'
-                     raw_each['target']="${DEPLOY_DIR}/"+raw.target.gsub(/^\//,'')
+                     raw_each['target']=raw.target
                  else #jpaas
                      raw_each['target']=raw.target
                  end
@@ -269,7 +269,7 @@ class Noah3
                  raw_each['method']=raw.method
                  raw_each['target']=raw.target
                  if backend == 'matrix'
-                     raw_each['params']="${DEPLOY_DIR}/"+raw.params.gsub(/^\//,'')
+                     raw_each['params']=raw.params
                  else #jpaas
                      raw_each['params']=raw.params
                  end
@@ -311,7 +311,7 @@ class Noah3
 		    path="#{config_path}/#{app_bns}"
 		    #gen instance file content
 		    instance_content={}
-		    instance_content["started_mode"]="jpaas" if use_jpaas
+		    instance_content["started_mode"]="jpaas"
 		    instance_content["raw"]=raw
 		    instance_content["rule"]=rule
 		    instance_content["alert"]=alert
