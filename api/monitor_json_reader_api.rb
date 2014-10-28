@@ -216,11 +216,57 @@ module Acme
                 end
                 tiny_string
             end
+            def get_app_key(org_name, space_name, app_name)
+                response = local_get_request("", "xplat_get_apps_by_space", "org=#{org_name}&space=#{space_name}")
+                resbody = JSON.parse(response.body)
+                app_key = nil
+                resbody.each do |app|
+                    if(app && app_name == app['name'])
+                        app_key = app['app_key']
+                    end          
+                end
+                unless app_key
+                    raise "org:#{org_name}, space:#{space_name}, app:#{app_name} not found. in that org space, available app list #{resbody}"
+                end
+                app_key
+            end
+            def need_update?(type, hash = param_hash.clone)
+                case type
+                    when "http"
+                        raws = summary_request("http_user_defined_monitor", "get_http_user_defined_monitor_by_app_key", hash['app_key'])
+                    when "domain"
+                        raws = summary_request("domain_monitor", "get_domain_monitor_by_app_key", hash['app_key'])
+                    when "udm"
+                        raws = summary_request("user_defined_monitor", "get_user_defined_monitor_by_app_key", hash['app_key'])
+                    when "proc"
+                        raws = summary_request("proc_monitor", "get_proc_monitor_by_app_key", hash['app_key'])
+                    when "log"
+                        raws = summary_request("log_monitor", "get_log_monitor_by_app_key", hash['app_key'])
+                end
+                hash[type] && (hash['override'] || raws.empty?)
+            end
         end #end_of_helpers
         namespace :json_reader do
             after do
                 ActiveRecord::Base.clear_active_connections!
             end
+
+            desc "take effect by json"
+            params do
+                requires :org_name, type: String, desc: "organization name"
+                requires :space_name, type: String, desc: "space name"
+                requires :app_name, type: String, desc: "application name"
+            end
+            post '/take_effect' do
+                begin
+                  app_key = get_app_key(params[:org_name], params[:space_name], params[:app_name])
+                  send_local_api('', "take_effect", {'app_key' => app_key}, {})              
+                rescue Exception => e
+                  MyConfig.logger.warn(e.backtrace.join("\n"))
+                  error!({:rescode => -1, :result => "error", :msg => e.message}, 400)
+                end
+            end
+
             desc "add monitor in json"
             params do
                 optional :app_key, type: String, desc: "app key"
@@ -247,18 +293,7 @@ module Acme
                 if ! param_hash.has_key?('app_key')
                   if(param_hash.has_key?('org_name') && param_hash.has_key?('space_name') && param_hash.has_key?('app_name'))
                       #TODO send_local_api
-                      response = local_get_request("", "xplat_get_apps_by_space", "org=#{param_hash['org_name']}&space=#{param_hash['space_name']}")
-                      resbody = JSON.parse(response.body)
-                      app_key = nil
-                      resbody.each do |app|
-                          if(app && param_hash['app_name'] == app['name'])
-                              app_key = app['app_key']
-                          end          
-                      end
-                      unless app_key
-                          raise "org:#{param_hash['org_name']}, space:#{param_hash['space_name']}, app:#{param_hash['app_name']} not found. in that org space, available app list #{resbody}"
-                      end
-                      param_hash['app_key'] = app_key
+                      param_hash['app_key'] = get_app_key(param_hash['org_name'], param_hash['space_name'], param_hash['app_name'])
                   else
                       raise "missing app_key in params, or params should include org_name, space_name and app_name. #{param_hash}"
                   end
@@ -274,13 +309,30 @@ module Acme
 
                 MyConfig.logger.debug("params: #{param_hash}")
                 app_key = param_hash['app_key']
+                param_hash['override'] ||= false
+
                 begin
-                    add_log_monitor(app_key, param_hash['log']) unless param_hash['log'].nil?
-                    add_domain_monitor(app_key, param_hash['domain']) unless param_hash['domain'].nil?
-                    add_proc_monitor(app_key, param_hash['proc']) unless param_hash['proc'].nil?
-                    add_udm_monitor(app_key, param_hash['udm']) unless param_hash['udm'].nil?
-                    add_http_monitor(app_key, param_hash['http']) unless param_hash['http'].nil?
-                    return {:rescode => 0, :result => "success"}
+                    if need_update?('log', param_hash)
+                            add_log_monitor(app_key, param_hash['log']) 
+                        details = "#{details}####log monitor updated.####\n"
+                    end
+                    if need_update?('domain', param_hash)
+                        add_domain_monitor(app_key, param_hash['domain']) 
+                        details = "#{details}####domain monitor updated.####\n"
+                    end
+                    if need_update?('proc', param_hash)
+                        add_proc_monitor(app_key, param_hash['proc']) 
+                        details = "#{details}####proc monitor updated.####\n"
+                    end
+                    if need_update?('udm', param_hash)
+                        add_udm_monitor(app_key, param_hash['udm']) 
+                        details = "#{details}####udm monitor updated.####\n"
+                    end
+                    if need_update?('http', param_hash)
+                        add_http_monitor(app_key, param_hash['http']) 
+                        details = "#{details}####http monitor updated.####\n"
+                    end
+                    return {:rescode => 0, :result => "success", :details => "FOLLOWING MONITORS HAVE UPDATED: #{details}"}
                 rescue Exception => e
                     #TODO LOGGER TOBE ADD
                     #MyConfig.logger.warn(e.message)
